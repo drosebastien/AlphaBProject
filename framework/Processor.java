@@ -1,6 +1,7 @@
 package framework;
 
 import morpion.*;
+import connectFour.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class Processor {
 
     public void initGame() {
         game = new Morpion();
+        //game = new ConnectFour();
     }
 
     public void giveGameCopy() {

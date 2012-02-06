@@ -46,8 +46,7 @@ public class Morpion extends Game {
 
     public ArrayList<Move> getListOfPossibleMove() {
         ArrayList<Move> listOfPossibleMove = new ArrayList<Move>();
-        PieceMorpion piece = (PieceMorpion)
-                                    listOfPlayers.get(currentPlayer).getPiece();
+        PieceMorpion piece = (PieceMorpion) nextPlayer().getPiece();
 
         for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
             for(int j = 0; j < ((BoardMorpion) board).getWidth(); j++) {
@@ -143,6 +142,7 @@ public class Morpion extends Game {
 
     public boolean isFinish() {
         boolean isFinish = true;
+
         for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
             for(int j = 0; j < ((BoardMorpion) board).getWidth(); j++) {
                 if(board.getPiece(new PositionMorpion(i, j)) == null) {
@@ -159,10 +159,11 @@ public class Morpion extends Game {
     public Game clone() {
         Morpion gameCopy = new Morpion();
         gameCopy.board = board.clone();
+        gameCopy.currentPlayer = currentPlayer;
+
         for(int i = 0; i < listOfPlayers.size(); i++) {
             gameCopy.listOfPlayers.add(listOfPlayers.get(i).clone());
         }
-        gameCopy.currentPlayer = currentPlayer;
 
         return gameCopy;
     }

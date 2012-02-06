@@ -49,7 +49,7 @@ public class BoardMorpion extends Board {
 
     public String toString() {
         String line = "";
-        for(int i = 0; i < board.length; i++) {
+        for(int i = getWidth() - 1; i >= 0; i--) {
             line += "|";
             for(int j = 0; j < board.length; j++) {
                 if(board[i][j] == null) {
