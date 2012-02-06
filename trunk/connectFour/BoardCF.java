@@ -6,7 +6,7 @@ public class BoardCF extends Board {
     private PieceCF[][] board;
 
     public BoardCF() {
-        board = new PieceCF[6][7];
+        board = new PieceCF[7][6];
     }
 
     public BoardCF(int width, int height) {
@@ -68,7 +68,7 @@ public class BoardCF extends Board {
         BoardCF boardCopy = new BoardCF(board.length, board[0].length);
 
         for(int i = 0; i < getWidth(); i++) {
-            for(int j = 0; j < getWidth(); j++) {
+            for(int j = 0; j < getHeight(); j++) {
                 if(board[i][j] != null) {
                     boardCopy.board[i][j] = (PieceCF) board[i][j].clone();
                 }
@@ -80,13 +80,13 @@ public class BoardCF extends Board {
 
     public String toString() {
         String line = "";
-        for(int i = 0; i < board.length; i++) {
+        for(int i = getHeight() - 1; i >= 0 ; i--) {
             line += "|";
-            for(int j = 0; j < board.length; j++) {
-                if(board[i][j] == null) {
+            for(int j = 0; j < getWidth(); j++) {
+                if(board[j][i] == null) {
                     line += " |";
                 }
-                else if(board[i][j].getId() == 0) {
+                else if(board[j][i].getId() == 0) {
                     line += "o|";
                 }
                 else {

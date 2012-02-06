@@ -19,14 +19,14 @@ public class HumanPlayerMorpion extends HumanPlayer {
 
         MoveMorpion move = new MoveMorpion(
                         new PositionMorpion(y, x), (PieceMorpion) getPiece());
-        System.out.println("player: debug");
         setPlayingMove(move);
         setIsFinalDecision();
     }
 
     public Player clone() {
-        Player playerCopy = new HumanPlayerMorpion(name, id);
+        Player playerCopy = new HumanPlayerMorpion(getName(), getId());
         playerCopy.piece = piece.clone();
+
         return playerCopy;
     }
 }

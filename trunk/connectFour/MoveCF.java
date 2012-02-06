@@ -1,6 +1,8 @@
 package connectFour;
 
-public class MoveCF {
+import framework.*;
+
+public class MoveCF extends Move {
     private PositionCF position;
     private PieceCF piece;
 

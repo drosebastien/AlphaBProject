@@ -1,9 +1,9 @@
 package framework;
 
 public abstract class Player implements Runnable {
-    protected String name;
+    private String name;
     public Piece piece;
-    protected int id;
+    private int id;
     private boolean isStopped;
     private Move playingMove;
     private boolean isEnd;

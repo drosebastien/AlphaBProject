@@ -80,7 +80,7 @@ public class AIMorpion extends AI {
     }
 
     public Player clone() {
-        Player playerCopy = new AIMorpion(name, id);
+        Player playerCopy = new AIMorpion(getName(), getId());
         playerCopy.piece = piece.clone();
         return playerCopy;
     }
