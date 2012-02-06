@@ -8,13 +8,13 @@ public class ConnectFour extends Game {
     private int currentPlayer;
 
     public ConnectFour() {
-        super(new BoardCF());
+        super(new CFBoard());
         currentPlayer = 0;
     }
 
     public void piecesDistribution() {
-        PieceCF[] pieces = {new PieceCF("yellow", 0),
-                            new PieceCF("red", 1)};
+        CFPiece[] pieces = {new CFPiece("yellow", 0),
+                            new CFPiece("red", 1)};
 
         for(int i = 0; i < listOfPlayers.size(); i++) {
             listOfPlayers.get(i).setPiece(pieces[i]);
@@ -34,23 +34,23 @@ public class ConnectFour extends Game {
     }
 
     public void play(Move move) {
-        MoveCF moveCF = (MoveCF) move;
-        board.placePiece(moveCF.getPosition(), moveCF.getPiece());
+        CFMove cFMove = (CFMove) move;
+        board.placePiece(cFMove.getPosition(), cFMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
     public void removeMove(Move move) {
-        board.removePiece(((MoveCF) move).getPosition());
+        board.removePiece(((CFMove) move).getPosition());
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
     public ArrayList<Move> getListOfPossibleMove() {
         ArrayList<Move> listOfPossibleMove = new ArrayList<Move>();
-        PieceCF piece = (PieceCF) nextPlayer().getPiece();
+        CFPiece piece = (CFPiece) nextPlayer().getPiece();
 
-        for(int i = 0; i < ((BoardCF) board).getWidth(); i++) {
-            if(board.isFree(new PositionCF(i))) {
-                listOfPossibleMove.add(new MoveCF(new PositionCF(i), piece));
+        for(int i = 0; i < ((CFBoard) board).getWidth(); i++) {
+            if(board.isFree(new CFPosition(i))) {
+                listOfPossibleMove.add(new CFMove(new CFPosition(i), piece));
             }
         }
 
@@ -68,10 +68,10 @@ public class ConnectFour extends Game {
     public boolean isFinish() {
         boolean isFinish = true;
 
-        for(int i = 0; i < ((BoardCF) board).getWidth(); i++) {
-            if(board.isFree(new PositionCF(i))) {
+        for(int i = 0; i < ((CFBoard) board).getWidth(); i++) {
+            if(board.isFree(new CFPosition(i))) {
                 isFinish = false;
-                i = ((BoardCF) board).getWidth();
+                i = ((CFBoard) board).getWidth();
             }
         }
 

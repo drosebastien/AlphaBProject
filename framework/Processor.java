@@ -33,15 +33,15 @@ public class Processor {
     }
 
     public void initPlayers() {
-        for(int i = 0; i < game.getNbMaxPlayer() - 1; i++) {
+        players.add(new MorpionAI("ia0", 0));
+        game.addPlayer(players.get(0));
+        for(int i = 1; i < game.getNbMaxPlayer(); i++) {
             System.out.print("Ajouter un joueur : ");
-            players.add(new HumanPlayerMorpion(in.next(), i));
+            players.add(new MorpionHumanPlayer(in.next(), i));
             game.addPlayer(players.get(i));
         }
-        /**players.add(new AI("ia0", 0));
-        game.addPlayer(players.get(0));*/
-        players.add(new AIMorpion("ia1", 1));
-        game.addPlayer(players.get(1));
+        /**players.add(new MorpionAI("ia1", 1));
+        game.addPlayer(players.get(1));*/
 
         game.piecesDistribution();
         System.out.println(game.nextPlayer().getPiece().getId());
@@ -77,10 +77,10 @@ public class Processor {
         }
         System.out.print("Fin de partie, ");
         if(game.isVictory()) {
-            System.out.println("le vainceur est : " + game.getWinner().getName());
+            System.out.println("le vainqueur est : " + game.getWinner().getName());
         }
         else {
-            System.out.println("il n'y a pas de vainceur");
+            System.out.println("il n'y a pas de gagnant");
         }
         System.out.println(game);
     }
