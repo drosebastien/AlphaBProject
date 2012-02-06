@@ -8,13 +8,13 @@ public class Morpion extends Game {
     private int currentPlayer;
 
     public Morpion() {
-        super(new BoardMorpion());
+        super(new MorpionBoard());
         currentPlayer = 0;
     }
 
     public void piecesDistribution() {
-        PieceMorpion[] pieces = {new PieceMorpion("Cross", 0),
-                                 new PieceMorpion("Circle", 1)};
+        MorpionPiece[] pieces = {new MorpionPiece("Cross", 0),
+                                 new MorpionPiece("Circle", 1)};
 
         for(int i = 0; i < listOfPlayers.size(); i++) {
             listOfPlayers.get(i).setPiece(pieces[i]);
@@ -34,25 +34,25 @@ public class Morpion extends Game {
     }
 
     public void play(Move move) {
-        MoveMorpion moveMorpion = (MoveMorpion) move;
-        board.placePiece(moveMorpion.getPosition(), moveMorpion.getPiece());
+        MorpionMove morpionMove = (MorpionMove) move;
+        board.placePiece(morpionMove.getPosition(), morpionMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
     public void removeMove(Move move) {
-        board.removePiece(((MoveMorpion) move).getPosition());
+        board.removePiece(((MorpionMove) move).getPosition());
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
     public ArrayList<Move> getListOfPossibleMove() {
         ArrayList<Move> listOfPossibleMove = new ArrayList<Move>();
-        PieceMorpion piece = (PieceMorpion) nextPlayer().getPiece();
+        MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();
 
-        for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
-            for(int j = 0; j < ((BoardMorpion) board).getWidth(); j++) {
-                if(board.isFree(new PositionMorpion(i, j))) {
-                    listOfPossibleMove.add(new MoveMorpion(
-                                    new PositionMorpion(i, j), piece));
+        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
+            for(int j = 0; j < ((MorpionBoard) board).getWidth(); j++) {
+                if(board.isFree(new MorpionPosition(i, j))) {
+                    listOfPossibleMove.add(new MorpionMove(
+                                    new MorpionPosition(i, j), piece));
                 }
             }
         }
@@ -61,19 +61,19 @@ public class Morpion extends Game {
     }
 
     public boolean isVictory() {
-        PieceMorpion firstPiece = null;
+        MorpionPiece firstPiece = null;
         boolean isVictory = true;
 
-        for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
-            firstPiece = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(i, 0));
+        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
+            firstPiece = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(i, 0));
             if(firstPiece != null) {
                 isVictory = true;
-                for(int j = 1; j < ((BoardMorpion) board).getWidth(); j++) {
-                    PieceMorpion tmp = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(i, j));
+                for(int j = 1; j < ((MorpionBoard) board).getWidth(); j++) {
+                    MorpionPiece tmp = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(i, j));
                     if(tmp == null || !tmp.equals(firstPiece)) {
-                        j = ((BoardMorpion) board).getWidth();
+                        j = ((MorpionBoard) board).getWidth();
                         isVictory = false;
                     }
                 }
@@ -83,16 +83,16 @@ public class Morpion extends Game {
             }
         }
 
-        for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
-            firstPiece = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(0, i));
+        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
+            firstPiece = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(0, i));
             if(firstPiece != null) {
                 isVictory = true;
-                for(int j = 1; j < ((BoardMorpion) board).getWidth(); j++) {
-                    PieceMorpion tmp = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(j, i));
+                for(int j = 1; j < ((MorpionBoard) board).getWidth(); j++) {
+                    MorpionPiece tmp = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(j, i));
                     if(tmp == null || !tmp.equals(firstPiece)) {
-                        j = ((BoardMorpion) board).getWidth();
+                        j = ((MorpionBoard) board).getWidth();
                         isVictory = false;
                     }
                 }
@@ -102,14 +102,14 @@ public class Morpion extends Game {
             }
         }
 
-        firstPiece = (PieceMorpion) board.getPiece(new PositionMorpion(0, 0));
+        firstPiece = (MorpionPiece) board.getPiece(new MorpionPosition(0, 0));
         if(firstPiece != null) {
             isVictory = true;
-            for(int i = 1; i < ((BoardMorpion) board).getWidth(); i++) {
-                PieceMorpion tmp = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(i, i));
+            for(int i = 1; i < ((MorpionBoard) board).getWidth(); i++) {
+                MorpionPiece tmp = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(i, i));
                 if(tmp == null || !tmp.equals(firstPiece)) {
-                    i = ((BoardMorpion) board).getWidth();
+                    i = ((MorpionBoard) board).getWidth();
                     isVictory = false;
                 }
             }
@@ -118,14 +118,14 @@ public class Morpion extends Game {
             }
         }
 
-        firstPiece = (PieceMorpion) board.getPiece(new PositionMorpion(0,
-                                        ((BoardMorpion) board).getWidth() -1));
+        firstPiece = (MorpionPiece) board.getPiece(new MorpionPosition(0,
+                                        ((MorpionBoard) board).getWidth() -1));
         if(firstPiece != null) {
             isVictory = true;
-            for(int i = 1; i < ((BoardMorpion) board).getWidth(); i++) {
-                PieceMorpion tmp = (PieceMorpion) board.getPiece(
-                                    new PositionMorpion(i, 
-                                    ((BoardMorpion) board).getWidth() - 1 - i));
+            for(int i = 1; i < ((MorpionBoard) board).getWidth(); i++) {
+                MorpionPiece tmp = (MorpionPiece) board.getPiece(
+                                    new MorpionPosition(i, 
+                                    ((MorpionBoard) board).getWidth() - 1 - i));
                 if(tmp == null || !tmp.equals(firstPiece)) {
                     return false;
                 }
@@ -143,11 +143,11 @@ public class Morpion extends Game {
     public boolean isFinish() {
         boolean isFinish = true;
 
-        for(int i = 0; i < ((BoardMorpion) board).getWidth(); i++) {
-            for(int j = 0; j < ((BoardMorpion) board).getWidth(); j++) {
-                if(board.getPiece(new PositionMorpion(i, j)) == null) {
+        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
+            for(int j = 0; j < ((MorpionBoard) board).getWidth(); j++) {
+                if(board.getPiece(new MorpionPosition(i, j)) == null) {
                     isFinish = false;
-                    i = ((BoardMorpion) board).getWidth();
+                    i = ((MorpionBoard) board).getWidth();
                     j = i;
                 }
             }
