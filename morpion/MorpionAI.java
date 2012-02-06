@@ -3,8 +3,8 @@ package morpion;
 import framework.*;
 import java.util.ArrayList;
 
-public class AIMorpion extends AI {
-    public AIMorpion(String name, int id) {
+public class MorpionAI extends AI {
+    public MorpionAI(String name, int id) {
         super(name, id);
     }
 
@@ -80,7 +80,7 @@ public class AIMorpion extends AI {
     }
 
     public Player clone() {
-        Player playerCopy = new AIMorpion(getName(), getId());
+        Player playerCopy = new MorpionAI(getName(), getId());
         playerCopy.piece = piece.clone();
         return playerCopy;
     }

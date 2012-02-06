@@ -2,11 +2,11 @@ package morpion;
 
 import framework.*;
 
-public class BoardMorpion extends Board {
-    private PieceMorpion[][] board;
+public class MorpionBoard extends Board {
+    private MorpionPiece[][] board;
 
-    public BoardMorpion() {
-        board = new PieceMorpion[3][3];
+    public MorpionBoard() {
+        board = new MorpionPiece[3][3];
     }
 
     public int getWidth() {
@@ -14,32 +14,32 @@ public class BoardMorpion extends Board {
     }
 
     public boolean isFree(Position pos) {
-        PositionMorpion position = (PositionMorpion) pos;
+        MorpionPosition position = (MorpionPosition) pos;
         return board[position.getX()][position.getY()] == null;
     }
 
     public void placePiece(Position pos, Piece piece) {
-        PositionMorpion position = (PositionMorpion) pos;
-        board[position.getX()][position.getY()] = (PieceMorpion) piece;
+        MorpionPosition position = (MorpionPosition) pos;
+        board[position.getX()][position.getY()] = (MorpionPiece) piece;
     }
 
     public void removePiece(Position pos) {
-        PositionMorpion position = (PositionMorpion) pos;
+        MorpionPosition position = (MorpionPosition) pos;
         board[position.getX()][position.getY()] = null;
     }
 
     public Piece getPiece(Position pos) {
-        PositionMorpion position = (PositionMorpion) pos;
+        MorpionPosition position = (MorpionPosition) pos;
         return board[position.getX()][position.getY()];
     }
 
     public Board clone() {
-        BoardMorpion boardCopy = new BoardMorpion();
+        MorpionBoard boardCopy = new MorpionBoard();
 
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getWidth(); j++) {
                 if(board[i][j] != null) {
-                    boardCopy.board[i][j] = (PieceMorpion) board[i][j].clone();
+                    boardCopy.board[i][j] = (MorpionPiece) board[i][j].clone();
                 }
             }
         }

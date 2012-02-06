@@ -2,25 +2,25 @@ package morpion;
 
 import framework.*;
 
-public class MoveMorpion extends Move {
-    private PositionMorpion position;
-    private PieceMorpion piece;
+public class MorpionMove extends Move {
+    private MorpionPosition position;
+    private MorpionPiece piece;
 
-    public MoveMorpion(PositionMorpion position, PieceMorpion piece) {
+    public MorpionMove(MorpionPosition position, MorpionPiece piece) {
         this.position = position;
         this.piece = piece;
     }
 
-    public PositionMorpion getPosition() {
+    public MorpionPosition getPosition() {
         return position;
     }
 
-    public PieceMorpion getPiece() {
+    public MorpionPiece getPiece() {
         return piece;
     }
 
     public boolean equals(Object obj) {
-        MoveMorpion move = (MoveMorpion) obj;
+        MorpionMove move = (MorpionMove) obj;
         return position.equals(move.getPosition()) &
                piece.equals(move.getPiece());
     }

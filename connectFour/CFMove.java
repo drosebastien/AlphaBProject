@@ -2,25 +2,25 @@ package connectFour;
 
 import framework.*;
 
-public class MoveCF extends Move {
-    private PositionCF position;
-    private PieceCF piece;
+public class CFMove extends Move {
+    private CFPosition position;
+    private CFPiece piece;
 
-    public MoveCF(PositionCF position, PieceCF piece) {
+    public CFMove(CFPosition position, CFPiece piece) {
         this.position = position;
         this.piece = piece;
     }
 
-    public PositionCF getPosition() {
+    public CFPosition getPosition() {
         return position;
     }
 
-    public PieceCF getPiece() {
+    public CFPiece getPiece() {
         return piece;
     }
 
     public boolean equals(Object obj) {
-        MoveCF move = (MoveCF) obj;
+        CFMove move = (CFMove) obj;
         return position.equals(move.getPosition()) &
                piece.equals(move.getPiece());
     }

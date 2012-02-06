@@ -3,10 +3,10 @@ package morpion;
 import framework.*;
 import java.util.Scanner;
 
-public class HumanPlayerMorpion extends HumanPlayer {
+public class MorpionHumanPlayer extends HumanPlayer {
     private Scanner in;
 
-    public HumanPlayerMorpion(String name, int id) {
+    public MorpionHumanPlayer(String name, int id) {
         super(name, id);
         this.in = new Scanner(System.in);
     }
@@ -17,14 +17,14 @@ public class HumanPlayerMorpion extends HumanPlayer {
         System.out.print("Position y : ");
         int y = Integer.parseInt(in.next());
 
-        MoveMorpion move = new MoveMorpion(
-                        new PositionMorpion(y, x), (PieceMorpion) getPiece());
+        MorpionMove move = new MorpionMove(
+                        new MorpionPosition(y, x), (MorpionPiece) getPiece());
         setPlayingMove(move);
         setIsFinalDecision();
     }
 
     public Player clone() {
-        Player playerCopy = new HumanPlayerMorpion(getName(), getId());
+        Player playerCopy = new MorpionHumanPlayer(getName(), getId());
         playerCopy.piece = piece.clone();
 
         return playerCopy;

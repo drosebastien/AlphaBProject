@@ -2,15 +2,15 @@ package connectFour;
 
 import framework.*;
 
-public class BoardCF extends Board {
-    private PieceCF[][] board;
+public class CFBoard extends Board {
+    private CFPiece[][] board;
 
-    public BoardCF() {
-        board = new PieceCF[7][6];
+    public CFBoard() {
+        board = new CFPiece[7][6];
     }
 
-    public BoardCF(int width, int height) {
-        board = new PieceCF[width][height];
+    public CFBoard(int width, int height) {
+        board = new CFPiece[width][height];
     }
 
     public int getWidth() {
@@ -26,7 +26,7 @@ public class BoardCF extends Board {
         une case vide. Sinon retourne faux.
     */
     public boolean isFree(Position pos) {
-        return firstAvailableLine(((PositionCF) pos).getX()) != getHeight();
+        return firstAvailableLine(((CFPosition) pos).getX()) != getHeight();
     }
 
     public int firstAvailableLine(int x) {
@@ -45,32 +45,32 @@ public class BoardCF extends Board {
     }
 
     public void placePiece(Position pos, Piece piece) {
-        int columnIndex = ((PositionCF) pos).getX();
+        int columnIndex = ((CFPosition) pos).getX();
 
-        board[columnIndex][firstAvailableLine(columnIndex)] = (PieceCF) piece;
+        board[columnIndex][firstAvailableLine(columnIndex)] = (CFPiece) piece;
     }
 
     public void removePiece(Position pos) {
-        int columnIndex = ((PositionCF) pos).getX();
+        int columnIndex = ((CFPosition) pos).getX();
 
         int lineIndex = firstAvailableLine(columnIndex);
         board[columnIndex][lineIndex] = null;
     }
 
     public Piece getPiece(Position pos) {
-        int columnIndex = ((PositionCF) pos).getX();
+        int columnIndex = ((CFPosition) pos).getX();
         int lineIndex = firstAvailableLine(columnIndex);
 
         return board[columnIndex][lineIndex];
     }
 
     public Board clone() {
-        BoardCF boardCopy = new BoardCF(board.length, board[0].length);
+        CFBoard boardCopy = new CFBoard(board.length, board[0].length);
 
         for(int i = 0; i < getWidth(); i++) {
             for(int j = 0; j < getHeight(); j++) {
                 if(board[i][j] != null) {
-                    boardCopy.board[i][j] = (PieceCF) board[i][j].clone();
+                    boardCopy.board[i][j] = (CFPiece) board[i][j].clone();
                 }
             }
         }

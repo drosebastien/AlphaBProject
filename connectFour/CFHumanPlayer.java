@@ -3,10 +3,10 @@ package connectFour;
 import framework.*;
 import java.util.Scanner;
 
-public class HumanPlayerCF extends HumanPlayer {
+public class CFHumanPlayer extends HumanPlayer {
     private Scanner in;
 
-    public HumanPlayerCF (String name, int id) {
+    public CFHumanPlayer (String name, int id) {
         super(name, id);
         this.in = new Scanner(System.in);
     }
@@ -15,13 +15,13 @@ public class HumanPlayerCF extends HumanPlayer {
         System.out.print("Position : ");
         int x = Integer.parseInt(in.next());
 
-        MoveCF move = new MoveCF(new PositionCF(x), (PieceCF) getPiece());
+        CFMove move = new CFMove(new CFPosition(x), (CFPiece) getPiece());
         setPlayingMove(move);
         setIsFinalDecision();
     }
 
     public Player clone() {
-        Player playerCopy = new HumanPlayerCF(getName(), getId());
+        Player playerCopy = new CFHumanPlayer(getName(), getId());
         playerCopy.piece = piece.clone();
 
         return playerCopy;

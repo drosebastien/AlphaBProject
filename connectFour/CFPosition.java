@@ -2,11 +2,11 @@ package connectFour;
 
 import framework.*;
 
-public class PositionCF extends Position {
+public class CFPosition extends Position {
     private int x;
     private int y;
 
-    public PositionCF(int x) {
+    public CFPosition(int x) {
         this.x = x;
     }
 
@@ -15,7 +15,7 @@ public class PositionCF extends Position {
     }
 
     public boolean equals(Object obj) {
-        PositionCF position = (PositionCF) obj;
+        CFPosition position = (CFPosition) obj;
         return getX() == position.getX();
     }
 

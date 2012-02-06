@@ -2,11 +2,11 @@ package morpion;
 
 import framework.*;
 
-public class PositionMorpion extends Position {
+public class MorpionPosition extends Position {
     private int x;
     private int y;
 
-    public PositionMorpion(int x, int y) {
+    public MorpionPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -20,7 +20,7 @@ public class PositionMorpion extends Position {
     }
 
     public boolean equals(Object obj) {
-        PositionMorpion position = (PositionMorpion) obj;
+        MorpionPosition position = (MorpionPosition) obj;
         return getX() == position.getX() && getY() == position.getY();
     }
 
