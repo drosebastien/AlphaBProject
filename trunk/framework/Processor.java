@@ -22,8 +22,8 @@ public class Processor {
     }
 
     public void initGame() {
-        game = new Morpion();
-        //game = new ConnectFour();
+        //game = new Morpion();
+        game = new ConnectFour();
     }
 
     public void giveGameCopy() {
@@ -33,11 +33,12 @@ public class Processor {
     }
 
     public void initPlayers() {
-        players.add(new MorpionAI("ia0", 0));
-        game.addPlayer(players.get(0));
-        for(int i = 1; i < game.getNbMaxPlayer(); i++) {
+        /**players.add(new MorpionAI("ia0", 0));
+        game.addPlayer(players.get(0));*/
+        for(int i = 0; i < game.getNbMaxPlayer(); i++) {
             System.out.print("Ajouter un joueur : ");
-            players.add(new MorpionHumanPlayer(in.next(), i));
+            //players.add(new MorpionHumanPlayer(in.next(), i));
+            players.add(new CFHumanPlayer(in.next(), i));
             game.addPlayer(players.get(i));
         }
         /**players.add(new MorpionAI("ia1", 1));
