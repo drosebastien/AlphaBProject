@@ -33,9 +33,6 @@ public class MorpionBoard extends Board {
         return board[position.getX()][position.getY()];
     }
 
-    /**
-     * Commentaire rajouté uniquement pour tester le svn
-     */
     public Board clone() {
         MorpionBoard boardCopy = new MorpionBoard();
 

@@ -18,6 +18,7 @@ public class CFHumanPlayer extends HumanPlayer {
         CFMove move = new CFMove(new CFPosition(x), (CFPiece) getPiece());
         setPlayingMove(move);
         setIsFinalDecision();
+        sem.release();
     }
 
     public Player clone() {

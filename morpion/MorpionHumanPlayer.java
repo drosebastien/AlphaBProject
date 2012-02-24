@@ -21,6 +21,7 @@ public class MorpionHumanPlayer extends HumanPlayer {
                         new MorpionPosition(y, x), (MorpionPiece) getPiece());
         setPlayingMove(move);
         setIsFinalDecision();
+        sem.release();
     }
 
     public Player clone() {

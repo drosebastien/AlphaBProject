@@ -4,6 +4,7 @@ import morpion.*;
 import connectFour.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 public class Processor {
     private Scanner in;
@@ -22,8 +23,8 @@ public class Processor {
     }
 
     public void initGame() {
-        //game = new Morpion();
-        game = new ConnectFour();
+        game = new Morpion();
+        //game = new ConnectFour();
     }
 
     public void giveGameCopy() {
@@ -35,14 +36,14 @@ public class Processor {
     public void initPlayers() {
         /**players.add(new MorpionAI("ia0", 0));
         game.addPlayer(players.get(0));*/
-        for(int i = 0; i < game.getNbMaxPlayer(); i++) {
+        for(int i = 0; i < game.getNbMaxPlayer() - 1; i++) {
             System.out.print("Ajouter un joueur : ");
-            //players.add(new MorpionHumanPlayer(in.next(), i));
-            players.add(new CFHumanPlayer(in.next(), i));
+            players.add(new MorpionHumanPlayer(in.next(), i));
+            //players.add(new CFHumanPlayer(in.next(), i));
             game.addPlayer(players.get(i));
         }
-        /**players.add(new MorpionAI("ia1", 1));
-        game.addPlayer(players.get(1));*/
+        players.add(new MorpionAI("ia1", 1));
+        game.addPlayer(players.get(1));
 
         game.piecesDistribution();
         System.out.println(game.nextPlayer().getPiece().getId());
@@ -53,26 +54,43 @@ public class Processor {
 
     public void startGame() {
         Move makedMove = null;
+        Thread alarmT = null;
+        Semaphore sem = null;
         while(!game.isFinish()) {
+            Alarm alarm = new Alarm(10000);
+            try {
+                alarmT = new Thread(alarm);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
             giveGameCopy();
             System.out.println(game);
             Player currentPlayer = game.nextPlayer();
-            Thread thread =  new Thread(currentPlayer);
+            Thread threadPlayer =  new Thread(currentPlayer);
             try {
-                thread.start();
-                int cpt = 0;
-                while(!currentPlayer.isFinalDecision() && cpt < 20000) {
-                    thread.sleep(100);
+                sem = new Semaphore(0);
+                alarm.setSemaphore(sem);
+                currentPlayer.setSemaphore(sem);
+                threadPlayer.start();
+                alarmT.start();
+                sem.acquire();
+                alarmT.interrupt();
+                threadPlayer.interrupt();
+
+                /*int cpt = 0;
+                while(!currentPlayer.isFinalDecision() && cpt < 5000) {
+                    Thread.sleep(100);
                     cpt++;
-                }
+                }*/
                 if(!currentPlayer.hasMove()) {
-                    System.out.println("désolé, tu n'as pas joué assez vite. BOUM");
+                    System.out.println("désolé, tu n'as pas joué assez vite.");
                 }
                 else {
                     makedMove = currentPlayer.getMove();
                 }
             } catch(Exception e) {
                 e.printStackTrace();
+                System.exit(0);
             }
             game.play(makedMove);
         }

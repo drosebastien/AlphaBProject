@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.concurrent.Semaphore;
+
 public abstract class Player implements Runnable {
     private String name;
     public Piece piece;
@@ -9,6 +11,7 @@ public abstract class Player implements Runnable {
     private boolean isEnd;
     private boolean isFinalDecision;
     protected Game game;
+    protected Semaphore sem;
 
     public Player(String name, int id) {
         this.name = name;
@@ -18,6 +21,10 @@ public abstract class Player implements Runnable {
         this.isFinalDecision = false;
         this.isEnd = false;
         playingMove = null;
+    }
+
+    public void setSemaphore(Semaphore sem) {
+        this.sem = sem;
     }
 
     public void setPiece(Piece piece) {
