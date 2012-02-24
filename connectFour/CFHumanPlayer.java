@@ -6,6 +6,9 @@ import java.util.Scanner;
 public class CFHumanPlayer extends HumanPlayer {
     private Scanner in;
 
+    /**
+     * test
+     */
     public CFHumanPlayer (String name, int id) {
         super(name, id);
         this.in = new Scanner(System.in);
