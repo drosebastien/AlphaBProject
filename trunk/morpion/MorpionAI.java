@@ -11,6 +11,7 @@ public class MorpionAI extends AI {
     public void run() {
         setPlayingMove(minimax());
         setIsFinalDecision();
+        sem.release();
     }
 
     public Move minimax() {

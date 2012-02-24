@@ -46,8 +46,9 @@ public class CFBoard extends Board {
 
     public void placePiece(Position pos, Piece piece) {
         int columnIndex = ((CFPosition) pos).getX();
+        ((CFPosition) pos).setY(firstAvailableLine(columnIndex));
 
-        board[columnIndex][firstAvailableLine(columnIndex)] = (CFPiece) piece;
+        board[columnIndex][((CFPosition) pos).getY()] = (CFPiece) piece;
     }
 
     public void removePiece(Position pos) {
@@ -57,9 +58,22 @@ public class CFBoard extends Board {
         board[columnIndex][lineIndex] = null;
     }
 
+    public boolean inBoard(Position pos) {
+        int x = ((CFPosition) pos).getX();
+        int y = ((CFPosition) pos).getY();
+
+        return  x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
+    }
+
     public Piece getPiece(Position pos) {
         int columnIndex = ((CFPosition) pos).getX();
-        int lineIndex = firstAvailableLine(columnIndex);
+        int lineIndex = 0;
+        if(((CFPosition) pos).yIsSet()) {
+            lineIndex = ((CFPosition) pos).getY();
+        }
+        else {
+            lineIndex = firstAvailableLine(columnIndex) - 1;
+        }
 
         return board[columnIndex][lineIndex];
     }

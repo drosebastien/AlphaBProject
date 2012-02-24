@@ -6,6 +6,7 @@ import framework.*;
 public class ConnectFour extends Game {
     private static final int NB_PLAYERS = 2;
     private int currentPlayer;
+    private CFMove lastMove;
 
     public ConnectFour() {
         super(new CFBoard());
@@ -34,8 +35,8 @@ public class ConnectFour extends Game {
     }
 
     public void play(Move move) {
-        CFMove cFMove = (CFMove) move;
-        board.placePiece(cFMove.getPosition(), cFMove.getPiece());
+        lastMove = (CFMove) move;
+        board.placePiece(lastMove.getPosition(), lastMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
@@ -58,6 +59,37 @@ public class ConnectFour extends Game {
     }
 
     public boolean isVictory() {
+        if(lastMove == null) {
+            return false;
+        }
+        int vTab[] = {1, 0, 1, 1};
+        int hTab[] = {0, 1, 1, -1};
+        int xHit = lastMove.getPosition().getX();
+        int yHit = lastMove.getPosition().getY();
+
+        for(int i = 0; i < vTab.length; i++) {
+            int nb = 0;
+            for(int j = -1; j <= 1; j+=2) {
+                boolean test = true;
+                for(int z = 1; z < 4 && test; z++) {
+                    CFPosition pos = new CFPosition(xHit + (j * z * vTab[i]),
+                                                    yHit + (j * z * hTab[i]));
+                    if(((CFBoard) board).inBoard(pos) &&
+                       ((CFBoard) board).getPiece(pos) != null &&
+                       ((CFBoard) board).getPiece(pos).equals(lastMove.getPiece())) {
+                        nb++;
+                    }
+                    else {
+                        test = false;
+                    }
+                }
+            }
+
+            if(nb >= 3) {
+                return true;
+            }
+        }
+
         return false;
     }
 
