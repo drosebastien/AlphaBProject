@@ -2,6 +2,8 @@ package morpion;
 
 import java.util.ArrayList;
 import framework.*;
+import morpion.gui.MorpionGamePanel;
+import gui.GamePanel;
 
 public class Morpion extends Game {
     private static final int NB_PLAYERS = 2;
@@ -9,6 +11,7 @@ public class Morpion extends Game {
 
     public Morpion() {
         super(new MorpionBoard());
+        gamePanel = new MorpionGamePanel(board);
         currentPlayer = 0;
     }
 
@@ -37,6 +40,7 @@ public class Morpion extends Game {
         MorpionMove morpionMove = (MorpionMove) move;
         board.placePiece(morpionMove.getPosition(), morpionMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
+        gamePanel.repaint();
     }
 
     public void removeMove(Move move) {
@@ -154,6 +158,10 @@ public class Morpion extends Game {
         }
 
         return isFinish || isVictory();
+    }
+
+    public GamePanel getPanel() {
+        return gamePanel;
     }
 
     public Game clone() {
