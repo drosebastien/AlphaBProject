@@ -1,10 +1,12 @@
 package framework;
 
 import java.util.ArrayList;
+import gui.GamePanel;
 
 public abstract class Game {
     protected ArrayList<Player> listOfPlayers;
     protected Board board;
+    protected GamePanel gamePanel;
 
     public Game(Board board) {
         listOfPlayers = new ArrayList<Player>();
@@ -12,6 +14,9 @@ public abstract class Game {
     }
 
     public void addPlayer(Player player) {
+        if(player instanceof HumanPlayer) {
+            gamePanel.addListener((HumanPlayer) player);
+        }
         listOfPlayers.add(player);
     }
 
@@ -42,6 +47,8 @@ public abstract class Game {
     public Board getBoard() {
         return board;
     }
+
+    public abstract GamePanel getPanel();
 
     public abstract Game clone();
 }

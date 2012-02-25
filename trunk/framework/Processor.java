@@ -1,5 +1,6 @@
 package framework;
 
+import gui.*;
 import morpion.*;
 import connectFour.*;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ public class Processor {
     private Scanner in;
     private Game game;
     private ArrayList<Player> players;
+    private MainFrame mainFrame;
 
     public Processor() {
         in = new Scanner(System.in);
@@ -24,6 +26,7 @@ public class Processor {
 
     public void initGame() {
         game = new Morpion();
+        mainFrame = new MainFrame(game.getPanel());
         //game = new ConnectFour();
     }
 
