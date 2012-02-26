@@ -37,11 +37,12 @@ public class Processor {
     }
 
     public void initPlayers() {
+        String[] names = {"seb", "matt"};
         /**players.add(new MorpionAI("ia0", 0));
         game.addPlayer(players.get(0));*/
         for(int i = 0; i < game.getNbMaxPlayer() - 1; i++) {
-            System.out.print("Ajouter un joueur : ");
-            players.add(new MorpionHumanPlayer(in.next(), i));
+            //System.out.print("Ajouter un joueur : ");
+            players.add(new MorpionHumanPlayer(names[i], i));
             //players.add(new CFHumanPlayer(in.next(), i));
             game.addPlayer(players.get(i));
         }
@@ -60,7 +61,7 @@ public class Processor {
         Thread alarmT = null;
         Semaphore sem = null;
         while(!game.isFinish()) {
-            Alarm alarm = new Alarm(10000);
+            Alarm alarm = new Alarm(100000);
             try {
                 alarmT = new Thread(alarm);
             } catch(Exception e) {
