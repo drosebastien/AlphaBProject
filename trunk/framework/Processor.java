@@ -61,7 +61,7 @@ public class Processor {
         Thread alarmT = null;
         Semaphore sem = null;
         while(!game.isFinish()) {
-            Alarm alarm = new Alarm(100000);
+            Alarm alarm = new Alarm(10000000);
             try {
                 alarmT = new Thread(alarm);
             } catch(Exception e) {

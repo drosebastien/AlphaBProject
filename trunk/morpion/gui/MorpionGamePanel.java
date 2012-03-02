@@ -1,6 +1,7 @@
 package morpion.gui;
 
 import framework.Board;
+import framework.Piece;
 import morpion.MorpionPosition;
 
 import gui.GamePanelListener;
@@ -62,10 +63,11 @@ public class MorpionGamePanel extends GamePanel {
             for(int j = 0; j < length; j++) {
                 Image img = null;
 
-                if(board == null || board.getPiece(new MorpionPosition(2 - j, i)) == null) {
+                Piece pieceToPlace = board.getPiece(new MorpionPosition(2 - j, i));
+                if(board == null || pieceToPlace == null) {
                     img = piece;
                 }
-                else if(board.getPiece(new MorpionPosition(2 - j, i)).getId() == 0) {
+                else if(pieceToPlace.getId() == 0) {
                     img = cross;
                 }
                 else {

@@ -21,6 +21,13 @@ public class Line {
         b = y1 - x1 * a;
     }
 
+    public double getHeight(int y1, int y2) {
+        double x1 = getX(y1);
+        double x2 = getX(y2);
+
+        return Math.abs(x1 - x2);
+    }
+
     public double getY(double x) {
         return a * x + b;
     }

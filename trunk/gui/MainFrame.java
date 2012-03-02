@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Color;
 
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,13 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class MainFrame extends JFrame {
-    private static final int HEIGHT = 700;
-    private static final int WIDTH = 1300;
+    private static final int HEIGHT = 600;
+    private static final int WIDTH = 1024;
 
     private GridBagConstraints gbc;
     private GamePanel gamePanel;
     private TreePanel treePanel;
-
 
     public MainFrame(GamePanel gPanel) {
         super("Exploration algorithm");
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 
         JSeparator separatorH = new JSeparator();
         JSeparator separatorV = new JSeparator(SwingConstants.VERTICAL);
-        treePanel = new TreePanel();
+        treePanel = new TreePanelTest2();                                            //initialisation du TreePanel
         this.gamePanel = gPanel;
         JButton button = new JButton("OK");
         button.addActionListener(new OKListener());
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
         gbc.weightx = gbc.weighty = 1.;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
-        add(treePanel, gbc);
+        add(new JScrollPane(treePanel), gbc);
 
         setLocationRelativeTo(null);
         setVisible(true);
