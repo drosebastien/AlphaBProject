@@ -6,6 +6,7 @@ public class TreeNode {
     private TreeNode parentNode;
     private ArrayList<TreeNode> childNodes;
     private boolean isViewed;
+    private String label;
 
     public TreeNode(TreeNode parentNode) {
         childNodes = new ArrayList<TreeNode>();
@@ -35,5 +36,13 @@ public class TreeNode {
 
     public TreeNode getChild(int index) {
         return childNodes.get(index);
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }
