@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import java.util.ArrayList;
+
 public class TreePanelTest2 extends TreePanel {
     public TreePanelTest2() {
         super();
@@ -28,8 +30,37 @@ public class TreePanelTest2 extends TreePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        /**
+        //**
         TreeNode root = Tree.makeTree(7, 2);
+        root.setLabel("[0, 1]");
+        ArrayList<Integer> pos = new ArrayList<Integer>();
+        pos.add(1);
+        Tree.getNode(pos, root).setLabel("M");
+        pos.add(1);
+        pos.add(0);
+        Tree.getNode(pos, root).setLabel("[2, 3]");
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        Tree.getNode(pos, root).setLabel("[3, 4]");
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        pos.add(0);
+        Tree.getNode(pos, root).setLabel("[4, 5]");
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        Tree.getNode(pos, root).setLabel("[5, 6]");
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        pos.add(0);
+        pos.add(1);
+        pos.add(0);
+        Tree.getNode(pos, root).setLabel("4");
         //*/TreeNode root = getTreeTest();
 
         int rightMargin = JTree.drawTree(50, root, 40, 8, g);

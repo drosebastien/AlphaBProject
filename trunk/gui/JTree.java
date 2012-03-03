@@ -6,61 +6,87 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 public class JTree {
-    public static int drawTree(int leftMargin, TreeNode node, int height, int space, Graphics g) {
+    public static int drawTree(int leftMargin, TreeNode node, int height,
+                                                        int space, Graphics g) {
         if(node.getNbChild() == 0) {
-            drawNode(leftMargin, height, g);
+            drawNode(node, leftMargin, height, g);
+
             return leftMargin;
         }
+        else {
+            JTreeMargin treeM = drawTree(leftMargin, node, 1, height, space, g);
 
-        return drawTree(leftMargin, node, 1, height, space, g)[0];
+            return treeM.getRightMargin();
+        }
     }
 
-    private static int[] drawTree(int leftMargin, TreeNode node, int depth,
-                                            int height, int space, Graphics g) {
+    private static JTreeMargin drawTree(int leftMargin, TreeNode node,
+                                 int depth, int height, int space, Graphics g) {
         int nbChild = node.getNbChild();
-        int[] positions = new int[nbChild + 1];
-        positions[0] = leftMargin;
-        int[] center = new int[nbChild];
+        int[] rightMargins = new int[nbChild + 1];
+        rightMargins[0] = leftMargin;
+        int[] childPositions = new int[nbChild];
 
-        //determination de la position des noeuds.
+        //determination de la position des noeuds fils.
         for(int i = 0; i < nbChild; i++) {
-            int[] tab = drawTree(positions[i], node.getChild(i), depth + 1,
-                                                              height, space, g);
-            positions[i + 1] = tab[0];
-            center[i] = tab[1];
+            JTreeMargin treeM = drawTree(rightMargins[i], node.getChild(i),
+                                                   depth + 1, height, space, g);
+            rightMargins[i + 1] = treeM.getRightMargin();
+            childPositions[i] = treeM.getCenterOfRoot();
         }
-        //dessin des arêtes.
-        //si le noeud courant est une feuille.
+
+        // si le noeud courant est une feuille, on ne dessine rien
         if(nbChild == 0) {
-            return new int[]{positions[0] + space, leftMargin};
+            return new JTreeMargin(leftMargin, rightMargins[0] + space);
         }
-        //sinon
-        int x = (center[nbChild - 1] - center[0]) / 2 + center[0];
+        // sinon on dessine un ligne vers chacun de ses fils.
+        int nodePos = (childPositions[nbChild - 1] -
+                       childPositions[0]) / 2 + childPositions[0];
+
         for(int i = 0; i < nbChild; i++) {
-            g.drawLine(center[i], (depth + 1) * height, x, depth * height);
-            //si le noeud contient un label
-            if(node.getChild(i).getLabel() != null) {
-                if(node.getChild(i) instanceof LeafNode) {
-                    drawLeafLabel(center[i], (depth + 1) * height,
-                                                node.getChild(i).getLabel(), g);
-                    drawImportantNode(center[i], (depth + 1) * height, g);
-                }
-                else {
-                    drawLabel(center[i], (depth + 1) * height,
-                                                node.getChild(i).getLabel(), g);
-                    drawNode(center[i], (depth + 1) * height, g);
-                }
+            g.drawLine(childPositions[i], (depth + 1) * height, nodePos,
+                       depth * height);
+
+            // si le noeud fils est une feuille on dessine un noeud feuille.
+            if(node.getChild(i) instanceof LeafNode) {
+                drawLeaf(node.getChild(i), childPositions[i],
+                         (depth + 1) * height, g);
             }
+            // sinon on dessin un noeud normal.
             else {
-                drawNode(center[i], (depth + 1) * height, g);
+                drawNode(node.getChild(i), childPositions[i],
+                         (depth + 1) * height, g);
             }
         }
-        //dessine le noeud pour la racine.
+        /*
+         * si depth == 1 alors, on dessine la racine. Normalement c'est au
+         * noeud père de dessiner le fils, mais la raçine n'en a pas.
+         * elle dessine donc son noeud quand toutes les arêtes sont
+         * dessinées
+         */
         if(depth == 1) {
-            drawNode(x, depth * height, g);
+            drawNode(node, nodePos, depth * height, g);
         }
 
-        return new int[]{positions[nbChild] + space, x};
+        return new JTreeMargin(nodePos, rightMargins[nbChild] + space);
+    }
+
+    public static void drawLeaf(TreeNode node, int x, int y, Graphics g) {
+        if(node.getLabel() != null) {
+            drawImportantNode(x, y, g);
+            drawLeafLabel(x, y, node.getLabel(), g);
+        }
+        else {
+            drawNode(x, y, g);
+        }
+    }
+
+    public static void drawNode(TreeNode node, int x, int y, Graphics g) {
+        drawNode(x, y, g);
+
+        if(node.getLabel() != null) {
+            drawLabel(x, y, node.getLabel(), g);
+        }
     }
 
     public static void drawNode(int x, int y, Graphics g) {
@@ -85,6 +111,7 @@ public class JTree {
         int width = 40;
         int height = 20;
         int margin = 5;
+
         Color tmp = g.getColor();
         g.setColor(new Color(255, 255, 255));
         g.fillRect(x - width - margin, y - height / 2, width, height);
@@ -98,6 +125,6 @@ public class JTree {
         int height = 20;
         int margin = 5;
 
-        g.drawString(label, x - width / 2, y + height);
+        g.drawString(label, x, y + height);
     }
 }
