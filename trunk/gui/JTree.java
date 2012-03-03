@@ -5,23 +5,31 @@ import tree.*;
 import java.awt.Graphics;
 import java.awt.Color;
 
+import java.util.ArrayList;
+
 public class JTree {
+
     public static int drawTree(int leftMargin, TreeNode node, int height,
-                                                        int space, Graphics g) {
+                     int space, Graphics g, ArrayList<JNodePosition> nodesPos) {
+        ArrayList<Integer> treePos = new ArrayList<Integer>();
         if(node.getNbChild() == 0) {
-            drawNode(node, leftMargin, height, g);
+            addNode(node, leftMargin, height, g, nodesPos, treePos);
 
             return leftMargin;
         }
         else {
-            JTreeMargin treeM = drawTree(leftMargin, node, 1, height, space, g);
+            JTreeMargin treeM = drawTree(leftMargin, node, 1, height, space,
+                                         g, nodesPos, treePos);
 
             return treeM.getRightMargin();
         }
     }
 
     private static JTreeMargin drawTree(int leftMargin, TreeNode node,
-                                 int depth, int height, int space, Graphics g) {
+                                int depth, int height, int space, Graphics g,
+                                ArrayList<JNodePosition> nodesPos,
+                                ArrayList<Integer> treePos) {
+
         int nbChild = node.getNbChild();
         int[] rightMargins = new int[nbChild + 1];
         rightMargins[0] = leftMargin;
@@ -29,8 +37,11 @@ public class JTree {
 
         //determination de la position des noeuds fils.
         for(int i = 0; i < nbChild; i++) {
+            treePos.add(i);
             JTreeMargin treeM = drawTree(rightMargins[i], node.getChild(i),
-                                                   depth + 1, height, space, g);
+                                         depth + 1, height, space, g, nodesPos,
+                                         treePos);
+            treePos.remove(treePos.size() - 1);
             rightMargins[i + 1] = treeM.getRightMargin();
             childPositions[i] = treeM.getCenterOfRoot();
         }
@@ -47,16 +58,18 @@ public class JTree {
             g.drawLine(childPositions[i], (depth + 1) * height, nodePos,
                        depth * height);
 
+            treePos.add(i);
             // si le noeud fils est une feuille on dessine un noeud feuille.
             if(node.getChild(i) instanceof LeafNode) {
-                drawLeaf(node.getChild(i), childPositions[i],
-                         (depth + 1) * height, g);
+                addLeaf(node.getChild(i), childPositions[i],
+                         (depth + 1) * height, g, nodesPos, treePos);
             }
             // sinon on dessin un noeud normal.
             else {
-                drawNode(node.getChild(i), childPositions[i],
-                         (depth + 1) * height, g);
+                addNode(node.getChild(i), childPositions[i],
+                         (depth + 1) * height, g, nodesPos, treePos);
             }
+            treePos.remove(treePos.size() - 1);
         }
         /*
          * si depth == 1 alors, on dessine la racine. Normalement c'est au
@@ -65,13 +78,15 @@ public class JTree {
          * dessinées
          */
         if(depth == 1) {
-            drawNode(node, nodePos, depth * height, g);
+            addNode(node, nodePos, depth * height, g, nodesPos, treePos);
         }
 
         return new JTreeMargin(nodePos, rightMargins[nbChild] + space);
     }
 
-    public static void drawLeaf(TreeNode node, int x, int y, Graphics g) {
+    public static void addLeaf(TreeNode node, int x, int y, Graphics g,
+                                            ArrayList<JNodePosition> nodesPos,
+                                            ArrayList<Integer> treePos) {
         if(node.getLabel() != null) {
             drawImportantNode(x, y, g);
             drawLeafLabel(x, y, node.getLabel(), g);
@@ -79,14 +94,30 @@ public class JTree {
         else {
             drawNode(x, y, g);
         }
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(int i = 0; i < treePos.size(); i++) {
+            list.add(treePos.get(i));
+        }
+
+        nodesPos.add(new JNodePosition(x, y, list));
     }
 
-    public static void drawNode(TreeNode node, int x, int y, Graphics g) {
+    public static void addNode(TreeNode node, int x, int y, Graphics g,
+                                            ArrayList<JNodePosition> nodesPos,
+                                            ArrayList<Integer> treePos) {
         drawNode(x, y, g);
 
         if(node.getLabel() != null) {
             drawLabel(x, y, node.getLabel(), g);
         }
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(int i = 0; i < treePos.size(); i++) {
+            list.add(treePos.get(i));
+        }
+
+        nodesPos.add(new JNodePosition(x, y, list));
     }
 
     public static void drawNode(int x, int y, Graphics g) {

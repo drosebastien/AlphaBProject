@@ -14,8 +14,11 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 
 public class TreePanelTest2 extends TreePanel {
+    private ArrayList<JNodePosition> list;
+
     public TreePanelTest2() {
         super();
+        list = new ArrayList<JNodePosition>();
 
         addMouseListener(new MouseAdapter () {
             public void mouseClicked(MouseEvent e) {
@@ -31,39 +34,41 @@ public class TreePanelTest2 extends TreePanel {
         super.paintComponent(g);
 
         //**
-        TreeNode root = Tree.makeTree(7, 2);
-        root.setLabel("[0, 1]");
-        ArrayList<Integer> pos = new ArrayList<Integer>();
-        pos.add(1);
-        Tree.getNode(pos, root).setLabel("M");
-        pos.add(1);
-        pos.add(0);
-        Tree.getNode(pos, root).setLabel("[2, 3]");
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        Tree.getNode(pos, root).setLabel("[3, 4]");
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        pos.add(0);
-        Tree.getNode(pos, root).setLabel("[4, 5]");
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        Tree.getNode(pos, root).setLabel("[5, 6]");
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        pos.add(0);
-        pos.add(1);
-        pos.add(0);
-        Tree.getNode(pos, root).setLabel("4");
+        TreeNode root = Tree.makeTree(4, 5);
+//        root.setLabel("[0, 1]");
+//        ArrayList<Integer> pos = new ArrayList<Integer>();
+//        pos.add(1);
+//        Tree.getNode(pos, root).setLabel("M");
+//        pos.add(1);
+//        pos.add(0);
+//        Tree.getNode(pos, root).setLabel("[2, 3]");
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        Tree.getNode(pos, root).setLabel("[3, 4]");
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        pos.add(0);
+//        Tree.getNode(pos, root).setLabel("[4, 5]");
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        Tree.getNode(pos, root).setLabel("[5, 6]");
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        pos.add(0);
+//        pos.add(1);
+//        pos.add(0);
+//        Tree.getNode(pos, root).setLabel("4");
         //*/TreeNode root = getTreeTest();
 
-        int rightMargin = JTree.drawTree(50, root, 40, 8, g);
+        list = new ArrayList<JNodePosition>();
+        int rightMargin = JTree.drawTree(50, root, 40, 8, g, list);
+
         setPreferredSize(new Dimension(rightMargin, 800));
     }
 
@@ -119,6 +124,13 @@ public class TreePanelTest2 extends TreePanel {
     }
 
     public void mouseClickedEvent(MouseEvent e) {
-        System.out.println("x : " + e.getX() + "; y : " + e.getY());
+        int x = e.getX();
+        int y = e.getY();
+        //System.out.println("x : " + x + "; y : " + y);
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).isIn(x - 5, y - 5, x + 5, y + 5)) {
+                System.out.println(list.get(i));
+            }
+        }
     }
 }
