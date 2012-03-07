@@ -27,43 +27,33 @@ public class TreePanelTest2 extends TreePanel {
         });
 
         setMinimumSize(new Dimension(500, 500));
-        setPreferredSize(new Dimension(100, 800));
+        setPreferredSize(new Dimension(700, 800));
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         //**
-        TreeNode root = Tree.makeTree(4, 5);
-//        root.setLabel("[0, 1]");
-//        ArrayList<Integer> pos = new ArrayList<Integer>();
-//        pos.add(1);
-//        Tree.getNode(pos, root).setLabel("M");
-//        pos.add(1);
-//        pos.add(0);
-//        Tree.getNode(pos, root).setLabel("[2, 3]");
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        Tree.getNode(pos, root).setLabel("[3, 4]");
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        pos.add(0);
-//        Tree.getNode(pos, root).setLabel("[4, 5]");
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        Tree.getNode(pos, root).setLabel("[5, 6]");
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        pos.add(0);
-//        pos.add(1);
-//        pos.add(0);
-//        Tree.getNode(pos, root).setLabel("4");
+        TreeNode root = Tree.makeTree(7, 2);
+        int[] tab = {1, 0, 1, 0, 1, 0};
+        root.setLabel("[0, 1]");
+        root.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
+        ArrayList<Integer> pos = new ArrayList<Integer>();
+        for(int i = 0; i < tab.length; i++) {
+            for(int j = 0; j <= i; j++) {
+                pos.add(tab[j]);
+            }
+            if(i < tab.length - 1) {
+                    TreeNode node = Tree.getNode(pos, root);
+                    node.setLabel("["+ (i + 1) + ", " + (i + 2) + "]");
+                    node.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
+            }
+            else {
+                TreeNode node = Tree.getNode(pos, root);
+                node.setLabel("" + i);
+                node.setType(NodeType.CURRENTNODE);
+            }
+        }
         //*/TreeNode root = getTreeTest();
 
         list = new ArrayList<JNodePosition>();
@@ -126,7 +116,7 @@ public class TreePanelTest2 extends TreePanel {
     public void mouseClickedEvent(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        //System.out.println("x : " + x + "; y : " + y);
+        System.out.println("x : " + x + "; y : " + y);
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).isIn(x - 5, y - 5, x + 5, y + 5)) {
                 System.out.println(list.get(i));

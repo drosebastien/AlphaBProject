@@ -5,21 +5,21 @@ import java.util.ArrayList;
 public class TreeNode {
     private TreeNode parentNode;
     private ArrayList<TreeNode> childNodes;
-    private boolean isViewed;
     private String label;
+    private NodeType type;
 
     public TreeNode(TreeNode parentNode) {
         childNodes = new ArrayList<TreeNode>();
         this.parentNode = parentNode;
-        isViewed = false;
+        type = NodeType.NEITHER;
     }
 
-    public void setIsViewed(boolean isViewed) {
-        this.isViewed = isViewed;
+    public void setType(NodeType type) {
+        this.type = type;
     }
 
-    public boolean isViewed() {
-        return isViewed;
+    public NodeType getType() {
+        return type;
     }
 
     public TreeNode getParent() {
