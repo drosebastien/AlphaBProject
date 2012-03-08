@@ -11,18 +11,19 @@ public class JNode {
         public static void addNode(TreeNode node, int x, int y, Graphics g,
                                             ArrayList<JNodePosition> nodesPos,
                                             ArrayList<Integer> treePos) {
-
-            if(node.getType() == NodeType.CURRENTNODE) {
-                JNode.addCurrent(node, x, y, g, nodesPos, treePos);
-            }
-            else if(node.getType() == NodeType.ANCESTOR_OF_CURRENT_NODE) {
-                JNode.addAncestor(node, x, y, g, nodesPos, treePos);
-            }
-            // sinon on dessin un noeud normal.
-            else {
-                JNode.addNormalNode(node, x, y, g, nodesPos, treePos);
-            }
+        //*
+        if(node.getType() == NodeType.CURRENTNODE) {
+            JNode.addCurrent(node, x, y, g, nodesPos, treePos);
         }
+        else if(node.getType() == NodeType.ANCESTOR_OF_CURRENT_NODE) {
+            JNode.addAncestor(node, x, y, g, nodesPos, treePos);
+        }
+        // sinon on dessin un noeud normal.
+        else {
+            JNode.addNormalNode(node, x, y, g, nodesPos, treePos);
+        }
+        //*/
+    }
 
     public static void addAncestor(TreeNode node, int x, int y, Graphics g,
                                             ArrayList<JNodePosition> nodesPos,

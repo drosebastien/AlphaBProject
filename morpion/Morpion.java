@@ -15,6 +15,12 @@ public class Morpion extends Game {
         currentPlayer = 0;
     }
 
+    public Morpion(MorpionBoard board) {
+        super(board);
+        gamePanel = new MorpionGamePanel(board);
+        currentPlayer = 0;
+    }
+
     public void piecesDistribution() {
         MorpionPiece[] pieces = {new MorpionPiece("Cross", 0),
                                  new MorpionPiece("Circle", 1)};
@@ -165,8 +171,7 @@ public class Morpion extends Game {
     }
 
     public Game clone() {
-        Morpion gameCopy = new Morpion();
-        gameCopy.board = board.clone();
+        Morpion gameCopy = new Morpion((MorpionBoard) board.clone());
         gameCopy.currentPlayer = currentPlayer;
 
         for(int i = 0; i < listOfPlayers.size(); i++) {

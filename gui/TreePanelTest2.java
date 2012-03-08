@@ -34,8 +34,8 @@ public class TreePanelTest2 extends TreePanel {
         super.paintComponent(g);
 
         //**
-        TreeNode root = Tree.makeTree(7, 2);
-        int[] tab = {1, 0, 1, 0, 1, 0};
+        TreeNode root = Tree.makeTree(8, 2);
+        int[] tab = {1, 0};
         root.setLabel("[0, 1]");
         root.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
         ArrayList<Integer> pos = new ArrayList<Integer>();
@@ -57,7 +57,7 @@ public class TreePanelTest2 extends TreePanel {
         //*/TreeNode root = getTreeTest();
 
         list = new ArrayList<JNodePosition>();
-        int rightMargin = JTree.drawTree(50, root, 40, 8, g, list);
+        int rightMargin = JTree.drawTree(50, root, 30, 8, g, list);
 
         setPreferredSize(new Dimension(rightMargin, 800));
     }
