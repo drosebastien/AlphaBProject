@@ -3,6 +3,7 @@ package framework;
 import gui.*;
 import morpion.*;
 import connectFour.*;
+import explorer.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
@@ -19,20 +20,47 @@ public class Processor {
     }
 
     public void start() {
-        initGame();
-        initPlayers();
-        startGame();
+        launchPedMode();
+//        initGame();
+//        initPlayers();
+//        startGame();
+    }
+
+    public void launchPedMode() {
+        Controller controller = new Controller("sebController");
+        game = new Morpion();
+        Game gameCopy = game.clone();
+        TreePanel treePanel = new TreePanelTest2();
+        treePanel.setController(controller);
+        GamePanel gamePanel = gameCopy.getPanel();
+        gamePanel.setController(controller);
+        mainFrame = new MainFrame(gamePanel, treePanel);
+
+        //init players
+        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
+        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
+        game.piecesDistribution();
+
+        Explorer explorer = new Explorer(gameCopy, gamePanel, treePanel);
+        Executor executor = new Executor(gameCopy, gamePanel, treePanel);
+        controller.addExplorer(explorer);
+        controller.addExecutor(executor);
     }
 
     public void initGame() {
+        Controller controller = new Controller("sebController");
         game = new Morpion();
-        mainFrame = new MainFrame(game.getPanel());
+        TreePanel treePanel = new TreePanelTest2();
+        treePanel.setController(controller);
+        GamePanel gamePanel = game.getPanel();
+        gamePanel.setController(controller);
+        mainFrame = new MainFrame(gamePanel, treePanel);
         //game = new ConnectFour();
     }
 
-    public void giveGameCopy() {
+    public void giveGameCopy(Game game) {
         for(int i = 0; i < players.size(); i++) {
-            players.get(i).setGame(game.clone());
+            players.get(i).setGame(game);
         }
     }
 
@@ -50,7 +78,6 @@ public class Processor {
         game.addPlayer(players.get(1));
 
         game.piecesDistribution();
-        System.out.println(game.nextPlayer().getPiece().getId());
     }
 
     public void setPlayer(int i, Player player) {
@@ -67,7 +94,8 @@ public class Processor {
             } catch(Exception e) {
                 e.printStackTrace();
             }
-            giveGameCopy();
+            Game gameCopy = game.clone();
+            giveGameCopy(gameCopy);
             System.out.println(game);
             Player currentPlayer = game.nextPlayer();
             Thread threadPlayer =  new Thread(currentPlayer);
