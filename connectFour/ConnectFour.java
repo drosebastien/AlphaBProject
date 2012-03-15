@@ -2,6 +2,7 @@ package connectFour;
 
 import java.util.ArrayList;
 import framework.*;
+import gui.GamePanel;
 
 public class ConnectFour extends Game {
     private static final int NB_PLAYERS = 2;
@@ -11,6 +12,10 @@ public class ConnectFour extends Game {
     public ConnectFour() {
         super(new CFBoard());
         currentPlayer = 0;
+    }
+
+    public GamePanel getPanel() {                                               // attention, il faut changer ça
+        return null;
     }
 
     public void piecesDistribution() {

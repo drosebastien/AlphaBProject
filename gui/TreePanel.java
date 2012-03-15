@@ -1,6 +1,7 @@
 package gui;
 
 import explorer.Controller;
+import tree.*;
 
 import java.awt.Color;
 
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 public class TreePanel extends JPanel {
     private boolean inExplorerMode;
     protected Controller controller;
+    protected TreeNode root;
 
     public TreePanel() {
         super();
@@ -23,10 +25,15 @@ public class TreePanel extends JPanel {
 
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
-        controller.printMessage("TreePanel, mode : " + mode, mode);
     }
 
-    public boolean isInExplorerMode() {
+    public void setTreeRootNode(TreeNode root) {
+        this.root = root;
+    }
+
+    protected boolean isInExplorerMode() {
         return inExplorerMode;
     }
+
+    public void nextbidon() {}                                                  /// à effacer
 }

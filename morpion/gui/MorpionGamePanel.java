@@ -43,9 +43,9 @@ public class MorpionGamePanel extends GamePanel {
         Image cross = null;
         Image circle = null;
         try {
-            piece = ImageIO.read(new File("img/piece.png"));
-            cross = ImageIO.read(new File("img/cross.png"));
-            circle = ImageIO.read(new File("img/circle.png"));
+            piece = ImageIO.read(new File("src/img/piece.png"));
+            cross = ImageIO.read(new File("src/img/cross.png"));
+            circle = ImageIO.read(new File("src/img/circle.png"));
         } catch(IOException e) {
             System.out.println("problème avec les images");
         }

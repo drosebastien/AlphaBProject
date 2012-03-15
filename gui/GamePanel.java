@@ -44,7 +44,6 @@ public class GamePanel extends JPanel {
 
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
-        controller.printMessage("GamePanel, mode : " + mode, mode);
     }
 
     public boolean isInExplorerMode() {
