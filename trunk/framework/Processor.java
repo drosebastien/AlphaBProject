@@ -29,17 +29,15 @@ public class Processor {
     public void launchPedMode() {
         Controller controller = new Controller("sebController");
         game = new Morpion();
+        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
+        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
+        game.piecesDistribution();
         Game gameCopy = game.clone();
-        TreePanel treePanel = new TreePanelTest2();
+        TreePanel treePanel = new NormalTreePanel();
         treePanel.setController(controller);
         GamePanel gamePanel = gameCopy.getPanel();
         gamePanel.setController(controller);
         mainFrame = new MainFrame(gamePanel, treePanel);
-
-        //init players
-        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
-        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
-        game.piecesDistribution();
 
         Explorer explorer = new Explorer(gameCopy, gamePanel, treePanel);
         Executor executor = new Executor(gameCopy, gamePanel, treePanel);
@@ -109,11 +107,6 @@ public class Processor {
                 alarmT.interrupt();
                 threadPlayer.interrupt();
 
-                /*int cpt = 0;
-                while(!currentPlayer.isFinalDecision() && cpt < 5000) {
-                    Thread.sleep(100);
-                    cpt++;
-                }*/
                 if(!currentPlayer.hasMove()) {
                     System.out.println("désolé, tu n'as pas joué assez vite.");
                 }

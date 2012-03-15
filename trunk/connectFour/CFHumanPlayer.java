@@ -24,6 +24,10 @@ public class CFHumanPlayer extends HumanPlayer {
         sem.release();
     }
 
+    public void hitFired(int x, int y) {                                        // Attention, il faut changer ça
+        // à faire
+    }
+
     public Player clone() {
         Player playerCopy = new CFHumanPlayer(getName(), getId());
         playerCopy.piece = piece.clone();

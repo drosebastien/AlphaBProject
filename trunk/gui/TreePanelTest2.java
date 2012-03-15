@@ -34,7 +34,7 @@ public class TreePanelTest2 extends TreePanel {
         super.paintComponent(g);
 
         //**
-        TreeNode root = Tree.makeTree(8, 2);
+        TreeNode root = Tree.makeTree(8, 4);
         int[] tab = {1, 0};
         root.setLabel("[0, 1]");
         root.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
@@ -57,7 +57,7 @@ public class TreePanelTest2 extends TreePanel {
         //*/TreeNode root = getTreeTest();
 
         list = new ArrayList<JNodePosition>();
-        int rightMargin = JTree.drawTree(50, root, 30, 8, g, list);
+        int rightMargin = JTree.drawTree(50, root, 40, 8, g, list);
 
         setPreferredSize(new Dimension(rightMargin, 800));
     }
@@ -116,10 +116,12 @@ public class TreePanelTest2 extends TreePanel {
     public void mouseClickedEvent(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        System.out.println("x : " + x + "; y : " + y);
+        //System.out.println("x : " + x + "; y : " + y);
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).isIn(x - 5, y - 5, x + 5, y + 5)) {
-                System.out.println(list.get(i));
+                //System.out.println(list.get(i));
+                controller.clickOnNode(isInExplorerMode(),
+                                       list.get(i).getTreePos());
             }
         }
     }

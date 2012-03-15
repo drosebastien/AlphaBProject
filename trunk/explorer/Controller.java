@@ -1,5 +1,7 @@
 package explorer;
 
+import java.util.ArrayList;
+
 public class Controller {
     private String name;
     private Explorer explorer;
@@ -19,11 +21,30 @@ public class Controller {
         }
     }
 
+    public void clickOnNode(boolean explorerMode,
+                            ArrayList<Integer> treePosition) {
+
+        if(explorerMode) {
+            explorer.moveForward(treePosition);
+        }
+        else {
+            executor.progress(treePosition);
+        }
+    }
+
+    public void moveForward(ArrayList<Integer> moves) {
+        explorer.moveForward(moves);
+    }
+
     public void addExplorer(Explorer explorer) {
         this.explorer = explorer;
     }
 
     public void addExecutor(Executor executor) {
         this.executor = executor;
+    }
+
+    public void removeLast() {
+        explorer.removeLast();
     }
 }

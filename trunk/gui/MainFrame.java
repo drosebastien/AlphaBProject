@@ -157,6 +157,7 @@ public class MainFrame extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             System.out.println("Voilà ce qui se passe quand on appuie sur next");
+            treePanel.nextbidon();
         }
     }
 }
