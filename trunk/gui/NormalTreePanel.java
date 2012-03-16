@@ -33,7 +33,7 @@ public class NormalTreePanel extends TreePanel {
 
         list = new ArrayList<JNodePosition>();
         if(root != null) {
-            int rightMargin = JTree.drawTree(50, root, 60, 8, g, list);
+            int rightMargin = JTree.drawTree(50, root, 80, 8, g, list);
             setPreferredSize(new Dimension(rightMargin, 800));
             setMaximumSize(new Dimension(rightMargin, 800));
         }
@@ -50,6 +50,10 @@ public class NormalTreePanel extends TreePanel {
                                        list.get(i).getTreePos());
             }
         }
+    }
+
+    public void nextEvent() {
+        controller.progress(isInExplorerMode());
     }
 
     public void previousEvent() {

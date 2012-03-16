@@ -32,17 +32,27 @@ public class Controller {
         }
     }
 
-    public void addExplorer(Explorer explorer) {
-        this.explorer = explorer;
-    }
-
-    public void addExecutor(Executor executor) {
-        this.executor = executor;
+    public void progress(boolean inExplorerMode) {
+        if(inExplorerMode) {
+        }
+        else {
+            executor.progress();
+        }
     }
 
     public void removeLast(boolean inExplorerMode) {
         if(inExplorerMode) {
             explorer.removeLast();
         }
+        else {
+        }
+    }
+
+    public void addExplorer(Explorer explorer) {
+        this.explorer = explorer;
+    }
+
+    public void addExecutor(Executor executor) {
+        this.executor = executor;
     }
 }

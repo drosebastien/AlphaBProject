@@ -147,6 +147,9 @@ public class TreePanelTest1 extends TreePanel {
         g.drawRect(x, y, width, height);
     }
 
+    public void nextEvent() {
+    }
+
     public void previousEvent() {
     }
 

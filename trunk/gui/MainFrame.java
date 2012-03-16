@@ -164,16 +164,17 @@ public class MainFrame extends JFrame {
     }
 
     public class NextListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
-            System.out.println("stop appuyer sur next abruti ," +
-                               " cela ne fait rien");
+
+            treePanel.nextEvent();
         }
     }
 
     public class PreviousListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            
+
             treePanel.previousEvent();
         }
     }

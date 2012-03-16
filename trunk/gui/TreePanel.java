@@ -35,5 +35,7 @@ public abstract class TreePanel extends JPanel {
         return inExplorerMode;
     }
 
+    public abstract void nextEvent();
+
     public abstract void previousEvent();
 }

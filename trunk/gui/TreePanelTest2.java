@@ -126,6 +126,9 @@ public class TreePanelTest2 extends TreePanel {
         }
     }
 
+    public void nextEvent() {
+    }
+
     public void previousEvent() {
     }
 }
