@@ -52,9 +52,7 @@ public class NormalTreePanel extends TreePanel {
         }
     }
 
-    public void nextbidon() {                                                   // à effacer
-        if(isInExplorerMode()) {
-            controller.removeLast();
-        }
+    public void previousEvent() {
+        controller.removeLast(isInExplorerMode());
     }
 }

@@ -21,19 +21,15 @@ public class Controller {
         }
     }
 
-    public void clickOnNode(boolean explorerMode,
+    public void clickOnNode(boolean inExplorerMode,
                             ArrayList<Integer> treePosition) {
 
-        if(explorerMode) {
+        if(inExplorerMode) {
             explorer.moveForward(treePosition);
         }
         else {
             executor.progress(treePosition);
         }
-    }
-
-    public void moveForward(ArrayList<Integer> moves) {
-        explorer.moveForward(moves);
     }
 
     public void addExplorer(Explorer explorer) {
@@ -44,7 +40,9 @@ public class Controller {
         this.executor = executor;
     }
 
-    public void removeLast() {
-        explorer.removeLast();
+    public void removeLast(boolean inExplorerMode) {
+        if(inExplorerMode) {
+            explorer.removeLast();
+        }
     }
 }

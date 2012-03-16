@@ -34,6 +34,7 @@ public class MainFrame extends JFrame {
 
     private JButton button;
     private JButton nextButton;
+    private JButton previousButton;
     private JRadioButton radioButton;
 
     public MainFrame(GamePanel gPanel, TreePanel treePanel) {
@@ -59,8 +60,11 @@ public class MainFrame extends JFrame {
         button.setMinimumSize(new Dimension(120, 25));
         button.setPreferredSize(new Dimension(120, 25));
 
-        nextButton = new JButton(">>");
+        nextButton = new JButton(">");
         nextButton.addActionListener(new NextListener());
+
+        previousButton = new JButton("<");
+        previousButton.addActionListener(new PreviousListener());
 
         gbc.insets = new Insets(5, 5, 5, 25);
         gbc.gridheight = 1;
@@ -115,6 +119,7 @@ public class MainFrame extends JFrame {
         gbc.gridy = 0;
         gbc.weightx = gbc.weighty = 1.;
         gbc.gridheight = GridBagConstraints.RELATIVE;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
         add(new JScrollPane(treePanel), gbc);
@@ -122,8 +127,13 @@ public class MainFrame extends JFrame {
         gbc.gridy = 4;
         gbc.weightx = gbc.weighty = 0.;
         gbc.gridheight = 1;
+        gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        add(previousButton, gbc);
+
+        gbc.gridx = 4;
         gbc.insets = new Insets(5, 5, 5, 5);
         add(nextButton, gbc);
 
@@ -154,10 +164,17 @@ public class MainFrame extends JFrame {
     }
 
     public class NextListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("stop appuyer sur next abruti ," +
+                               " cela ne fait rien");
+        }
+    }
+
+    public class PreviousListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Voilà ce qui se passe quand on appuie sur next");
-            treePanel.nextbidon();
+            
+            treePanel.previousEvent();
         }
     }
 }
