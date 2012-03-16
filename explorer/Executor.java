@@ -12,6 +12,7 @@ public class Executor implements MinMaxListener {
     private GamePanel gamePanel;
     private TreePanel treePanel;
     private TreeNode root;
+    private Semaphore semaphore;
 
     public Executor(Game game, GamePanel gamePanel, TreePanel treePanel) {
         this.game = game;
@@ -23,7 +24,15 @@ public class Executor implements MinMaxListener {
         this.root = root;
     }
 
+    public void progress() {
+        if(semaphore != null && semaphore.availablePermits() == 0) {
+            semaphore.release();
+        }
+    }
+
     public void progress(ArrayList<Integer> moves) {
+        //je ne fait qu'imprimer dans le terminal le chemin vers lequel il faut
+        //avancer.
         String line = "| ";
         for(int i = 0; i < moves.size(); i++) {
             line += moves.get(i) + " | ";
@@ -33,6 +42,7 @@ public class Executor implements MinMaxListener {
     }
 
     public void locked(int indexInTreeGame, boolean moveFoward, Semaphore semaphore) {
+        this.semaphore = semaphore;
     }
 
     public void locked(boolean moveFoward, int indexInTreeGame) {
