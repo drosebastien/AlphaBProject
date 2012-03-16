@@ -7,7 +7,7 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-public class TreePanel extends JPanel {
+public abstract class TreePanel extends JPanel {
     private boolean inExplorerMode;
     protected Controller controller;
     protected TreeNode root;
@@ -35,5 +35,5 @@ public class TreePanel extends JPanel {
         return inExplorerMode;
     }
 
-    public void nextbidon() {}                                                  /// à effacer
+    public abstract void previousEvent();
 }

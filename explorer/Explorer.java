@@ -23,8 +23,7 @@ public class Explorer {
     }
 
     public void initTreePanel() {
-        TreeNode root = makeTree(4);
-//        TreeNode root = Tree.makeTree(1, 3);
+        TreeNode root = makeTree(5); // profondeur de l'arbre.
 
         treePanel.setTreeRootNode(root);
         treePanel.repaint();
@@ -35,7 +34,7 @@ public class Explorer {
         if(game.getListOfPossibleMove().size() != 0) {
             TreeNode root = new TreeNode(null);
             makeTree(height - 1, root);
-            return root;
+            return root.getChild(0);
         }
         return new LeafNode(null, 100);
     }
@@ -63,19 +62,16 @@ public class Explorer {
         for(int i = 0; i < moves.size(); i++) {
             line += moves.get(i) + " | ";
         }
-        moves.remove(0);
+
         int size = moves.size();
         for(int i = 0; i < size; i++) {
             lastMoves.add(0, game.getListOfPossibleMove().get(moves.remove(0)));
             game.play(lastMoves.get(0));
         }
         initTreePanel();
-
-        System.out.println("je dois avancer mon état courant en : " + line);
     }
 
     public void removeLast() {
-        System.out.println("Explorer : bidon");
         if(lastMoves.size() > 0) {
             game.removeMove(lastMoves.remove(0));
             initTreePanel();

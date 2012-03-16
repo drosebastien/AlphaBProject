@@ -147,6 +147,9 @@ public class TreePanelTest1 extends TreePanel {
         g.drawRect(x, y, width, height);
     }
 
+    public void previousEvent() {
+    }
+
     public void mouseClickedEvent(MouseEvent e) {
         System.out.println("x : " + e.getX() + "; y : " + e.getY());
     }
