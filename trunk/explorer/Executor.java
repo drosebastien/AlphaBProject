@@ -25,6 +25,8 @@ public class Executor implements MinMaxListener {
     }
 
     public void progress() {
+        System.out.println("executor: nextbutton");
+
         if(semaphore != null && semaphore.availablePermits() == 0) {
             semaphore.release();
         }
