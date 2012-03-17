@@ -13,20 +13,25 @@ public class Explorer {
     private TreePanel treePanel;
     private Executor executor;
     private ArrayList<Move> lastMoves;
+    private int maxDepth;
 
-    public Explorer(Game game, GamePanel gamePanel, TreePanel treePanel) {
+    public Explorer(Game game, GamePanel gamePanel,
+                    TreePanel treePanel, int maxDepth) {
         lastMoves = new ArrayList<Move>();
         this.game = game;
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
+        this.maxDepth = maxDepth;
+
         initTreePanel();
     }
 
     public void initTreePanel() {
-        TreeNode root = makeTree(5); // profondeur de l'arbre.
+        TreeNode root = makeTree(maxDepth);
 
         treePanel.setTreeRootNode(root);
         treePanel.repaint();
+        gamePanel.repaint();
     }
 
     public TreeNode makeTree(int height) {

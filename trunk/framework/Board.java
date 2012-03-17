@@ -12,5 +12,7 @@ public abstract class Board {
 
     public abstract Piece getPiece(Position position);
 
+    public abstract void copyBoard(Board board);
+
     public abstract Board clone();
 }

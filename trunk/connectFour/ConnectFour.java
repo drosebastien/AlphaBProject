@@ -115,6 +115,12 @@ public class ConnectFour extends Game {
         return isFinish || isVictory();
     }
 
+    public void saveStateOfGame() {
+    }
+
+    public void loadSavedState() {
+    }
+
     public Game clone() {
         ConnectFour gameCopy = new ConnectFour();
         gameCopy.board = board.clone();

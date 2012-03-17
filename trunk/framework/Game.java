@@ -11,6 +11,7 @@ public abstract class Game {
     public Game(Board board) {
         listOfPlayers = new ArrayList<Player>();
         this.board = board;
+        saveStateOfGame();
     }
 
     public void addPlayer(Player player) {
@@ -41,6 +42,10 @@ public abstract class Game {
     public abstract boolean isFinish();
 
     public abstract boolean isVictory();
+
+    public abstract void saveStateOfGame();
+
+    public abstract void loadSavedState();
 
     public abstract Player getWinner();
 

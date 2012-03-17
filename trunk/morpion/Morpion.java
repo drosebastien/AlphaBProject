@@ -8,6 +8,8 @@ import gui.GamePanel;
 public class Morpion extends Game {
     private static final int NB_PLAYERS = 2;
     private int currentPlayer;
+    private Board copyOfBoard;
+    private int copyOfCurrentPlayer;
 
     public Morpion() {
         super(new MorpionBoard());
@@ -46,7 +48,7 @@ public class Morpion extends Game {
         MorpionMove morpionMove = (MorpionMove) move;
         board.placePiece(morpionMove.getPosition(), morpionMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
-        gamePanel.repaint();
+        //gamePanel.repaint();
     }
 
     public void removeMove(Move move) {
@@ -164,6 +166,16 @@ public class Morpion extends Game {
         }
 
         return isFinish || isVictory();
+    }
+
+    public void saveStateOfGame() {
+        copyOfBoard = board.clone();
+        copyOfCurrentPlayer = currentPlayer;
+    }
+
+    public void loadSavedState() {
+        board.copyBoard(copyOfBoard);
+        currentPlayer = copyOfCurrentPlayer;
     }
 
     public GamePanel getPanel() {
