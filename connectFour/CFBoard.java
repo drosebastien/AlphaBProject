@@ -92,6 +92,9 @@ public class CFBoard extends Board {
         return boardCopy;
     }
 
+    public void copyBoard(Board board) {
+    }
+
     public String toString() {
         String line = "";
         for(int i = getHeight() - 1; i >= 0 ; i--) {

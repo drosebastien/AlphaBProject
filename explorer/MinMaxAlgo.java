@@ -5,8 +5,11 @@ import framework.*;
 
 import java.util.ArrayList;
 
+import java.util.concurrent.Semaphore;
+
 public abstract class MinMaxAlgo {
     private ArrayList<MinMaxListener> listeners;
+    private Semaphore semaphore;
     protected int maxDepth;
     protected Game game;
     protected EvalFunction evalFct;
@@ -19,15 +22,39 @@ public abstract class MinMaxAlgo {
         listeners = new ArrayList<MinMaxListener>();
     }
 
-    public abstract Move launchMinMax();
-
     public void addListener(MinMaxListener listener) {
         listeners.add(listener);
     }
 
-    public abstract void playMove(Move move);
+    public void unlock() {
+        System.out.println("MinMaxAlgo: nextbutton");
+        if(semaphore != null && semaphore.availablePermits() == 0) {
+            semaphore.release();
+        }
+    }
 
-    public abstract void removeMove(Move move);
+    public abstract Move launchMinMax();
+
+    public abstract void playMove(Move move, int indexOfMove);
+
+    public abstract void removeMove(Move move, int indexOfMove);
 
     public abstract int evalFunction();
+
+    protected void lock() {
+        semaphore = new Semaphore(0);
+        try {
+            semaphore.acquire();
+        }
+        catch(InterruptedException e) {
+            System.out.println("Trouble for request of semaphore acquirement");
+            e.printStackTrace();
+        }
+    }
+
+    protected void warnListener(boolean moveFoward, int indexOfMove) {
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).locked(moveFoward, indexOfMove);
+        }
+    }
 }

@@ -5,19 +5,20 @@ import tree.*;
 import framework.*;
 
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 
 public class Executor implements MinMaxListener {
     private Game game;
     private GamePanel gamePanel;
     private TreePanel treePanel;
     private TreeNode root;
-    private Semaphore semaphore;
+    private MinMaxAlgo minMaxAlgo;
 
-    public Executor(Game game, GamePanel gamePanel, TreePanel treePanel) {
+    public Executor(Game game, GamePanel gamePanel,
+                    TreePanel treePanel, MinMaxAlgo minMaxAlgo) {
         this.game = game;
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
+        this.minMaxAlgo = minMaxAlgo;
     }
 
     public void setTree(TreeNode root) {
@@ -25,16 +26,11 @@ public class Executor implements MinMaxListener {
     }
 
     public void progress() {
-        System.out.println("executor: nextbutton");
-
-        if(semaphore != null && semaphore.availablePermits() == 0) {
-            semaphore.release();
-        }
+        minMaxAlgo.unlock();
     }
 
     public void progress(ArrayList<Integer> moves) {
-        //je ne fait qu'imprimer dans le terminal le chemin vers lequel il faut
-        //avancer.
+        //je ne fait qu'imprimer dans le terminal le chemin qu'il faut suivre.
         String line = "| ";
         for(int i = 0; i < moves.size(); i++) {
             line += moves.get(i) + " | ";
@@ -43,11 +39,13 @@ public class Executor implements MinMaxListener {
         System.out.println("je dois avancer mon algo en : " + line);
     }
 
-    public void locked(int indexInTreeGame, boolean moveFoward, Semaphore semaphore) {
-        this.semaphore = semaphore;
-    }
-
     public void locked(boolean moveFoward, int indexInTreeGame) {
+        if(moveFoward) {
+            System.out.println("avance");
+        }
+        else {
+            System.out.println("revule");
+        }
     }
 
     public void printMessage(String message) {

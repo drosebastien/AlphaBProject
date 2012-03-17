@@ -27,22 +27,36 @@ public class Processor {
     }
 
     public void launchPedMode() {
+        int maxDepth = 3;
+
         Controller controller = new Controller("sebController");
         game = new Morpion();
         game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
         game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
         game.piecesDistribution();
         Game gameCopy = game.clone();
+
         TreePanel treePanel = new NormalTreePanel();
         treePanel.setController(controller);
         GamePanel gamePanel = gameCopy.getPanel();
         gamePanel.setController(controller);
         mainFrame = new MainFrame(gamePanel, treePanel);
 
-        Explorer explorer = new Explorer(gameCopy, gamePanel, treePanel);
-        Executor executor = new Executor(gameCopy, gamePanel, treePanel);
+        EvalFunction evalFct = new MorpionEvalFunction(gameCopy);
+
+        NormalMorpionMinMax minMaxAlgo = new NormalMorpionMinMax(gameCopy,
+                                                                 maxDepth,
+                                                                 evalFct);
+
+        Explorer explorer = new Explorer(gameCopy, gamePanel,
+                                         treePanel, maxDepth);
+        Executor executor = new Executor(gameCopy, gamePanel,
+                                         treePanel, minMaxAlgo);
+        minMaxAlgo.addListener(executor);
         controller.addExplorer(explorer);
         controller.addExecutor(executor);
+
+        minMaxAlgo.launchMinMax();                                              // à mettre dans explorer.
     }
 
     public void initGame() {

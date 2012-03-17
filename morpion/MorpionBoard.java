@@ -47,6 +47,14 @@ public class MorpionBoard extends Board {
         return boardCopy;
     }
 
+    public void copyBoard(Board board) {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getWidth(); j++) {
+                this.board[i][j] = ((MorpionBoard) board).board[i][j];
+            }
+        }
+    }
+
     public String toString() {
         String line = "";
         for(int i = getWidth() - 1; i >= 0; i--) {
