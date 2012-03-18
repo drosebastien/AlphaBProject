@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 
 public class NormalTreePanel extends TreePanel {
+    private static final int RADIUSNODE = 4;
+
     private ArrayList<JNodePosition> list;
 
     public NormalTreePanel() {
@@ -33,7 +35,8 @@ public class NormalTreePanel extends TreePanel {
 
         list = new ArrayList<JNodePosition>();
         if(root != null) {
-            int rightMargin = JTree.drawTree(50, root, 80, 8, g, list);
+            int rightMargin = JTree.drawTree(50, root, 80, RADIUSNODE * 2,
+                                             g, list);
             setPreferredSize(new Dimension(rightMargin, 800));
             setMaximumSize(new Dimension(rightMargin, 800));
         }
@@ -44,10 +47,12 @@ public class NormalTreePanel extends TreePanel {
         int y = e.getY();
         //System.out.println("x : " + x + "; y : " + y);
         for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).isIn(x - 5, y - 5, x + 5, y + 5)) {
+            if(list.get(i).isIn(x - RADIUSNODE, y - RADIUSNODE,
+                                x + RADIUSNODE, y + RADIUSNODE)) {
                 //System.out.println(list.get(i));
                 controller.clickOnNode(isInExplorerMode(),
                                        list.get(i).getTreePos());
+                i = list.size();
             }
         }
     }

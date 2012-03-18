@@ -4,5 +4,5 @@ import framework.*;
 
 public interface EvalFunction {
 
-    public int evalFunction();
+    public int evalFunction(Game game);
 }

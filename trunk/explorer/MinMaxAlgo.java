@@ -10,13 +10,13 @@ import java.util.concurrent.Semaphore;
 public abstract class MinMaxAlgo {
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;
-    protected int maxDepth;
+    private int maxDepth;
     protected Game game;
     protected EvalFunction evalFct;
 
     public MinMaxAlgo(Game game, int maxDepth, EvalFunction evalFct) {
         this.game = game;
-        this.maxDepth = maxDepth;
+        this.maxDepth = maxDepth - 1;
         this.evalFct = evalFct;
 
         listeners = new ArrayList<MinMaxListener>();
@@ -27,10 +27,13 @@ public abstract class MinMaxAlgo {
     }
 
     public void unlock() {
-        System.out.println("MinMaxAlgo: nextbutton");
         if(semaphore != null && semaphore.availablePermits() == 0) {
             semaphore.release();
         }
+    }
+
+    public int maxDepth() {
+        return maxDepth;
     }
 
     public abstract Move launchMinMax();

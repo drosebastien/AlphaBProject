@@ -12,6 +12,7 @@ public class Executor implements MinMaxListener {
     private TreePanel treePanel;
     private TreeNode root;
     private MinMaxAlgo minMaxAlgo;
+    private Thread thread;
 
     public Executor(Game game, GamePanel gamePanel,
                     TreePanel treePanel, MinMaxAlgo minMaxAlgo) {
@@ -22,13 +23,14 @@ public class Executor implements MinMaxListener {
     }
 
     public void start() {
-        Thread tread = new Thread(new launcher());
-        tread.start();
+        this.thread = new Thread(new launcher());
+        thread.start();
     }
 
     public void restart() {
-        Thread tread = new Thread(new launcher());
-        tread.start();
+        this.thread.stop();                                                     // à changer stop est déprécié.
+        this.thread = new Thread(new launcher());
+        thread.start();
     }
 
     public void setTree(TreeNode root) {
