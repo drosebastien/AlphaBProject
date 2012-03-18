@@ -11,6 +11,7 @@ public class Explorer {
     private Game game;
     private GamePanel gamePanel;
     private TreePanel treePanel;
+    private TreeNode root;
     private Executor executor;
     private ArrayList<Move> lastMoves;
     private int maxDepth;
@@ -26,11 +27,12 @@ public class Explorer {
 
     public void start() {
         makeTreePanel();
+        executor.setTree(root);
         executor.start();
     }
 
     public void makeTreePanel() {
-        TreeNode root = makeTree(maxDepth);
+        root = makeTree(maxDepth);
 
         treePanel.setTreeRootNode(root);
         treePanel.repaint();
@@ -81,6 +83,7 @@ public class Explorer {
 
         makeTreePanel();
 
+        executor.setTree(root);
         executor.restart(); //restart the executor and the MinMax algorithme
         game.saveStateOfGame(); //save the new state of game.
     }
@@ -93,6 +96,7 @@ public class Explorer {
             makeTreePanel();
         }
 
+        executor.setTree(root);
         executor.restart(); //restart the executor and the MinMax algorithme
         game.saveStateOfGame(); //save the new state of game.
     }

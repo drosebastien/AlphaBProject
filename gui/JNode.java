@@ -33,7 +33,7 @@ public class JNode {
             drawLabel(x, y, node.getLabel(), g);
         }
         else {
-            drawNode(x, y, g);
+            drawAncestorNode(x, y, g);
         }
 
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -52,7 +52,7 @@ public class JNode {
             drawLeafLabel(x, y, node.getLabel(), g);
         }
         else {
-            drawNode(x, y, g);
+            drawImportantNode(x, y, g);
         }
 
         ArrayList<Integer> list = new ArrayList<Integer>();
