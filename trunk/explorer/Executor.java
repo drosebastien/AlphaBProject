@@ -21,6 +21,16 @@ public class Executor implements MinMaxListener {
         this.minMaxAlgo = minMaxAlgo;
     }
 
+    public void start() {
+        Thread tread = new Thread(new launcher());
+        tread.start();
+    }
+
+    public void restart() {
+        Thread tread = new Thread(new launcher());
+        tread.start();
+    }
+
     public void setTree(TreeNode root) {
         this.root = root;
     }
@@ -40,15 +50,21 @@ public class Executor implements MinMaxListener {
     }
 
     public void locked(boolean moveFoward, int indexInTreeGame) {
-        if(moveFoward) {
-            System.out.println("avance");
-        }
-        else {
-            System.out.println("revule");
-        }
+        gamePanel.repaint();
     }
 
     public void printMessage(String message) {
         System.out.println("executor : " + message);
+    }
+
+
+    /*
+     * A thread have to be used otherwise everything is blocked by the
+     * lock methode from a MinMaxAlgo.
+     */
+    private class launcher implements Runnable {
+        public void run() {
+            minMaxAlgo.launchMinMax();
+        }
     }
 }

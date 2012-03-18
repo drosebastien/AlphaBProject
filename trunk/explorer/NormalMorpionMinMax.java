@@ -24,9 +24,10 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         ArrayList<Move> listOfPossibleMove =
                                 game.getListOfPossibleMove();
 
+        this.lock();
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
-//            playMove(listOfPossibleMove.get(i), i);
-//            removeMove(listOfPossibleMove.get(i),i);
+            playMove(listOfPossibleMove.get(i), i);
+            removeMove(listOfPossibleMove.get(i),i);
         }
         return null;
     }
@@ -100,6 +101,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
 */
 
     public void playMove(Move move, int indexOfMove) {
+        System.out.println("playMove");
         game.play(move);
 
         warnListener(true, indexOfMove);
@@ -107,6 +109,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
     }
 
     public void removeMove(Move move, int indexOfMove) {
+        System.out.println("removeMove");
         game.removeMove(move);
 
         warnListener(false, indexOfMove);
