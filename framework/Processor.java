@@ -53,10 +53,11 @@ public class Processor {
         Executor executor = new Executor(gameCopy, gamePanel,
                                          treePanel, minMaxAlgo);
         minMaxAlgo.addListener(executor);
+        explorer.addExecutor(executor);
         controller.addExplorer(explorer);
         controller.addExecutor(executor);
 
-        minMaxAlgo.launchMinMax();                                              // à mettre dans explorer.
+        explorer.start();
     }
 
     public void initGame() {

@@ -22,11 +22,14 @@ public class Explorer {
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
         this.maxDepth = maxDepth;
-
-        initTreePanel();
     }
 
-    public void initTreePanel() {
+    public void start() {
+        makeTreePanel();
+        executor.start();
+    }
+
+    public void makeTreePanel() {
         TreeNode root = makeTree(maxDepth);
 
         treePanel.setTreeRootNode(root);
@@ -63,6 +66,8 @@ public class Explorer {
     }
 
     public void moveForward(ArrayList<Integer> moves) {
+        game.loadSavedState(); //load the last game state where explorer stop;
+
         String line = "| ";
         for(int i = 0; i < moves.size(); i++) {
             line += moves.get(i) + " | ";
@@ -73,21 +78,26 @@ public class Explorer {
             lastMoves.add(0, game.getListOfPossibleMove().get(moves.remove(0)));
             game.play(lastMoves.get(0));
         }
-        initTreePanel();
+
+        makeTreePanel();
+
+        executor.restart(); //restart the executor and the MinMax algorithme
+        game.saveStateOfGame(); //save the new state of game.
     }
 
     public void removeLast() {
+        game.loadSavedState(); //load the last game state where explorer stop;
+
         if(lastMoves.size() > 0) {
             game.removeMove(lastMoves.remove(0));
-            initTreePanel();
+            makeTreePanel();
         }
+
+        executor.restart(); //restart the executor and the MinMax algorithme
+        game.saveStateOfGame(); //save the new state of game.
     }
 
     public void addExecutor(Executor executor) {
         this.executor = executor;
-    }
-
-    public void printMessage(String message) {
-        System.out.println("explorer : " + message);
     }
 }
