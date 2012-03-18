@@ -10,7 +10,7 @@ public class Executor implements MinMaxListener {
     private Game game;
     private GamePanel gamePanel;
     private TreePanel treePanel;
-    private TreeNode root;
+    private TreeNode currentNode;
     private MinMaxAlgo minMaxAlgo;
     private Thread thread;
 
@@ -34,7 +34,7 @@ public class Executor implements MinMaxListener {
     }
 
     public void setTree(TreeNode root) {
-        this.root = root;
+        this.currentNode = root;
     }
 
     public void progress() {
@@ -51,14 +51,25 @@ public class Executor implements MinMaxListener {
         System.out.println("je dois avancer mon algo en : " + line);
     }
 
-    public void locked(boolean moveFoward, int indexInTreeGame) {
+    public void locked(boolean moveForward, int indexInTreeGame) {
+        if(moveForward) {
+            currentNode.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
+            currentNode.setLabel("label");
+            currentNode = currentNode.getChild(indexInTreeGame);
+        }
+        else {
+            currentNode.setType(NodeType.VIEWED_NODE);
+            currentNode = currentNode.getParent();
+        }
+        currentNode.setType(NodeType.CURRENTNODE);
+
+        repaintPanels();
+    }
+
+    public void repaintPanels() {
         gamePanel.repaint();
+        treePanel.repaint();
     }
-
-    public void printMessage(String message) {
-        System.out.println("executor : " + message);
-    }
-
 
     /*
      * A thread have to be used otherwise everything is blocked by the
