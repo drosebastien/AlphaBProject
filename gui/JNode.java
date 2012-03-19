@@ -19,6 +19,9 @@ public class JNode {
             JNode.addAncestor(node, x, y, g, nodesPos, treePos);
         }
         // sinon on dessin un noeud normal.
+        else if(node.getType() == NodeType.VIEWED_NODE) {
+            JNode.addViewedNode(node, x, y, g, nodesPos, treePos);
+        }
         else {
             JNode.addNormalNode(node, x, y, g, nodesPos, treePos);
         }
@@ -63,6 +66,25 @@ public class JNode {
         nodesPos.add(new JNodePosition(x, y, list));
     }
 
+    public static void addViewedNode(TreeNode node, int x, int y, Graphics g,
+                                            ArrayList<JNodePosition> nodesPos,
+                                            ArrayList<Integer> treePos) {
+/**
+        if(node.getLabel() != null) {
+            drawViewedNode(x, y, g);
+            drawLabel(x, y, node.getLabel(), g);
+        }
+*/
+        drawViewedNode(x, y, g);
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(int i = 0; i < treePos.size(); i++) {
+            list.add(treePos.get(i));
+        }
+
+        nodesPos.add(new JNodePosition(x, y, list));
+    }
+
     public static void addNormalNode(TreeNode node, int x, int y, Graphics g,
                                             ArrayList<JNodePosition> nodesPos,
                                             ArrayList<Integer> treePos) {
@@ -89,6 +111,15 @@ public class JNode {
         int circonf = 6;
         Color tmp = g.getColor();
         g.setColor(new Color(255, 255, 0));
+        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
+        g.setColor(tmp);
+        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
+    }
+
+    public static void drawViewedNode(int x, int y, Graphics g) {
+        int circonf = 6;
+        Color tmp = g.getColor();
+        g.setColor(new Color(0, 0, 255));
         g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
         g.setColor(tmp);
         g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);

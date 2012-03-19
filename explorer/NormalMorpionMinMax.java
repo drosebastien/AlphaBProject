@@ -22,6 +22,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         if(game.isFinish() || maxDepth() == 0) {
             return null;
         }
+        Player nodePlayer = game.nextPlayer();
 
         int bestValue = MIN_VALUE;
         int bestMoveIndex = 0;
@@ -31,21 +32,24 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         this.lock();
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
-            int tmpValue = minValue(maxDepth() - 1);
-            removeMove(listOfPossibleMove.get(i),i);
+            int tmpValue = minValue(maxDepth() - 1, nodePlayer, i);
+            removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
 
             if(tmpValue > bestValue) {
                 bestMoveIndex = i;
                 bestValue = tmpValue;
+                giveValueToListeners("" + bestValue);
             }
         }
 
         return listOfPossibleMove.get(bestMoveIndex);
     }
 
-    public int minValue(int depth) {
+    public int minValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
-            return evalFunction();
+            int value = evalFunction(nodePlayer);
+            giveValueToListeners("" + value);
+            return value;
         }
 
         int bestValue = MAX_VALUE;
@@ -54,20 +58,23 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
 
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
-            int tmpValue = maxValue(depth - 1);
-            removeMove(listOfPossibleMove.get(i),i);
+            int tmpValue = maxValue(depth - 1, nodePlayer, i);
+            removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
 
             if(tmpValue < bestValue) {
                 bestValue = tmpValue;
+                giveValueToListeners("" + bestValue);
             }
         }
 
         return bestValue;
     }
 
-    public int maxValue(int depth) {
+    public int maxValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
-            return evalFunction();
+            int value = evalFunction(nodePlayer);
+            giveValueToListeners("" + value);
+            return value;
         }
 
         int bestValue = MIN_VALUE;
@@ -76,11 +83,12 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
 
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
-            int tmpValue = minValue(depth - 1);
-            removeMove(listOfPossibleMove.get(i),i);
+            int tmpValue = minValue(depth - 1, nodePlayer, i);
+            removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
 
             if(tmpValue > bestValue) {
                 bestValue = tmpValue;
+                giveValueToListeners("" + bestValue);
             }
         }
 
@@ -89,19 +97,20 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
 
     public void playMove(Move move, int indexOfMove) {
         game.play(move);
+        warnListeners(true, indexOfMove);
+        giveValueToListeners("x");
 
-        warnListener(true, indexOfMove);
         this.lock();
     }
 
-    public void removeMove(Move move, int indexOfMove) {
+    public void removeMove(Move move, int indexOfMove, String label) {
         game.removeMove(move);
 
-        warnListener(false, indexOfMove);
         this.lock();
+        warnListeners(false, indexOfMove);
     }
 
-    public int evalFunction() {
-        return evalFct.evalFunction(game);
+    public int evalFunction(Player player) {
+        return evalFct.evalFunction(game, player);
     }
 }

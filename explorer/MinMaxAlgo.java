@@ -40,9 +40,9 @@ public abstract class MinMaxAlgo {
 
     public abstract void playMove(Move move, int indexOfMove);
 
-    public abstract void removeMove(Move move, int indexOfMove);
+    public abstract void removeMove(Move move, int indexOfMove, String label);
 
-    public abstract int evalFunction();
+    public abstract int evalFunction(Player nodePlayer);
 
     protected void lock() {
         semaphore = new Semaphore(0);
@@ -55,7 +55,13 @@ public abstract class MinMaxAlgo {
         }
     }
 
-    protected void warnListener(boolean moveFoward, int indexOfMove) {
+    protected void giveValueToListeners(String value) {
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).setValueOfNode(value);
+        }
+    }
+
+    protected void warnListeners(boolean moveFoward, int indexOfMove) {
         for(int i = 0; i < listeners.size(); i++) {
             listeners.get(i).locked(moveFoward, indexOfMove);
         }
