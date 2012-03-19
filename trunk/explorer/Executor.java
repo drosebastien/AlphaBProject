@@ -51,10 +51,14 @@ public class Executor implements MinMaxListener {
         System.out.println("je dois avancer mon algo en : " + line);
     }
 
+    public void setValueOfNode(String value) {
+        currentNode.setLabel(value);
+        repaintPanels();
+    }
+
     public void locked(boolean moveForward, int indexInTreeGame) {
         if(moveForward) {
             currentNode.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
-            currentNode.setLabel("label");
             currentNode = currentNode.getChild(indexInTreeGame);
         }
         else {
