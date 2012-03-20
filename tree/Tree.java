@@ -19,6 +19,15 @@ public class Tree {
         return nbNodes;
     }
 
+    public static void removeStatesOfTree(TreeNode node) {
+        node.setType(NodeType.NEITHER);
+        node.removeLabel();
+        for(int i = 0; i < node.getNbChild(); i++) {
+            removeStatesOfTree(node.getChild(i));
+            
+        }
+    }
+
     public static TreeNode getNode(ArrayList<Integer> pos, TreeNode node) {
         if(pos.size() == 0) {
             return node;

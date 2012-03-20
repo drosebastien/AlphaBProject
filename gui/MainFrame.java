@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
 public class MainFrame extends JFrame {
@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
     private JButton button;
     private JButton nextButton;
     private JButton previousButton;
-    private JRadioButton radioButton;
+    private JCheckBox checkBox;
 
     public MainFrame(GamePanel gPanel, TreePanel treePanel) {
         super("Exploration algorithm");
@@ -52,8 +52,9 @@ public class MainFrame extends JFrame {
         this.gamePanel = gPanel;
         JLabel explorerLabel = new JLabel("Explorer");
 
-        radioButton = new JRadioButton();
-        radioButton.addActionListener(new ExplorerListener());
+        checkBox = new JCheckBox();
+        checkBox.addActionListener(new ExplorerListener());
+
 
         button = new JButton("OK");
         button.addActionListener(new OKListener());
@@ -99,7 +100,7 @@ public class MainFrame extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.BASELINE;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        add(radioButton, gbc);
+        add(checkBox, gbc);
 
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -144,7 +145,7 @@ public class MainFrame extends JFrame {
 
     public class ExplorerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if(radioButton.isSelected()) {
+            if(checkBox.isSelected()) {
                 gamePanel.setInExplorerMode(true);
                 treePanel.setInExplorerMode(true);
             }
