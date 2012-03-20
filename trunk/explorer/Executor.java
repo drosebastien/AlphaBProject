@@ -70,6 +70,10 @@ public class Executor implements MinMaxListener {
         repaintPanels();
     }
 
+    public void refreshTree() {
+        Tree.removeStatesOfTree(currentNode);
+    }
+
     public void repaintPanels() {
         gamePanel.repaint();
         treePanel.repaint();

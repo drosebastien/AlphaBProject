@@ -42,6 +42,10 @@ public class TreeNode {
         this.label = label;
     }
 
+    public void removeLabel() {
+        this.label = null;
+    }
+
     public String getLabel() {
         return label;
     }

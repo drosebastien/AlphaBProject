@@ -61,6 +61,12 @@ public abstract class MinMaxAlgo {
         }
     }
 
+    protected void refreshTreeOfListener() {
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).refreshTree();
+        }
+    }
+
     protected void warnListeners(boolean moveFoward, int indexOfMove) {
         for(int i = 0; i < listeners.size(); i++) {
             listeners.get(i).locked(moveFoward, indexOfMove);
