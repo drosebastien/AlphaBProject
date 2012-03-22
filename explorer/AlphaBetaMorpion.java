@@ -66,7 +66,7 @@ public class AlphaBetaMorpion extends MinMaxAlgo {
 
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]"); // beta = bestvalue
+            giveValueToListeners("[" + alpha + ", " + beta + "]");
             int tmpValue = maxValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
 
@@ -101,7 +101,7 @@ public class AlphaBetaMorpion extends MinMaxAlgo {
 
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]"); // alpha = bestValue
+            giveValueToListeners("[" + alpha + ", " + beta + "]");
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
 
