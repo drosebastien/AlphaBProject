@@ -113,7 +113,7 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
 
     public void playMove(Move move, int indexOfMove) {
         game.play(move);
-        warnListeners(true, indexOfMove);
+        warnListeners(Movement.FORWARD, indexOfMove);
         giveValueToListeners("x");
 
         this.lock();
@@ -123,7 +123,7 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
         game.removeMove(move);
 
         this.lock();
-        warnListeners(false, indexOfMove);
+        warnListeners(Movement.BACKWARD, indexOfMove);
     }
 
     public int evalFunction(Player player) {

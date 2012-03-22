@@ -27,7 +27,7 @@ public class Processor {
     }
 
     public void launchPedMode() {
-        int maxDepth = 5;
+        int maxDepth = 4;
 
         Controller controller = new Controller("sebController");
         game = new Morpion();
@@ -52,13 +52,13 @@ public class Processor {
 //                                                                 maxDepth,
 //                                                                 evalFct);
 
-//        MinMaxAlgo minMaxAlgo = new AlphaBetaMorpion(gameCopy,
-//                                                                 maxDepth,
-//                                                                 evalFct);
-
-        MinMaxAlgo minMaxAlgo = new IterAlphaBetaMorpion(gameCopy,
+        MinMaxAlgo minMaxAlgo = new AlphaBetaMorpion(gameCopy,
                                                                  maxDepth,
                                                                  evalFct);
+
+//        MinMaxAlgo minMaxAlgo = new IterAlphaBetaMorpion(gameCopy,
+//                                                                 maxDepth,
+//                                                                 evalFct);
 
         Explorer explorer = new Explorer(gameCopy, gamePanel,
                                          treePanel, maxDepth);

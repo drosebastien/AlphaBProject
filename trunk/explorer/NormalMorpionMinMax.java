@@ -7,8 +7,6 @@ import tree.*;
 import java.util.ArrayList;
 
 public class NormalMorpionMinMax extends MinMaxAlgo {
-    private static final int MAX_VALUE = Integer.MAX_VALUE;
-    private static final int MIN_VALUE = - Integer.MIN_VALUE;
 
     public NormalMorpionMinMax(Game game, int maxDepth, EvalFunction evalFct) {
         super(game, maxDepth, evalFct);
@@ -29,7 +27,10 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         ArrayList<Move> listOfPossibleMove =
                                 game.getListOfPossibleMove();
 
+        warnListeners(Movement.NEUTRAL, 0);
+        giveValueToListeners("x");
         this.lock();
+
         for(int i = 0; i < listOfPossibleMove.size(); i++) {
             playMove(listOfPossibleMove.get(i), i);
             int tmpValue = minValue(maxDepth() - 1, nodePlayer, i);
@@ -40,6 +41,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue);
             }
+            this.lock();
         }
 
         return listOfPossibleMove.get(bestMoveIndex);
@@ -49,8 +51,11 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
             giveValueToListeners("" + value);
+            this.lock();
             return value;
         }
+
+        this.lock();
 
         int bestValue = MAX_VALUE;
         ArrayList<Move> listOfPossibleMove =
@@ -65,6 +70,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue);
             }
+            this.lock();
         }
 
         return bestValue;
@@ -74,8 +80,11 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
             giveValueToListeners("" + value);
+            this.lock();
             return value;
         }
+
+        this.lock();
 
         int bestValue = MIN_VALUE;
         ArrayList<Move> listOfPossibleMove =
@@ -90,6 +99,7 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue);
             }
+            this.lock();
         }
 
         return bestValue;
@@ -97,17 +107,13 @@ public class NormalMorpionMinMax extends MinMaxAlgo {
 
     public void playMove(Move move, int indexOfMove) {
         game.play(move);
-        warnListeners(true, indexOfMove);
+        warnListeners(Movement.FORWARD, indexOfMove);
         giveValueToListeners("x");
-
-        this.lock();
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
+        warnListeners(Movement.BACKWARD, indexOfMove);
         game.removeMove(move);
-
-        this.lock();
-        warnListeners(false, indexOfMove);
     }
 
     public int evalFunction(Player player) {

@@ -52,7 +52,12 @@ public class JNode {
                                             ArrayList<Integer> treePos) {
         if(node.getLabel() != null) {
             drawImportantNode(x, y, g);
-            drawLeafLabel(x, y, node.getLabel(), g);
+            if(node instanceof LeafNode) {
+                drawLeafLabel(x, y, node.getLabel(), g);
+            }
+            else {
+                drawLabel(x, y, node.getLabel(), g);
+            }
         }
         else {
             drawImportantNode(x, y, g);
@@ -135,16 +140,19 @@ public class JNode {
     }
 
     public static void drawLabel(int x, int y, String label, Graphics g) {
-        int width = 40;
+        int width = 80;
         int height = 20;
         int margin = 5;
+        int leftD = (int) (width * 7./8);
 
         Color tmp = g.getColor();
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(x - width - margin, y - height / 2, width, height);
+        g.fillRect(x - leftD - margin, y - (height + 5),
+                   width, height);
         g.setColor(tmp);
-        g.drawString(label, x - width, y + height / 2 - 5);
-        g.drawRect(x - width - margin, y - height / 2, width, height);
+        g.drawString(label, x - leftD, y - height + 10);
+        g.drawRect(x - leftD - margin, y - (height + 5),
+                   width, height);
     }
 
     public static void drawLeafLabel(int x, int y, String label, Graphics g) {
