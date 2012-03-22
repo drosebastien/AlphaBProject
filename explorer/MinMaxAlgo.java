@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public abstract class MinMaxAlgo {
+    protected static final int MAX_VALUE = 1;
+    protected static final int MIN_VALUE = 0;
+
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;
     private int maxDepth;
@@ -67,9 +70,9 @@ public abstract class MinMaxAlgo {
         }
     }
 
-    protected void warnListeners(boolean moveFoward, int indexOfMove) {
+    protected void warnListeners(Movement move, int indexOfMove) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).locked(moveFoward, indexOfMove);
+            listeners.get(i).moved(move, indexOfMove);
         }
     }
 }

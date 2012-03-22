@@ -56,10 +56,13 @@ public class Executor implements MinMaxListener {
         repaintPanels();
     }
 
-    public void locked(boolean moveForward, int indexInTreeGame) {
-        if(moveForward) {
+    public void moved(Movement move, int indexInTreeGame) {
+        if(move == Movement.FORWARD) {
             currentNode.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
             currentNode = currentNode.getChild(indexInTreeGame);
+        }
+        else if(move == Movement.NEUTRAL) {
+            currentNode.setType(NodeType.CURRENTNODE);
         }
         else {
             currentNode.setType(NodeType.VIEWED_NODE);
