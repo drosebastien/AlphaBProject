@@ -37,7 +37,9 @@ public abstract class Game {
 
     public abstract void removeMove(Move move);
 
-    public abstract ArrayList<Move> getListOfPossibleMove();
+    public abstract ArrayList<Move> getListOfPossibleMoves();
+
+    public abstract MoveIterator getPossibleMoves();
 
     public abstract boolean isFinish();
 

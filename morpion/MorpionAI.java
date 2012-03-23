@@ -17,12 +17,12 @@ public class MorpionAI extends AI {
     public Move minimax() {
         int maxValue = -200;
         int bestMoveIndex = 0;
-        ArrayList<Move> listOfPossibleMove =
-                                game.getListOfPossibleMove();
-        for(int i = 0; i < listOfPossibleMove.size(); i++) {
-            game.play(listOfPossibleMove.get(i));
+        ArrayList<Move> listOfPossibleMoves =
+                                game.getListOfPossibleMoves();
+        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+            game.play(listOfPossibleMoves.get(i));
             int value = minValue();
-            game.removeMove(listOfPossibleMove.get(i));
+            game.removeMove(listOfPossibleMoves.get(i));
             if(value > maxValue) {
                 maxValue = value;
                 bestMoveIndex = i;
@@ -30,7 +30,7 @@ public class MorpionAI extends AI {
         }
         System.out.println("maxValue " + maxValue);
 
-        return listOfPossibleMove.get(bestMoveIndex);
+        return listOfPossibleMoves.get(bestMoveIndex);
     }
 
     public int minValue() {
@@ -43,11 +43,11 @@ public class MorpionAI extends AI {
             }
         }
         int minValue = 200;
-        ArrayList<Move> listOfPossibleMove = game.getListOfPossibleMove();
-        for(int i = 0; i < listOfPossibleMove.size(); i++) {
-            game.play(listOfPossibleMove.get(i));
+        ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
+        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+            game.play(listOfPossibleMoves.get(i));
             int value = maxValue();
-            game.removeMove(listOfPossibleMove.get(i));
+            game.removeMove(listOfPossibleMoves.get(i));
             if(value < minValue) {
                 minValue = value;
             }
@@ -66,12 +66,12 @@ public class MorpionAI extends AI {
             }
         }
         int maxValue = -200;
-        ArrayList<Move> listOfPossibleMove = game.getListOfPossibleMove();
+        ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
 
-        for(int i = 0; i < listOfPossibleMove.size(); i++) {
-            game.play(listOfPossibleMove.get(i));
+        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+            game.play(listOfPossibleMoves.get(i));
             int value = minValue();
-            game.removeMove(listOfPossibleMove.get(i));
+            game.removeMove(listOfPossibleMoves.get(i));
             if(value > maxValue) {
                 maxValue = value;
             }

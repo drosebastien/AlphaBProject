@@ -44,21 +44,15 @@ public class Processor {
 
         EvalFunction evalFct = new MorpionEvalFunction();
 
-//        MinMaxAlgo minMaxAlgo = new NormalMorpionMinMax(gameCopy,
-//                                                                 maxDepth,
-//                                                                 evalFct);
+//        MinMaxAlgo minMaxAlgo = new NormalMinMax(gameCopy, maxDepth, evalFct);
 
-//        MinMaxAlgo minMaxAlgo = new IterativeMinMaxMorpion(gameCopy,
-//                                                                 maxDepth,
-//                                                                 evalFct);
+//        MinMaxAlgo minMaxAlgo = new IterativeMinMax(gameCopy, maxDepth,
+//                                                              evalFct);
 
-        MinMaxAlgo minMaxAlgo = new AlphaBetaMorpion(gameCopy,
-                                                                 maxDepth,
+//        MinMaxAlgo minMaxAlgo = new AlphaBeta(gameCopy, maxDepth, evalFct);
+
+        MinMaxAlgo minMaxAlgo = new IterativeAlphaBeta(gameCopy, maxDepth,
                                                                  evalFct);
-
-//        MinMaxAlgo minMaxAlgo = new IterAlphaBetaMorpion(gameCopy,
-//                                                                 maxDepth,
-//                                                                 evalFct);
 
         Explorer explorer = new Explorer(gameCopy, gamePanel,
                                          treePanel, maxDepth);

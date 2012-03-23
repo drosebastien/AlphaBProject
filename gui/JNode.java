@@ -12,14 +12,14 @@ public class JNode {
                                             ArrayList<JNodePosition> nodesPos,
                                             ArrayList<Integer> treePos) {
         //*
-        if(node.getType() == NodeType.CURRENTNODE) {
+        if(node.getType() == NodeType.CURRENT) {
             JNode.addCurrent(node, x, y, g, nodesPos, treePos);
         }
-        else if(node.getType() == NodeType.ANCESTOR_OF_CURRENT_NODE) {
+        else if(node.getType() == NodeType.ANCESTOR_OF_CURRENT) {
             JNode.addAncestor(node, x, y, g, nodesPos, treePos);
         }
         // sinon on dessin un noeud normal.
-        else if(node.getType() == NodeType.VIEWED_NODE) {
+        else if(node.getType() == NodeType.VIEWED) {
             JNode.addViewedNode(node, x, y, g, nodesPos, treePos);
         }
         else {
