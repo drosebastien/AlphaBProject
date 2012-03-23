@@ -56,20 +56,24 @@ public class Morpion extends Game {
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
-    public ArrayList<Move> getListOfPossibleMove() {
-        ArrayList<Move> listOfPossibleMove = new ArrayList<Move>();
+    public ArrayList<Move> getListOfPossibleMoves() {
+        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
         MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();
 
         for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
             for(int j = 0; j < ((MorpionBoard) board).getWidth(); j++) {
                 if(board.isFree(new MorpionPosition(i, j))) {
-                    listOfPossibleMove.add(new MorpionMove(
+                    listOfPossibleMoves.add(new MorpionMove(
                                     new MorpionPosition(i, j), piece));
                 }
             }
         }
 
-        return listOfPossibleMove;
+        return listOfPossibleMoves;
+    }
+
+    public MoveIterator getPossibleMoves() {
+        return new MoveIterator(getListOfPossibleMoves());
     }
 
     public boolean isVictory() {

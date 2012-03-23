@@ -57,18 +57,20 @@ public class Executor implements MinMaxListener {
     }
 
     public void moved(Movement move, int indexInTreeGame) {
-        if(move == Movement.FORWARD) {
-            currentNode.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
-            currentNode = currentNode.getChild(indexInTreeGame);
+        switch(move) {
+            case FORWARD :
+                currentNode.setType(NodeType.ANCESTOR_OF_CURRENT);
+                currentNode = currentNode.getChild(indexInTreeGame);
+                break;
+            case BACKWARD :
+                currentNode.setType(NodeType.VIEWED);
+                currentNode = currentNode.getParent();
+                break;
+            default :
+                break;
         }
-        else if(move == Movement.NEUTRAL) {
-            currentNode.setType(NodeType.CURRENTNODE);
-        }
-        else {
-            currentNode.setType(NodeType.VIEWED_NODE);
-            currentNode = currentNode.getParent();
-        }
-        currentNode.setType(NodeType.CURRENTNODE);
+
+        currentNode.setType(NodeType.CURRENT);
 
         repaintPanels();
     }

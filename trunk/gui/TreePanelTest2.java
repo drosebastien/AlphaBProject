@@ -37,7 +37,7 @@ public class TreePanelTest2 extends TreePanel {
         TreeNode root = Tree.makeTree(8, 4);
         int[] tab = {1, 0};
         root.setLabel("[0, 1]");
-        root.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
+        root.setType(NodeType.ANCESTOR_OF_CURRENT);
         ArrayList<Integer> pos = new ArrayList<Integer>();
         for(int i = 0; i < tab.length; i++) {
             for(int j = 0; j <= i; j++) {
@@ -46,12 +46,12 @@ public class TreePanelTest2 extends TreePanel {
             if(i < tab.length - 1) {
                     TreeNode node = Tree.getNode(pos, root);
                     node.setLabel("["+ (i + 1) + ", " + (i + 2) + "]");
-                    node.setType(NodeType.ANCESTOR_OF_CURRENT_NODE);
+                    node.setType(NodeType.ANCESTOR_OF_CURRENT);
             }
             else {
                 TreeNode node = Tree.getNode(pos, root);
                 node.setLabel("" + i);
-                node.setType(NodeType.CURRENTNODE);
+                node.setType(NodeType.CURRENT);
             }
         }
         //*/TreeNode root = getTreeTest();

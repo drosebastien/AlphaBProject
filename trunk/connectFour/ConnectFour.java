@@ -50,17 +50,21 @@ public class ConnectFour extends Game {
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
-    public ArrayList<Move> getListOfPossibleMove() {
-        ArrayList<Move> listOfPossibleMove = new ArrayList<Move>();
+    public ArrayList<Move> getListOfPossibleMoves() {
+        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
         CFPiece piece = (CFPiece) nextPlayer().getPiece();
 
         for(int i = 0; i < ((CFBoard) board).getWidth(); i++) {
             if(board.isFree(new CFPosition(i))) {
-                listOfPossibleMove.add(new CFMove(new CFPosition(i), piece));
+                listOfPossibleMoves.add(new CFMove(new CFPosition(i), piece));
             }
         }
 
-        return listOfPossibleMove;
+        return listOfPossibleMoves;
+    }
+
+    public MoveIterator getPossibleMoves() {
+        return new MoveIterator(getListOfPossibleMoves());
     }
 
     public boolean isVictory() {
