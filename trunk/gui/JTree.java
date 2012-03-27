@@ -3,83 +3,184 @@ package gui;
 import tree.*;
 
 import java.awt.Graphics;
-import java.awt.Color;
-
 import java.util.ArrayList;
 
-public class JTree {
-    public static int drawTree(int leftMargin, TreeNode node, int height,
-                     int space, Graphics g, ArrayList<JNodePosition> nodesPos) {
-        ArrayList<Integer> treePos = new ArrayList<Integer>();
-        if(node.getNbChild() == 0) {
-            JNode.addNode(node, leftMargin, height, g, nodesPos, treePos);
+/**
+ * Cette classe permet la création d'un arbre graphique à partir d'un arbre
+ * constitué de TreeNode.
+ * @author Sebastien Drobisz.
+ */
+public class JTree{
+    private int leftMargin;
+    private int tmpLeftMargin;
+    private int topMargin;
+    private int heightOfNode;
+    private int gap;
+    private JNode root;
 
-            return leftMargin;
-        }
-        else {
-            JTreeMargin treeM = drawTree(leftMargin, node, 1, height, space,
-                                         g, nodesPos, treePos);
-
-            return treeM.getRightMargin();
-        }
+    /**
+     * Ce constructeur permet d'initialiser les constantes caractérisant l'arbre
+     * et ses noeuds.
+     * @param leftMargin La marge gauche où commence l'arbre.
+     * @param topMargin La marge du dessus où est placé la racine.
+     * @param heightOfNode La différence de hauteur entre deux noeuds.
+     * @param gap La distance minimum en largeur entre deux noeuds de même père.
+     */
+    public JTree(int leftMargin, int topMargin, int heightOfNode, int gap) {
+        this.leftMargin = leftMargin;
+        this.tmpLeftMargin = leftMargin;
+        this.topMargin = topMargin;
+        this.heightOfNode = heightOfNode;
+        this.gap = gap;
     }
 
-    private static JTreeMargin drawTree(int leftMargin, TreeNode node,
-                                int depth, int height, int space, Graphics g,
-                                ArrayList<JNodePosition> nodesPos,
-                                ArrayList<Integer> treePos) {
+    /**
+     * Permet d'initialiser l'arbre graphique à partir d'un arbre défini par
+     * des TreeNode.
+     * @param node La racine de l'arbre constitué de TreeNode.
+     */
+    public void initTree(TreeNode node) {
+        tmpLeftMargin = leftMargin;
+        createTree(node, null, topMargin);
+    }
 
-        int nbChild = node.getNbChild();
-        int[] rightMargins = new int[nbChild + 1];
-        rightMargins[0] = leftMargin;
-        int[] childPositions = new int[nbChild];
+    /*
+     * Méthode permettant vraiment de lancer la création de l'arbre.
+     */
+    private void createTree(TreeNode node, JNode parentNode, int depth) {
 
-        //determination de la position des noeuds fils.
-        for(int i = 0; i < nbChild; i++) {
-            // on ajoute l'entrée du fils. En fait elle sera effacée juste après
-            // et ne sera plus présente dans le noeud courant. toutefois, elle 
-            // le restera pour les fils du noeuds courant. Ainsi, on aura les
-            // entrée jusqu'au père.
-            treePos.add(i);
-            JTreeMargin treeM = drawTree(rightMargins[i], node.getChild(i),
-                                         depth + 1, height, space, g, nodesPos,
-                                         treePos);
-            treePos.remove(treePos.size() - 1); // efface la dernière entrée.
-            rightMargins[i + 1] = treeM.getRightMargin();
-            childPositions[i] = treeM.getCenterOfRoot();
+        JNode currentNode = createNode(node, parentNode);
+        currentNode.setY(depth);
+        if(parentNode == null) { // si pas de père
+            root = currentNode;  // alors noeud courant = racine de l'arbre.
+        }
+        else {
+            parentNode.addChildNode(currentNode);
         }
 
-        // si le noeud courant est une feuille, on ne dessine rien
-        if(nbChild == 0) {
-            return new JTreeMargin(leftMargin, rightMargins[0] + space);
+        if(node.getNbChild() > 0) { // si ce n'est pas une feuille.
+            for(int i = 0; i < node.getNbChild(); i++) {
+                 createTree(node.getChild(i), currentNode,
+                            depth + heightOfNode);
+            }
+
+            // position en x est calculé par rapport à la position de son fils
+            // le plus à gauche (g) avec celui le plus à droite (d).
+            // (d - g) / 2 + g
+            int nbChild = currentNode.getNbChild();
+            int g = ((JNode) currentNode.getChild(0)).getX();
+            int d = ((JNode) currentNode.getChild(nbChild - 1)).getX();
+
+            currentNode.setX((int) ((d - g) / 2. + g));
         }
-        // sinon on dessine un ligne vers chacun de ses fils.
-        int nodePos = (childPositions[nbChild - 1] -
-                       childPositions[0]) / 2 + childPositions[0];
-
-        for(int i = 0; i < nbChild; i++) {
-            g.drawLine(childPositions[i], (depth + 1) * height, nodePos,
-                       depth * height);
-
-            // à partir d'ici, les seules entrées présente dans treePos sont 
-            // celle jusqu'au père. Il faut donc rajoutere celle du fils.
-            treePos.add(i);
-
-            JNode.addNode(node.getChild(i), childPositions[i],
-                     (depth + 1) * height, g, nodesPos, treePos);
-
-            treePos.remove(treePos.size() - 1); //on supprime la dernière entrée de la liste.
-        }
-        /*
-         * si depth == 1 alors, on dessine la racine. Normalement c'est au
-         * noeud père de dessiner le fils, mais la raçine n'en a pas.
-         * elle dessine donc son noeud quand toutes les arêtes sont
-         * dessinées
-         */
-        if(depth == 1) {
-            JNode.addNode(node, nodePos, depth * height, g, nodesPos, treePos);
+        else { // si c'est une feuille la position en x = la marge de gauche.
+            currentNode.setX(tmpLeftMargin);
         }
 
-        return new JTreeMargin(nodePos, rightMargins[nbChild] + space);
+        tmpLeftMargin += gap;
+    }
+
+    /**
+     * Cette méthode retourne le chemin menant au noeud possédant les
+     * coordonnées passées en paramètre. Si aucun noeud ne corresponde, une
+     * Exception est lancée.
+     * @param x L'abscisse du noeud potentiel à chercher.à rechercher.
+     * @param y L'ordonnée du noeud potentiel 
+     */
+    public int[] getPathToCoordinate(int x, int y)
+                                            throws NodeNotFoundException {
+        ArrayList<Integer> path = new ArrayList<Integer>();
+
+        boolean isNode = isPathToCoordinate(x, y, root, path);
+        if(! isNode) {
+            throw new NodeNotFoundException(x, y);
+        }
+
+        int[] tabPath = new int[path.size()];
+        int i = 0;
+        while(path.size() > 0) {
+            tabPath[i] = path.remove(0);
+            i++;
+        }
+
+        return tabPath;
+    }
+
+    private boolean isPathToCoordinate(int x, int y, JNode current,
+                                       ArrayList<Integer> path) {
+
+        if(x < current.getX() + 4 && x > current.getX() - 4 &&
+           y < current.getY() + 4 && y > current.getY() - 4) {
+
+           return true;
+        }
+
+        for(int i = 0; i < current.getNbChild(); i++) {
+            if(isPathToCoordinate(x, y, (JNode) current.getChild(i), path)) {
+                path.add(0, i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Cette méthode permet de connaitre la position du point le plus à droite
+     * de l'arbre.
+     * @return l'abscisse du point le plus à droite de l'arbre.
+     */
+    public int getRightMargin() {
+        return tmpLeftMargin;
+    }
+
+    /*
+     * Méthode permettant la création d'un noeud graphique.
+     */
+    private JNode createNode(TreeNode node, JNode parentNode) {
+        JNode newNode = null;
+
+        switch(node.getType()) {
+            case VIEWED:
+                newNode = new JViewedNode(parentNode);
+                break;
+            case CURRENT:
+                newNode = new JCurrentNode(parentNode);
+                break;
+            case ANCESTOR_OF_CURRENT:
+                newNode = new JAncestorNode(parentNode);
+                break;
+            default:
+                newNode = new JNode(parentNode);
+        }
+
+        newNode.copyState(node);
+
+        return newNode;
+    }
+
+    /**
+     * Cette méthode dessine un arbre initialisé sur un Graphics donné.
+     * @param g Le Graphics sur lequel dessiner l'arbre.
+     */
+    public void paintComponent(Graphics g) throws Exception {
+        if(root == null) {
+            throw new Exception();
+        }
+        paintTree(g, root);
+        root.paintNode(g);
+        root.paintLabel(g);
+    }
+
+    private void paintTree(Graphics g, JNode current) {
+        for(int i = 0; i < current.getNbChild(); i++) {
+            paintTree(g, (JNode) current.getChild(i));
+        }
+
+        for(int i = 0; i < current.getNbChild(); i++) {
+            ((JNode) current.getChild(i)).printEdgeToParent(g);
+            ((JNode) current.getChild(i)).paintNode(g);
+            ((JNode) current.getChild(i)).paintLabel(g);
+        }
     }
 }

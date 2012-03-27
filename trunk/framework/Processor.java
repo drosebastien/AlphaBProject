@@ -65,7 +65,7 @@ public class Processor {
 
         explorer.start();
     }
-
+/**
     public void initGame() {
         Controller controller = new Controller("sebController");
         game = new Morpion();
@@ -76,7 +76,7 @@ public class Processor {
         mainFrame = new MainFrame(gamePanel, treePanel);
         //game = new ConnectFour();
     }
-
+*/
     public void giveGameCopy(Game game) {
         for(int i = 0; i < players.size(); i++) {
             players.get(i).setGame(game);

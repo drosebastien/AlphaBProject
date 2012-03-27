@@ -74,17 +74,17 @@ public class Explorer {
         }
     }
 
-    public void moveForward(ArrayList<Integer> moves) {
+    public void moveForward(int[] moves) {
         game.loadSavedState(); //load the last game state where explorer stop;
 
         String line = "| ";
-        for(int i = 0; i < moves.size(); i++) {
-            line += moves.get(i) + " | ";
+        for(int i = 0; i < moves.length; i++) {
+            line += moves[i] + " | ";
         }
 
-        int size = moves.size();
+        int size = moves.length;
         for(int i = 0; i < size; i++) {
-            Move tmp = game.getListOfPossibleMoves().get(moves.remove(0));
+            Move tmp = game.getListOfPossibleMoves().get(moves[i]);
             lastMoves.add(0, tmp);
             game.play(lastMoves.get(0));
         }

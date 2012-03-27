@@ -11,8 +11,7 @@ public class Controller {
         this.name = name;
     }
 
-    public void clickOnNode(boolean inExplorerMode,
-                            ArrayList<Integer> treePosition) {
+    public void clickOnNode(boolean inExplorerMode, int[] treePosition) {
 
         if(inExplorerMode) {
             explorer.moveForward(treePosition);
