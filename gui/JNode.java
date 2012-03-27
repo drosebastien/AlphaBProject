@@ -5,161 +5,105 @@ import tree.*;
 import java.awt.Graphics;
 import java.awt.Color;
 
-import java.util.ArrayList;
-
-public class JNode {
-        public static void addNode(TreeNode node, int x, int y, Graphics g,
-                                            ArrayList<JNodePosition> nodesPos,
-                                            ArrayList<Integer> treePos) {
-        //*
-        if(node.getType() == NodeType.CURRENT) {
-            JNode.addCurrent(node, x, y, g, nodesPos, treePos);
-        }
-        else if(node.getType() == NodeType.ANCESTOR_OF_CURRENT) {
-            JNode.addAncestor(node, x, y, g, nodesPos, treePos);
-        }
-        // sinon on dessin un noeud normal.
-        else if(node.getType() == NodeType.VIEWED) {
-            JNode.addViewedNode(node, x, y, g, nodesPos, treePos);
-        }
-        else {
-            JNode.addNormalNode(node, x, y, g, nodesPos, treePos);
-        }
-        //*/
-    }
-
-    public static void addAncestor(TreeNode node, int x, int y, Graphics g,
-                                            ArrayList<JNodePosition> nodesPos,
-                                            ArrayList<Integer> treePos) {
-        if(node.getLabel() != null) {
-            drawAncestorNode(x, y, g);
-            drawLabel(x, y, node.getLabel(), g);
-        }
-        else {
-            drawAncestorNode(x, y, g);
-        }
-
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < treePos.size(); i++) {
-            list.add(treePos.get(i));
-        }
-
-        nodesPos.add(new JNodePosition(x, y, list));
-    }
-
-    public static void addCurrent(TreeNode node, int x, int y, Graphics g,
-                                            ArrayList<JNodePosition> nodesPos,
-                                            ArrayList<Integer> treePos) {
-        if(node.getLabel() != null) {
-            drawImportantNode(x, y, g);
-            if(node instanceof LeafNode) {
-                drawLeafLabel(x, y, node.getLabel(), g);
-            }
-            else {
-                drawLabel(x, y, node.getLabel(), g);
-            }
-        }
-        else {
-            drawImportantNode(x, y, g);
-        }
-
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < treePos.size(); i++) {
-            list.add(treePos.get(i));
-        }
-
-        nodesPos.add(new JNodePosition(x, y, list));
-    }
-
-    public static void addViewedNode(TreeNode node, int x, int y, Graphics g,
-                                            ArrayList<JNodePosition> nodesPos,
-                                            ArrayList<Integer> treePos) {
 /**
-        if(node.getLabel() != null) {
-            drawViewedNode(x, y, g);
-            drawLabel(x, y, node.getLabel(), g);
-        }
-*/
-        drawViewedNode(x, y, g);
+ * Cette classe représente le nœud normal d'un arbre graphique.
+ * @author Sebastien Drobisz
+ */
+public class JNode extends TreeNode{
+    protected int x;
+    protected int y;
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < treePos.size(); i++) {
-            list.add(treePos.get(i));
-        }
-
-        nodesPos.add(new JNodePosition(x, y, list));
+    /**
+     * Le constructeur d'un JNode permet de définir le père du noeud créé.
+     * null si pas de père.
+     * @param parent Le noeud père du noeud à créer.
+     */
+    public JNode(JNode parent) {
+        super(parent);
     }
 
-    public static void addNormalNode(TreeNode node, int x, int y, Graphics g,
-                                            ArrayList<JNodePosition> nodesPos,
-                                            ArrayList<Integer> treePos) {
-        drawNode(x, y, g);
-
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < treePos.size(); i++) {
-            list.add(treePos.get(i));
-        }
-
-        nodesPos.add(new JNodePosition(x, y, list));
+    /**
+     * Cette méthode permet de copier le contenu d'un TreeNode, i.e., son type
+     * et son label dans le noeud graphique.
+     * @param node Le TreeNode dont les données doivent être copiée.
+     */
+    public void copyState(TreeNode node) {
+        setType(node.getType());
+        setLabel(node.getLabel());
     }
 
-    public static void drawNode(int x, int y, Graphics g) {
+    /**
+     * Cette méthode permet de donner la position en abscisse du noeud.
+     * @param x La position en abscisse du noeud.
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Cette méthode permet de donner la position en ordonnée du noeud.
+     * @param y La position en ordonnée du noeud.
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    /**
+     * Cette méthode permet de retourner la position en abscisse du noeud.
+     * @return L'abscisse du noeud.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Cette méthode permet de retourner la position en ordonnée du noeud.
+     * @return L'ordonnée du noeud.
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * Cette méthode permet de dessiner le noeud sur un Graphics.
+     * @param g Le Graphics où dessiner le noeud.
+     */
+    public void paintNode(Graphics g) {
         int circonf = 6;
+
         Color tmp = g.getColor();
-        g.setColor(new Color(255, 255, 255));
+        int grayLvl = 150;
+        g.setColor(new Color(grayLvl, grayLvl, grayLvl + 10));
         g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(tmp);
-        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-    }
-
-    public static void drawAncestorNode(int x, int y, Graphics g) {
-        int circonf = 6;
-        Color tmp = g.getColor();
-        g.setColor(new Color(255, 255, 0));
+        g.setColor(new Color(255, 255, 255, 70));
         g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(tmp);
+        g.setColor(new Color(0, 0, 0, 70));
         g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-    }
-
-    public static void drawViewedNode(int x, int y, Graphics g) {
-        int circonf = 6;
-        Color tmp = g.getColor();
-        g.setColor(new Color(0, 0, 255));
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
         g.setColor(tmp);
-        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
     }
 
-    public static void drawImportantNode(int x, int y, Graphics g) {
-        int circonf = 8;
-        Color tmp = g.getColor();
-        g.setColor(new Color(255, 50, 50));
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(tmp);
-        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
+    /**
+     * Cette méthode permet de dessiner l'arête du noeud vers son père (s'il
+     * existe) sur un Graphics.
+     * @param g Le graphics où dessiner l'arête.
+     */
+    public void printEdgeToParent(Graphics g) {
+        if(getParent() != null) {
+            Color tmp = g.getColor();
+            g.setColor(new Color(0, 0, 0, 70));
+            g.drawLine(x, y,
+                    ((JNode) getParent()).getX(), ((JNode) getParent()).getY());
+            g.setColor(tmp);
+        }
     }
 
-    public static void drawLabel(int x, int y, String label, Graphics g) {
-        int width = 80;
-        int height = 20;
-        int margin = 5;
-        int leftD = (int) (width * 7./8);
-
-        Color tmp = g.getColor();
-        g.setColor(new Color(255, 255, 255));
-        g.fillRect(x - leftD - margin, y - (height + 5),
-                   width, height);
-        g.setColor(tmp);
-        g.drawString(label, x - leftD, y - height + 10);
-        g.drawRect(x - leftD - margin, y - (height + 5),
-                   width, height);
-    }
-
-    public static void drawLeafLabel(int x, int y, String label, Graphics g) {
-        int width = 40;
-        int height = 20;
-        int margin = 5;
-
-        g.drawString(label, x, y + height);
+    /**
+     * Cette méthode permet de dessiner le label associé à un noeud sur un
+     * Graphics.
+     * @param g Le Graphics où dessiner le label.
+     */
+    public void paintLabel(Graphics g) {
+        //JLabel label = new NormalLabel(getLabel());
+        //label.paint(g);
     }
 }

@@ -41,11 +41,11 @@ public class Executor implements MinMaxListener {
         minMaxAlgo.unlock();
     }
 
-    public void progress(ArrayList<Integer> moves) {
+    public void progress(int[] moves) {
         //je ne fait qu'imprimer dans le terminal le chemin qu'il faut suivre.
         String line = "| ";
-        for(int i = 0; i < moves.size(); i++) {
-            line += moves.get(i) + " | ";
+        for(int i = 0; i < moves.length; i++) {
+            line += moves[i] + " | ";
         }
 
         System.out.println("je dois avancer mon algo en : " + line);

@@ -16,11 +16,10 @@ import java.util.ArrayList;
 public class NormalTreePanel extends TreePanel {
     private static final int RADIUSNODE = 4;
 
-    private ArrayList<JNodePosition> list;
+    private JTree jTreeRoot;
 
     public NormalTreePanel() {
         super();
-        list = new ArrayList<JNodePosition>();
 
         addMouseListener(new MouseAdapter () {
             public void mouseClicked(MouseEvent e) {
@@ -38,10 +37,16 @@ public class NormalTreePanel extends TreePanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        list = new ArrayList<JNodePosition>();
         if(root != null) {
-            int rightMargin = JTree.drawTree(50, root, 80, RADIUSNODE * 2,
-                                             g, list);
+            jTreeRoot = new JTree(20, 10, 100, 8);
+            jTreeRoot.initTree(root);
+            try {
+                jTreeRoot.paintComponent(g);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            int rightMargin = jTreeRoot.getRightMargin();
             setPreferredSize(new Dimension(rightMargin, 800));
             setMaximumSize(new Dimension(rightMargin, 800));
         }
@@ -50,14 +55,18 @@ public class NormalTreePanel extends TreePanel {
     public void mouseClickedEvent(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        //System.out.println("x : " + x + "; y : " + y);
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).isIn(x - RADIUSNODE, y - RADIUSNODE,
-                                x + RADIUSNODE, y + RADIUSNODE)) {
-                //System.out.println(list.get(i));
-                controller.clickOnNode(isInExplorerMode(),
-                                       list.get(i).getTreePos());
-                i = list.size();
+
+        if(jTreeRoot != null) {
+            try {
+                int[] path = jTreeRoot.getPathToCoordinate(x, y);
+                for(int i = 0; i < path.length; i++) {
+                    System.out.print(path[i] + " | ");
+                }
+                System.out.println();
+                controller.clickOnNode(isInExplorerMode(), path);
+            }
+            catch(NodeNotFoundException error) {
+                System.out.println("No path");
             }
         }
     }
