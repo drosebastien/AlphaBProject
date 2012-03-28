@@ -49,10 +49,10 @@ public class Processor {
 //        MinMaxAlgo minMaxAlgo = new IterativeMinMax(gameCopy, maxDepth,
 //                                                              evalFct);
 
-//        MinMaxAlgo minMaxAlgo = new AlphaBeta(gameCopy, maxDepth, evalFct);
+        MinMaxAlgo minMaxAlgo = new AlphaBeta(gameCopy, maxDepth, evalFct);
 
-        MinMaxAlgo minMaxAlgo = new IterativeAlphaBeta(gameCopy, maxDepth,
-                                                                 evalFct);
+//        MinMaxAlgo minMaxAlgo = new IterativeAlphaBeta(gameCopy, maxDepth,
+//                                                                 evalFct);
 
         Explorer explorer = new Explorer(gameCopy, gamePanel,
                                          treePanel, maxDepth);

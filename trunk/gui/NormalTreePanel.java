@@ -35,10 +35,11 @@ public class NormalTreePanel extends TreePanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
 
         if(root != null) {
-            jTreeRoot = new JTree(20, 10, 100, 8);
+            jTreeRoot = new JTree(70, 30, 100, 8);
             jTreeRoot.initTree(root);
             try {
                 jTreeRoot.paintComponent(g);
@@ -59,10 +60,6 @@ public class NormalTreePanel extends TreePanel {
         if(jTreeRoot != null) {
             try {
                 int[] path = jTreeRoot.getPathToCoordinate(x, y);
-                for(int i = 0; i < path.length; i++) {
-                    System.out.print(path[i] + " | ");
-                }
-                System.out.println();
                 controller.clickOnNode(isInExplorerMode(), path);
             }
             catch(NodeNotFoundException error) {

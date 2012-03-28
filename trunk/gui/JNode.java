@@ -12,6 +12,7 @@ import java.awt.Color;
 public class JNode extends TreeNode{
     protected int x;
     protected int y;
+    private boolean isLeaf;
 
     /**
      * Le constructeur d'un JNode permet de définir le père du noeud créé.
@@ -30,6 +31,7 @@ public class JNode extends TreeNode{
     public void copyState(TreeNode node) {
         setType(node.getType());
         setLabel(node.getLabel());
+        isLeaf = node instanceof LeafNode;
     }
 
     /**
@@ -62,6 +64,14 @@ public class JNode extends TreeNode{
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Cette méthode permet de savoir si le noeud est une feuille.
+     * @return true si le noeud est une feuille, false sinon.
+     */
+    public boolean isLeaf() {
+        return isLeaf;
     }
 
     /**
@@ -103,7 +113,5 @@ public class JNode extends TreeNode{
      * @param g Le Graphics où dessiner le label.
      */
     public void paintLabel(Graphics g) {
-        //JLabel label = new NormalLabel(getLabel());
-        //label.paint(g);
     }
 }

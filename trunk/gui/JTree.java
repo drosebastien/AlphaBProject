@@ -150,6 +150,12 @@ public class JTree{
             case ANCESTOR_OF_CURRENT:
                 newNode = new JAncestorNode(parentNode);
                 break;
+            case IMPORTANT:
+                newNode = new JImportantNode(parentNode);
+                break;
+            case ANCESTOR_OF_IMPORTANT:
+                newNode = new JAncestorImportantNode(parentNode);
+                break;
             default:
                 newNode = new JNode(parentNode);
         }
