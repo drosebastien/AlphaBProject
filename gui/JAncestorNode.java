@@ -13,7 +13,7 @@ public class JAncestorNode extends JNode {
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
-        int circonf = 8;
+        int circonf = 6;
 
         Color tmp = g.getColor();
 
@@ -38,5 +38,14 @@ public class JAncestorNode extends JNode {
                     ((JNode) getParent()).getX(), ((JNode) getParent()).getY());
             g.setColor(tmp);
         }
+    }
+
+    public void paintLabel(Graphics g) {
+        if(getLabel() == null) {
+            System.out.println("No label");
+        }
+
+        JLabel label = new JLabel(getLabel(), x, y);
+        label.paintLabel(g);
     }
 }

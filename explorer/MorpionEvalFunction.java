@@ -12,10 +12,10 @@ public class MorpionEvalFunction implements EvalFunction {
         }
 
         if(game.isFinish() && game.isVictory() && game.getWinner().equals(player)) {
-            return 20;
+            return 50;
         }
         else if(game.isFinish() && game.isVictory()) {
-            return -20;
+            return -50;
         }
         MorpionPiece playerPiece = (MorpionPiece) player.getPiece();
         MorpionBoard board = (MorpionBoard) game.getBoard();
@@ -32,6 +32,6 @@ public class MorpionEvalFunction implements EvalFunction {
         }
 
         Random gen = new Random();
-        return cpt;
+        return gen.nextInt(100) - 50;
     }
 }

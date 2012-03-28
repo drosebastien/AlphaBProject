@@ -56,6 +56,40 @@ public class Executor implements MinMaxListener {
         repaintPanels();
     }
 
+    public void setImportantNode(int indexOfChild) {
+        removeStateOfPastImportantNode(currentNode);
+
+        TreeNode newImportantNode = currentNode.getChild(indexOfChild);
+        newImportantNode.setType(NodeType.IMPORTANT);
+        //setImportantAncestor(currentNode);
+        repaintPanels();
+    }
+
+    /*
+     * donne le statut "vue" au précédent noeud important et fait de même
+     * pour tous les noeuds ANCESTOR_OF_IMPORTANT
+     */
+    private void removeStateOfPastImportantNode(TreeNode node) {
+        for(int i = 0; i < node.getNbChild(); i++) {
+            TreeNode child = node.getChild(i);
+            if(child.getType() == NodeType.IMPORTANT) {
+                child.setType(NodeType.VIEWED);
+                removeStateOfPastImportantNode(child);
+            }
+        }
+    }
+
+    private void setImportantAncestor(TreeNode node) {
+        if(node != null) {
+            node.setType(NodeType.ANCESTOR_OF_IMPORTANT);
+            setImportantAncestor(node.getParent());
+        }
+    }
+
+    public void setDropedNode(int indexOfChild) {
+        removeStateOfPastImportantNode(currentNode.getChild(indexOfChild));
+    }
+
     public void moved(Movement move, int indexInTreeGame) {
         switch(move) {
             case FORWARD :
