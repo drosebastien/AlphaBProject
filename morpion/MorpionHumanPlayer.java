@@ -36,6 +36,9 @@ public class MorpionHumanPlayer extends HumanPlayer {
         sem.release();
     }
 
+    public void hitFired(Move move, boolean inExplorerMode) {
+    }
+
     public Player clone() {
         Player playerCopy = new MorpionHumanPlayer(getName(), getId());
         playerCopy.piece = piece.clone();

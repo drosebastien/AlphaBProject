@@ -56,6 +56,13 @@ public class Morpion extends Game {
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
+    public Move completeMove(Move move) {
+        MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();
+        MorpionPosition position = ((MorpionMove) move).getPosition();
+
+        return new MorpionMove(position, piece);
+    }
+
     public ArrayList<Move> getListOfPossibleMoves() {
         ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
         MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();

@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
     protected ArrayList<GamePanelListener> listeners;
     protected Board board;
     private boolean inExplorerMode;
-    protected Controller controller;
+//    protected Controller controller;
 
     public GamePanel(Board board) {
         this.board = board;
@@ -38,9 +38,9 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
+//    public void setController(Controller controller) {
+//        this.controller = controller;
+//    }
 
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
