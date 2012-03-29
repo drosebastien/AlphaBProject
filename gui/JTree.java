@@ -86,6 +86,8 @@ public class JTree{
      * Exception est lancée.
      * @param x L'abscisse du noeud potentiel à chercher.à rechercher.
      * @param y L'ordonnée du noeud potentiel 
+     * @return Le chemin correspondant au noeud ayant pour les coordonnées
+     * passée en paramètre.
      */
     public int[] getPathToCoordinate(int x, int y)
                                             throws NodeNotFoundException {
@@ -152,9 +154,6 @@ public class JTree{
                 break;
             case IMPORTANT:
                 newNode = new JImportantNode(parentNode);
-                break;
-            case ANCESTOR_OF_IMPORTANT:
-                newNode = new JAncestorImportantNode(parentNode);
                 break;
             default:
                 newNode = new JNode(parentNode);

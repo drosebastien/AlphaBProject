@@ -56,7 +56,7 @@ public class Executor implements MinMaxListener {
         repaintPanels();
     }
 
-    public void setImportantNode(int indexOfChild) {
+    public void setNewBestNode(int indexOfChild) {
         removeStateOfPastImportantNode(currentNode);
 
         TreeNode newImportantNode = currentNode.getChild(indexOfChild);

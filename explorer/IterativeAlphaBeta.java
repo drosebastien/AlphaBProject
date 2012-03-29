@@ -1,21 +1,14 @@
 package explorer;
 
 import framework.*;
-import morpion.*;
 import tree.*;
 
 import java.util.ArrayList;
 
-public class IterAlphaBetaMorpion extends MinMaxAlgo {
-    private static final int MAX_VALUE = Integer.MAX_VALUE;
-    private static final int MIN_VALUE = - Integer.MIN_VALUE;
+public class IterativeAlphaBeta extends MinMaxAlgo {
 
-    public IterAlphaBetaMorpion(Game game, int maxDepth, EvalFunction evalFct) {
+    public IterativeAlphaBeta(Game game, int maxDepth, EvalFunction evalFct) {
         super(game, maxDepth, evalFct);
-
-        if(!(game instanceof Morpion)) {
-            // lancer une exception
-        }
     }
 
     public Move launchMinMax() {
@@ -24,31 +17,40 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
         }
         Player nodePlayer = game.nextPlayer();
 
-        ArrayList<Move> listOfPossibleMove =
-                                game.getListOfPossibleMove();
+        Move bestMove = null;
 
-        int bestMoveIndex = 0;
         for(int j = 1; j <= maxDepth(); j++) {
             int alpha = MIN_VALUE;
             int beta = MAX_VALUE;
-            bestMoveIndex = 0;
+            bestMove = null;
+            MoveIterator iterator = game.getPossibleMoves();
 
+            warnListeners(Movement.NEUTRAL, 0);
+            giveValueToListeners("[-i, i]");
             this.lock();
-            for(int i = 0; i < listOfPossibleMove.size(); i++) {
-                playMove(listOfPossibleMove.get(i), i);
+
+            int i = 0;
+            while(iterator.hasNext()) {
+                Move tmp = iterator.next();
+                playMove(tmp, i);
+                giveValueToListeners("[" + alpha + ", " + beta + "]");
                 int tmpValue = minValue(j - 1, nodePlayer, i, alpha, beta);
-                removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
+                removeMove(tmp, i, "" + tmpValue);
 
                 if(alpha < tmpValue) {
-                    bestMoveIndex = i;
+                    bestMove = tmp;
                     alpha = tmpValue;
-                    giveValueToListeners("" + alpha);
+                    giveValueToListeners("[" + alpha + ", i]");
                 }
+                this.lock();
+
+                i++;
             }
+
             refreshTreeOfListener();
         }
 
-        return listOfPossibleMove.get(bestMoveIndex);
+        return bestMove;
     }
 
     public int minValue(int depth, Player nodePlayer, int index,
@@ -56,26 +58,34 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
             giveValueToListeners("" + value);
+            this.lock();
             return value;
         }
 
-        int bestValue = MAX_VALUE;
-        ArrayList<Move> listOfPossibleMove =
-                                game.getListOfPossibleMove();
+        this.lock();
 
-        for(int i = 0; i < listOfPossibleMove.size(); i++) {
-            playMove(listOfPossibleMove.get(i), i);
+        int bestValue = MAX_VALUE;
+        MoveIterator iterator = game.getPossibleMoves();
+
+        int i = 0;
+        while(iterator.hasNext()) {
+            Move tmp = iterator.next();
+            playMove(tmp, i);
+            giveValueToListeners("[" + alpha + ", " + beta + "]");
             int tmpValue = maxValue(depth - 1, nodePlayer, i, alpha, beta);
-            removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
+            removeMove(tmp, i, "" + tmpValue);
 
             if(beta > tmpValue) {
                 beta = tmpValue;
+                giveValueToListeners("[" + alpha + ", " + beta + "]");
             }
-            giveValueToListeners("" + beta);
             if(beta <= alpha) {
-                giveValueToListeners("" + beta);
+                this.lock();
                 return beta;
             }
+            this.lock();
+
+            i++;
         }
 
         return beta;
@@ -86,26 +96,34 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
             giveValueToListeners("" + value);
+            this.lock();
             return value;
         }
 
-        int bestValue = MIN_VALUE;
-        ArrayList<Move> listOfPossibleMove =
-                                game.getListOfPossibleMove();
+        this.lock();
 
-        for(int i = 0; i < listOfPossibleMove.size(); i++) {
-            playMove(listOfPossibleMove.get(i), i);
+        int bestValue = MIN_VALUE;
+        MoveIterator iterator = game.getPossibleMoves();
+
+        int i = 0;
+        while(iterator.hasNext()) {
+            Move tmp = iterator.next();
+            playMove(tmp, i);
+            giveValueToListeners("[" + alpha + ", " + beta + "]");
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
-            removeMove(listOfPossibleMove.get(i), i, "" + tmpValue);
+            removeMove(tmp, i, "" + tmpValue);
 
             if(alpha < tmpValue) {
                 alpha = tmpValue;
+                giveValueToListeners("[" + alpha + ", " + beta + "]");
             }
-            giveValueToListeners("" + alpha);
             if(alpha >= beta) {
-                giveValueToListeners("" + alpha);
+                this.lock();
                 return alpha;
             }
+            this.lock();
+
+            i++;
         }
 
         return alpha;
@@ -114,16 +132,11 @@ public class IterAlphaBetaMorpion extends MinMaxAlgo {
     public void playMove(Move move, int indexOfMove) {
         game.play(move);
         warnListeners(Movement.FORWARD, indexOfMove);
-        giveValueToListeners("x");
-
-        this.lock();
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
-        game.removeMove(move);
-
-        this.lock();
         warnListeners(Movement.BACKWARD, indexOfMove);
+        game.removeMove(move);
     }
 
     public int evalFunction(Player player) {

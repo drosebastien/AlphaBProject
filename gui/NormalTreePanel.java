@@ -39,7 +39,7 @@ public class NormalTreePanel extends TreePanel {
                             RenderingHints.VALUE_ANTIALIAS_ON);
 
         if(root != null) {
-            jTreeRoot = new JTree(70, 30, 100, 8);
+            jTreeRoot = new JTree(55, 30, 100, 8);
             jTreeRoot.initTree(root);
             try {
                 jTreeRoot.paintComponent(g);

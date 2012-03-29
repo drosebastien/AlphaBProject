@@ -66,7 +66,7 @@ public abstract class MinMaxAlgo {
 
     protected void warnListenersOfNewBestNode(int index) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).setImportantNode(index);
+            listeners.get(i).setNewBestNode(index);
         }
     }
 

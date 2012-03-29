@@ -22,9 +22,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MorpionGamePanel extends GamePanel {
-    private static final int LEFT_BOARDER = 30;
-    private static final int TOP_BOARDER = 30;
-    private static final int SQUARE_SIZE = 35;
+    private static final int LEFT_BOARDER = 25;
+    private static final int TOP_BOARDER = 25;
+    private static final int SQUARE_SIZE = 50;
     private int length = 3;
 
     public MorpionGamePanel(Board board) {
@@ -43,9 +43,9 @@ public class MorpionGamePanel extends GamePanel {
         Image cross = null;
         Image circle = null;
         try {
-            piece = ImageIO.read(new File("src/img/piece.png"));
-            cross = ImageIO.read(new File("src/img/cross.png"));
-            circle = ImageIO.read(new File("src/img/circle.png"));
+            piece = ImageIO.read(new File("img/morpion/piece.png"));
+            cross = ImageIO.read(new File("img/morpion/cross.png"));
+            circle = ImageIO.read(new File("img/morpion/circle.png"));
         } catch(IOException e) {
             System.out.println("problème avec les images");
         }
