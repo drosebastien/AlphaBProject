@@ -8,7 +8,7 @@ public interface MinMaxListener {
 
     public void refreshTree();
 
-    public void setImportantNode(int indexOfChild);
+    public void setNewBestNode(int indexOfChild);
 
     public void setDropedNode(int indexOfChild);
 }

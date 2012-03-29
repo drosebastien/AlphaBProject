@@ -3,7 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class JImportantNode extends JAncestorImportantNode {
+public class JImportantNode extends JNode {
 
     public JImportantNode(JNode parent) {
         super(parent);
@@ -24,5 +24,20 @@ public class JImportantNode extends JAncestorImportantNode {
         g.setColor(new Color(0, 0, 0));
         g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
         g.setColor(tmp);
+    }
+
+    /**
+     * Cette méthode permet de dessiner l'arête du noeud vers son père (s'il
+     * existe) sur un Graphics.
+     * @param g Le graphics où dessiner l'arête.
+     */
+    public void printEdgeToParent(Graphics g) {
+        if(getParent() != null) {
+            Color tmp = g.getColor();
+            g.setColor(new Color(200, 200, 255));
+            g.drawLine(x, y,
+                    ((JNode) getParent()).getX(), ((JNode) getParent()).getY());
+            g.setColor(tmp);
+        }
     }
 }
