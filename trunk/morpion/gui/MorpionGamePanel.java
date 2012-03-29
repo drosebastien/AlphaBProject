@@ -1,8 +1,7 @@
 package morpion.gui;
 
-import framework.Board;
-import framework.Piece;
-import morpion.MorpionPosition;
+import framework.*;
+import morpion.*;
 
 import gui.GamePanelListener;
 import gui.GamePanel;
@@ -92,8 +91,11 @@ public class MorpionGamePanel extends GamePanel {
             x = (x - LEFT_BOARDER) / SQUARE_SIZE;
             y = (y - TOP_BOARDER) / SQUARE_SIZE;
 
+            MorpionPosition pos = new MorpionPosition(2 - y, x);
+            MorpionPiece piece = new MorpionPiece("UNKNOW", -1);
+            Move move = new MorpionMove(pos, piece);
             for(GamePanelListener listener : listeners) {
-                listener.hitFired(x, 2 - y);
+                listener.hitFired(move, isInExplorerMode());
             }
         }
     }

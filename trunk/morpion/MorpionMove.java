@@ -27,6 +27,6 @@ public class MorpionMove extends Move {
 
     public String toString() {
         return "Position : " + position.toString() +
-               "; piece :" + piece.toString();
+               "\nPiece : " + piece.toString();
     }
 }

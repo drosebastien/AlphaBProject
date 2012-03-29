@@ -1,8 +1,11 @@
 package explorer;
 
+import gui.*;
+import framework.*;
+
 import java.util.ArrayList;
 
-public class Controller {
+public class Controller implements GamePanelListener {
     private String name;
     private Explorer explorer;
     private Executor executor;
@@ -18,6 +21,16 @@ public class Controller {
         }
         else {
             executor.progress(treePosition);
+        }
+    }
+
+    public void hitFired(int x, int y) {
+        System.out.printf("x : %d; y : %d\n", x, y);
+    }
+
+    public void hitFired(Move move, boolean inExplorerMode) {
+        if(inExplorerMode) {
+            explorer.moveForward(move);
         }
     }
 

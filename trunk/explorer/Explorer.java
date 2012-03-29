@@ -74,13 +74,29 @@ public class Explorer {
         }
     }
 
+    public void moveForward(Move move) {
+        if(!game.isFinish()) {
+            game.loadSavedState();
+            // permet de donner la bonne piece au mouvement
+            Move completeMove = game.completeMove(move);
+            game.play(completeMove);
+            lastMoves.add(0, completeMove);
+            game.saveStateOfGame();
+
+            makeTreePanel();
+
+            executor.setTree(root);
+            executor.restart();
+        }
+    }
+
     public void moveForward(int[] moves) {
         game.loadSavedState(); //load the last game state where explorer stop;
 
-        String line = "| ";
-        for(int i = 0; i < moves.length; i++) {
-            line += moves[i] + " | ";
-        }
+//        String line = "| ";
+//        for(int i = 0; i < moves.length; i++) {
+//            line += moves[i] + " | ";
+//        }
 
         int size = moves.length;
         for(int i = 0; i < size; i++) {

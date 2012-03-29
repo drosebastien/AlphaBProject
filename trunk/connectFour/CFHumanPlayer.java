@@ -28,6 +28,9 @@ public class CFHumanPlayer extends HumanPlayer {
         // à faire
     }
 
+    public void hitFired(Move move, boolean inExplorerMode) {
+    }
+
     public Player clone() {
         Player playerCopy = new CFHumanPlayer(getName(), getId());
         playerCopy.piece = piece.clone();

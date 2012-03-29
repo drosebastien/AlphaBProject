@@ -50,6 +50,10 @@ public class ConnectFour extends Game {
         currentPlayer = (currentPlayer + 1) % 2;
     }
 
+    public Move completeMove(Move move) {
+        return null;
+    }
+
     public ArrayList<Move> getListOfPossibleMoves() {
         ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
         CFPiece piece = (CFPiece) nextPlayer().getPiece();
