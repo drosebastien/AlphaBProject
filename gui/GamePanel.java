@@ -1,7 +1,6 @@
 package gui;
 
-import framework.Board;
-import explorer.Controller;
+import framework.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -20,7 +19,6 @@ public class GamePanel extends JPanel {
     protected ArrayList<GamePanelListener> listeners;
     protected Board board;
     private boolean inExplorerMode;
-//    protected Controller controller;
 
     public GamePanel(Board board) {
         this.board = board;
@@ -38,10 +36,6 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
     }
 
-//    public void setController(Controller controller) {
-//        this.controller = controller;
-//    }
-
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
     }
@@ -52,5 +46,11 @@ public class GamePanel extends JPanel {
 
     public void addListener(GamePanelListener listener) {
         listeners.add(listener);
+    }
+
+    public void hitFired(Move move) {
+        for(GamePanelListener listener : listeners) {
+                listener.hitFired(move, isInExplorerMode());
+        }
     }
 }

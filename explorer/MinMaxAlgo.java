@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public abstract class MinMaxAlgo {
-    protected static final int MAX_VALUE = 1;
-    protected static final int MIN_VALUE = -1;
+    protected static final int MAX_VALUE = 100;
+    protected static final int MIN_VALUE = -100;
 
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;

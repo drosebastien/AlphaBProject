@@ -5,7 +5,8 @@ import framework.*;
 
 import java.util.ArrayList;
 
-public class Controller implements GamePanelListener {
+public class Controller implements GamePanelListener, TreePanelListener,
+                                   MinMaxEducativeToolsListener {
     private String name;
     private Explorer explorer;
     private Executor executor;

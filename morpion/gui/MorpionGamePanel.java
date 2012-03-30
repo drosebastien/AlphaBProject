@@ -49,15 +49,6 @@ public class MorpionGamePanel extends GamePanel {
             System.out.println("problème avec les images");
         }
 
-        /**for(int i = 0; i < length; i++) {
-            for(int j = 0; j < length; j++) {
-                g.drawImage(piece,
-                            LEFT_BOARDER + i*SQUARE_SIZE,
-                            TOP_BOARDER + j*SQUARE_SIZE,
-                            SQUARE_SIZE, SQUARE_SIZE,
-                            this);
-            }
-        }*/
         for(int i = 0; i < length; i++) {
             for(int j = 0; j < length; j++) {
                 Image img = null;
@@ -94,9 +85,8 @@ public class MorpionGamePanel extends GamePanel {
             MorpionPosition pos = new MorpionPosition(2 - y, x);
             MorpionPiece piece = new MorpionPiece("UNKNOW", -1);
             Move move = new MorpionMove(pos, piece);
-            for(GamePanelListener listener : listeners) {
-                listener.hitFired(move, isInExplorerMode());
-            }
+
+            this.hitFired(move);
         }
     }
 }

@@ -1,7 +1,8 @@
 package gui;
 
-import explorer.Controller;
 import tree.*;
+
+import java.util.ArrayList;
 
 import java.awt.Color;
 
@@ -9,18 +10,26 @@ import javax.swing.JPanel;
 
 public abstract class TreePanel extends JPanel {
     private boolean inExplorerMode;
-    protected Controller controller;
     protected TreeNode root;
+    protected ArrayList<TreePanelListener> listeners;
 
     public TreePanel() {
         super();
+
+        listeners = new ArrayList<TreePanelListener>();
 
         int grayLvl = 150;
         setBackground(new Color(grayLvl, grayLvl, grayLvl + 10));
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void addListener(TreePanelListener listener) {
+        listeners.add(listener);
+    }
+
+    protected void clickOnNode(int[] path) {
+        for(TreePanelListener listener : listeners) {
+            listener.clickOnNode(isInExplorerMode(), path);
+        }
     }
 
     public void setInExplorerMode(boolean mode) {
@@ -34,8 +43,4 @@ public abstract class TreePanel extends JPanel {
     protected boolean isInExplorerMode() {
         return inExplorerMode;
     }
-
-    public abstract void nextEvent();
-
-    public abstract void previousEvent();
 }

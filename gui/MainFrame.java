@@ -1,6 +1,9 @@
 package gui;
 
 import morpion.gui.*;
+import explorer.*;
+
+import java.util.ArrayList;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,9 +31,12 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1024;
 
+    private ArrayList<MinMaxEducativeToolsListener> listeners;
+
     private GridBagConstraints gbc;
     private GamePanel gamePanel;
     private TreePanel treePanel;
+    private boolean inExplorerMode;
 
     private JButton button;
     private JButton nextButton;
@@ -40,16 +46,28 @@ public class MainFrame extends JFrame {
     public MainFrame(GamePanel gPanel, TreePanel treePanel) {
         super("Exploration algorithm");
 
+        this.treePanel = treePanel;
+        this.gamePanel = gPanel;
+
+        listeners = new ArrayList<MinMaxEducativeToolsListener>();
+        inExplorerMode = false;
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new GridBagLayout());
+        initComponent();
 
+        setLocationRelativeTo(null);
+        setVisible(true);
+        //repaint();
+    }
+
+    public void initComponent() {
         gbc = new GridBagConstraints();
 
         JSeparator separatorH = new JSeparator();
         JSeparator separatorV = new JSeparator(SwingConstants.VERTICAL);
-        this.treePanel = treePanel;
-        this.gamePanel = gPanel;
+
         JLabel explorerLabel = new JLabel("Explorer");
 
         checkBox = new JCheckBox();
@@ -137,10 +155,6 @@ public class MainFrame extends JFrame {
         gbc.gridx = 4;
         gbc.insets = new Insets(5, 5, 5, 5);
         add(nextButton, gbc);
-
-        setLocationRelativeTo(null);
-        setVisible(true);
-        //repaint();
     }
 
     public class ExplorerListener implements ActionListener {
@@ -148,12 +162,18 @@ public class MainFrame extends JFrame {
             if(checkBox.isSelected()) {
                 gamePanel.setInExplorerMode(true);
                 treePanel.setInExplorerMode(true);
+                inExplorerMode = true;
             }
             else {
                 gamePanel.setInExplorerMode(false);
                 treePanel.setInExplorerMode(false);
+                inExplorerMode = false;
             }
         }
+    }
+
+    public void addListener(MinMaxEducativeToolsListener listener) {
+        listeners.add(listener);
     }
 
     public class OKListener implements ActionListener {
@@ -168,7 +188,9 @@ public class MainFrame extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
 
-            treePanel.nextEvent();
+            for(MinMaxEducativeToolsListener listener : listeners) {
+                listener.progress(inExplorerMode);
+            }
         }
     }
 
@@ -176,7 +198,9 @@ public class MainFrame extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
 
-            treePanel.previousEvent();
+            for(MinMaxEducativeToolsListener listener : listeners) {
+                listener.removeLast(inExplorerMode);
+            }
         }
     }
 }
