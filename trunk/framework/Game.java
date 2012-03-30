@@ -33,7 +33,7 @@ public abstract class Game {
 
     public abstract Player nextPlayer();
 
-    public abstract void play(Move move);
+    public abstract void play(Move move) throws MoveException;
 
     public abstract void removeMove(Move move);
 
@@ -42,6 +42,8 @@ public abstract class Game {
     public abstract ArrayList<Move> getListOfPossibleMoves();
 
     public abstract MoveIterator getPossibleMoves();
+
+    public abstract boolean isPossibleMove(Move move);
 
     public abstract boolean isFinish();
 

@@ -138,7 +138,12 @@ public class AlphaBeta extends MinMaxAlgo {
     }
 
     public void playMove(Move move, int indexOfMove) {
-        game.play(move);
+        try {
+            game.play(move);
+        }
+        catch(MoveException e) {
+            e.printStackTrace();
+        }
         warnListeners(Movement.FORWARD, indexOfMove);
     }
 

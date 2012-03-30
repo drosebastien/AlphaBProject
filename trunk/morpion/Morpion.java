@@ -44,11 +44,13 @@ public class Morpion extends Game {
         return listOfPlayers.get(currentPlayer);
     }
 
-    public void play(Move move) {
+    public void play(Move move) throws MoveException {
         MorpionMove morpionMove = (MorpionMove) move;
+        if(board.getPiece(morpionMove.getPosition()) != null) {
+            throw new MoveException("Position is already taken");
+        }
         board.placePiece(morpionMove.getPosition(), morpionMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
-        //gamePanel.repaint();
     }
 
     public void removeMove(Move move) {
@@ -81,6 +83,12 @@ public class Morpion extends Game {
 
     public MoveIterator getPossibleMoves() {
         return new MoveIterator(getListOfPossibleMoves());
+    }
+
+    public boolean isPossibleMove(Move move) {
+        MorpionMove morpionMove = (MorpionMove) move;
+
+        return board.getPiece(morpionMove.getPosition()) == null;
     }
 
     public boolean isVictory() {

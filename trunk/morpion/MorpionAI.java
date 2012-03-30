@@ -20,7 +20,12 @@ public class MorpionAI extends AI {
         ArrayList<Move> listOfPossibleMoves =
                                 game.getListOfPossibleMoves();
         for(int i = 0; i < listOfPossibleMoves.size(); i++) {
-            game.play(listOfPossibleMoves.get(i));
+            try {
+                game.play(listOfPossibleMoves.get(i));
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
             int value = minValue();
             game.removeMove(listOfPossibleMoves.get(i));
             if(value > maxValue) {
@@ -45,7 +50,12 @@ public class MorpionAI extends AI {
         int minValue = 200;
         ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
         for(int i = 0; i < listOfPossibleMoves.size(); i++) {
-            game.play(listOfPossibleMoves.get(i));
+            try {
+                game.play(listOfPossibleMoves.get(i));
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
             int value = maxValue();
             game.removeMove(listOfPossibleMoves.get(i));
             if(value < minValue) {
@@ -69,7 +79,12 @@ public class MorpionAI extends AI {
         ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
 
         for(int i = 0; i < listOfPossibleMoves.size(); i++) {
-            game.play(listOfPossibleMoves.get(i));
+            try {
+                game.play(listOfPossibleMoves.get(i));
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
             int value = minValue();
             game.removeMove(listOfPossibleMoves.get(i));
             if(value > maxValue) {

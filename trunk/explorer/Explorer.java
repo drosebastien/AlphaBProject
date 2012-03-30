@@ -67,7 +67,12 @@ public class Explorer {
             MoveIterator iterator = game.getPossibleMoves();
             while(iterator.hasNext()) {
                 Move move = iterator.next();
-                game.play(move);
+                try {
+                    game.play(move);
+                }
+                catch(MoveException e) {
+                    e.printStackTrace();
+                }
                 makeTree(height - 1, child);
                 game.removeMove(move);
             }
@@ -75,13 +80,20 @@ public class Explorer {
     }
 
     public void moveForward(Move move) {
+        game.loadSavedState();
         if(!game.isFinish()) {
-            game.loadSavedState();
             // permet de donner la bonne piece au mouvement
             Move completeMove = game.completeMove(move);
-            game.play(completeMove);
-            lastMoves.add(0, completeMove);
-            game.saveStateOfGame();
+            if(game.isPossibleMove(completeMove)) {
+                try {
+                    game.play(completeMove);
+                }
+                catch(MoveException e) {
+                    e.printStackTrace();
+                }
+                lastMoves.add(0, completeMove);
+                game.saveStateOfGame();
+            }
 
             makeTreePanel();
 
@@ -97,7 +109,12 @@ public class Explorer {
         for(int i = 0; i < size; i++) {
             Move tmp = game.getListOfPossibleMoves().get(moves[i]);
             lastMoves.add(0, tmp);
-            game.play(lastMoves.get(0));
+            try {
+                game.play(lastMoves.get(0));
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
         }
 
         makeTreePanel();

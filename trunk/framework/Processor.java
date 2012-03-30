@@ -141,7 +141,12 @@ public class Processor {
                 e.printStackTrace();
                 System.exit(0);
             }
-            game.play(makedMove);
+            try {
+                game.play(makedMove);
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
         }
         System.out.print("Fin de partie, ");
         if(game.isVictory()) {
