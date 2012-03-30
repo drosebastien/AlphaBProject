@@ -27,7 +27,7 @@ public class Processor {
     }
 
     public void launchPedMode() {
-        int maxDepth = 5;
+        int maxDepth = 4;
 
         Controller controller = new Controller("sebController");
         game = new Morpion();
@@ -37,10 +37,13 @@ public class Processor {
         Game gameCopy = game.clone();
 
         TreePanel treePanel = new NormalTreePanel();
-        treePanel.setController(controller);
+        treePanel.addListener(controller);
+
         GamePanel gamePanel = gameCopy.getPanel();
         gamePanel.addListener(controller);
+
         mainFrame = new MainFrame(gamePanel, treePanel);
+        mainFrame.addListener(controller);
 
         EvalFunction evalFct = new MorpionEvalFunction();
 

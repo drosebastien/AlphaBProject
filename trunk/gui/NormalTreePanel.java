@@ -60,19 +60,11 @@ public class NormalTreePanel extends TreePanel {
         if(jTreeRoot != null) {
             try {
                 int[] path = jTreeRoot.getPathToCoordinate(x, y);
-                controller.clickOnNode(isInExplorerMode(), path);
+                this.clickOnNode(path);
             }
             catch(NodeNotFoundException error) {
                 System.out.println("No path");
             }
         }
-    }
-
-    public void nextEvent() {
-        controller.progress(isInExplorerMode());
-    }
-
-    public void previousEvent() {
-        controller.removeLast(isInExplorerMode());
     }
 }

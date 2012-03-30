@@ -93,11 +93,6 @@ public class Explorer {
     public void moveForward(int[] moves) {
         game.loadSavedState(); //load the last game state where explorer stop;
 
-//        String line = "| ";
-//        for(int i = 0; i < moves.length; i++) {
-//            line += moves[i] + " | ";
-//        }
-
         int size = moves.length;
         for(int i = 0; i < size; i++) {
             Move tmp = game.getListOfPossibleMoves().get(moves[i]);
@@ -117,8 +112,8 @@ public class Explorer {
 
         if(lastMoves.size() > 0) {
             game.removeMove(lastMoves.remove(0));
-            makeTreePanel();
         }
+        makeTreePanel();
 
         executor.setTree(root);
         executor.restart(); //restart the executor and the MinMax algorithme
