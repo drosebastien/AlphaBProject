@@ -71,6 +71,10 @@ public class ConnectFour extends Game {
         return new MoveIterator(getListOfPossibleMoves());
     }
 
+    public boolean isPossibleMove(Move move) {
+        return true;
+    }
+
     public boolean isVictory() {
         if(lastMove == null) {
             return false;
