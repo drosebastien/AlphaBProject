@@ -27,11 +27,17 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 public class MainFrame extends JFrame {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1024;
 
     private ArrayList<MinMaxEducativeToolsListener> listeners;
+
+    private ConfigETWindow configETWindow;
 
     private GridBagConstraints gbc;
     private GamePanel gamePanel;
@@ -56,10 +62,40 @@ public class MainFrame extends JFrame {
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new GridBagLayout());
         initComponent();
+        initMenu();
 
         setLocationRelativeTo(null);
         setVisible(true);
         //repaint();
+    }
+
+    public void initMenu() {
+        configETWindow = new ConfigETWindow();
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu toolsMenu = new JMenu("Tools");
+        JMenuItem optionsItem = new JMenuItem("Options");
+        optionsItem.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event) {
+                optionsItemEvent(event);
+            }
+        });
+
+        toolsMenu.add(optionsItem);
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+        helpMenu.add(aboutItem);
+        JMenuItem helpItem = new JMenuItem("Help");
+        helpMenu.add(helpItem);
+
+        menuBar.add(toolsMenu);
+        menuBar.add(helpMenu);
+        this.setJMenuBar(menuBar);
+    }
+
+    private void optionsItemEvent(ActionEvent event) {
+        configETWindow.setVisible(true);
     }
 
     public void initComponent() {
