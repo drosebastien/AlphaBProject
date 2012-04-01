@@ -51,6 +51,10 @@ public class Controller implements GamePanelListener, TreePanelListener,
         }
     }
 
+    public void treeDepthChanged(int treeDepth) {
+        explorer.setTreeDepth(treeDepth);
+    }
+
     public void addExplorer(Explorer explorer) {
         this.explorer = explorer;
     }

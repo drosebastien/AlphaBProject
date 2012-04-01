@@ -22,10 +22,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,9 +51,11 @@ public class MainFrame extends JFrame {
     private boolean inExplorerMode;
 
     private JButton button;
+    private JSpinner treeDepthSpinner;
     private JButton nextButton;
     private JButton previousButton;
     private JCheckBox checkBox;
+    private JTextArea dialogTextArea;
 
     public MainFrame(GamePanel gPanel, TreePanel treePanel) {
         super("Exploration algorithm");
@@ -101,19 +109,30 @@ public class MainFrame extends JFrame {
     public void initComponent() {
         gbc = new GridBagConstraints();
 
-        JSeparator separatorH = new JSeparator();
-        JSeparator separatorV = new JSeparator(SwingConstants.VERTICAL);
-
-        JLabel explorerLabel = new JLabel("Explorer");
+        JLabel explorerLabel = new JLabel("Explorer mode");
+        JLabel treeDepthLabel = new JLabel("Tree depth");
 
         checkBox = new JCheckBox();
         checkBox.addActionListener(new ExplorerListener());
 
+        dialogTextArea = new JTextArea();
 
-        button = new JButton("OK");
-        button.addActionListener(new OKListener());
-        button.setMinimumSize(new Dimension(120, 25));
-        button.setPreferredSize(new Dimension(120, 25));
+//        button = new JButton("OK");
+//        button.addActionListener(new OKListener());
+//        button.setMinimumSize(new Dimension(120, 25));
+//        button.setPreferredSize(new Dimension(120, 25));
+
+        Integer value = new Integer(2);
+        Integer min = new Integer(2);
+        Integer max = new Integer(6);
+        Integer step = new Integer(1);
+        treeDepthSpinner = new JSpinner();
+        treeDepthSpinner.setMinimumSize(new Dimension(40, 25));
+        treeDepthSpinner.setPreferredSize(new Dimension(40, 25));
+        treeDepthSpinner.addChangeListener(new TreeDepthSpinnerListener());
+        SpinnerNumberModel treeDepthSpinnerModel = new SpinnerNumberModel(
+                                                         value, min, max, step);
+        treeDepthSpinner.setModel(treeDepthSpinnerModel);
 
         nextButton = new JButton(">");
         nextButton.addActionListener(new NextListener());
@@ -130,21 +149,20 @@ public class MainFrame extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         add(gamePanel, gbc);
 
-        gbc.insets = new Insets(0, 5, 0, 0);
+        gbc.insets = new Insets(0, 5, 10, 0);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(separatorH, gbc);
+        add(new JSeparator(), gbc);
 
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.anchor = GridBagConstraints.BELOW_BASELINE_TRAILING;
         add(explorerLabel, gbc);
 
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -152,15 +170,32 @@ public class MainFrame extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.BASELINE;
-        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.anchor = GridBagConstraints.LINE_END;
         add(checkBox, gbc);
 
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridy = 4;
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        add(button, gbc);
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(treeDepthLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(treeDepthSpinner, gbc);
+
+        gbc.insets = new Insets(10, 5, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(new JSeparator(), gbc);
+
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.BOTH;
+        add(new JScrollPane(dialogTextArea), gbc);
 
         gbc.weightx = gbc.weighty = 0.;
         gbc.gridheight = GridBagConstraints.REMAINDER;
@@ -168,7 +203,7 @@ public class MainFrame extends JFrame {
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 0, 5, 0);
-        add(separatorV, gbc);
+        add(new JSeparator(SwingConstants.VERTICAL), gbc);
 
         gbc.gridx = 3;
         gbc.gridy = 0;
@@ -179,7 +214,7 @@ public class MainFrame extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         add(new JScrollPane(treePanel), gbc);
 
-        gbc.gridy = 4;
+        gbc.gridy = 10;
         gbc.weightx = gbc.weighty = 0.;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
@@ -212,18 +247,22 @@ public class MainFrame extends JFrame {
         listeners.add(listener);
     }
 
-    public class OKListener implements ActionListener {
+    public class TreeDepthSpinnerListener implements ChangeListener {
 
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("Voilà ce qui se passe quand on appuie sur ok");
-            treePanel.repaint();
+        public void stateChanged(ChangeEvent evt) {
+            SpinnerNumberModel model = (SpinnerNumberModel)
+                                       treeDepthSpinner.getModel();
+            int value = model.getNumber().intValue();
+
+            for(MinMaxEducativeToolsListener listener : listeners) {
+                listener.treeDepthChanged(value);
+            }
         }
     }
 
     public class NextListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.progress(inExplorerMode);
             }
@@ -233,7 +272,6 @@ public class MainFrame extends JFrame {
     public class PreviousListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.removeLast(inExplorerMode);
             }

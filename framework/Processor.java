@@ -27,7 +27,7 @@ public class Processor {
     }
 
     public void launchPedMode() {
-        int maxDepth = 4;
+        int maxDepth = 2;
 
         Controller controller = new Controller("sebController");
         game = new Morpion();

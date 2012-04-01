@@ -39,6 +39,10 @@ public abstract class MinMaxAlgo {
         return maxDepth;
     }
 
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth - 1;
+    }
+
     public abstract Move launchMinMax();
 
     public abstract void playMove(Move move, int indexOfMove);
