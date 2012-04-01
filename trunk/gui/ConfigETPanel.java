@@ -44,7 +44,7 @@ public class ConfigETPanel extends JPanel {
         windowMaxLabel = new JLabel("Max value");
 
         algoSelectionLabel = new JLabel("Algorithm");
-        evalFctLabel = new JLabel("Evalution fonction");
+        evalFctLabel = new JLabel("Evalution function");
 
         button = new JButton("OK");
         button.setMinimumSize(new Dimension(120, 25));

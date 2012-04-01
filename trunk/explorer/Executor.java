@@ -33,6 +33,10 @@ public class Executor implements MinMaxListener {
         thread.start();
     }
 
+    public void setMaxDepth(int maxDepth) {
+        minMaxAlgo.setMaxDepth(maxDepth);
+    }
+
     public void setTree(TreeNode root) {
         this.currentNode = root;
     }
