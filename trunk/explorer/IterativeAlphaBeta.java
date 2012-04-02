@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class IterativeAlphaBeta extends MinMaxAlgo {
 
-    public IterativeAlphaBeta(Game game, int maxDepth, EvalFunction evalFct) {
-        super(game, maxDepth, evalFct);
+    public IterativeAlphaBeta(String name, Game game,
+                                           int maxDepth, EvalFunction evalFct) {
+        super(name, game, maxDepth, evalFct);
     }
 
     public Move launchMinMax() {
@@ -146,5 +147,9 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
 
     public int evalFunction(Player player) {
         return evalFct.evalFunction(game, player);
+    }
+
+    public static String getAlgoName() {
+        return "IDDFS Alpha Beta";
     }
 }

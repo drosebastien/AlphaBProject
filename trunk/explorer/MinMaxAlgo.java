@@ -13,16 +13,24 @@ public abstract class MinMaxAlgo {
 
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;
+    private String name;
     private int maxDepth;
     protected Game game;
     protected EvalFunction evalFct;
 
-    public MinMaxAlgo(Game game, int maxDepth, EvalFunction evalFct) {
+    public MinMaxAlgo(String name, Game game,
+                      int maxDepth, EvalFunction evalFct) {
+
+        this.name = name;
         this.game = game;
         this.maxDepth = maxDepth - 1;
         this.evalFct = evalFct;
 
         listeners = new ArrayList<MinMaxListener>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addListener(MinMaxListener listener) {
@@ -90,5 +98,9 @@ public abstract class MinMaxAlgo {
         for(int i = 0; i < listeners.size(); i++) {
             listeners.get(i).moved(move, indexOfMove);
         }
+    }
+
+    public String toString() {
+        return name;
     }
 }

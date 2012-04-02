@@ -31,6 +31,7 @@ public class Explorer {
     }
 
     public void restart() {
+        game.loadSavedState();
         makeTreePanel();
         executor.setMaxDepth(treeDepth);
         executor.setTree(root);

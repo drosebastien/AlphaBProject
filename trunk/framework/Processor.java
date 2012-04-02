@@ -2,6 +2,7 @@ package framework;
 
 import gui.*;
 import morpion.*;
+import morpion.evaluationFunction.*;
 import connectFour.*;
 import explorer.*;
 import java.util.Scanner;
@@ -42,32 +43,28 @@ public class Processor {
         GamePanel gamePanel = gameCopy.getPanel();
         gamePanel.addListener(controller);
 
-        mainFrame = new MainFrame(gamePanel, treePanel);
-        mainFrame.addListener(controller);
-
         EvalFunction evalFct = new MorpionEvalFunction();
 
-//        MinMaxAlgo minMaxAlgo = new NormalMinMax(gameCopy, maxDepth, evalFct);
+        mainFrame = new MainFrame(gameCopy, evalFct, gamePanel, treePanel);
+        mainFrame.addListener(controller);
 
-//        MinMaxAlgo minMaxAlgo = new IterativeMinMax(gameCopy, maxDepth,
-//                                                              evalFct);
-
-        MinMaxAlgo minMaxAlgo = new AlphaBeta(gameCopy, maxDepth, evalFct);
-
-//        MinMaxAlgo minMaxAlgo = new IterativeAlphaBeta(gameCopy, maxDepth,
-//                                                                 evalFct);
+        String[] algoNames =
+                   MinMaxAlgoFactory.getInstance().getBuildableMinMaxAlgoName();
+        MinMaxAlgo minMaxAlgo = MinMaxAlgoFactory.getInstance().getMinMaxAlgo(
+                                     algoNames[0], gameCopy, maxDepth, evalFct);
 
         Explorer explorer = new Explorer(gameCopy, gamePanel,
                                          treePanel, maxDepth);
         Executor executor = new Executor(gameCopy, gamePanel,
                                          treePanel, minMaxAlgo);
-        minMaxAlgo.addListener(executor);
+
         explorer.addExecutor(executor);
         controller.addExplorer(explorer);
         controller.addExecutor(executor);
 
         explorer.start();
     }
+
 /**
     public void initGame() {
         Controller controller = new Controller("sebController");

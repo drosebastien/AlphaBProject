@@ -8,9 +8,12 @@ import javax.swing.JMenuItem;
 public class ConfigETWindow extends JFrame{
     private static final int HEIGHT = 200;
     private static final int WIDTH = 300;
+    private ConfigETPanel pan;
+    private MainFrame mainFrame;
 
-     public ConfigETWindow(){
+     public ConfigETWindow(MainFrame mainFrame){
 
+        this.mainFrame = mainFrame;
         this.setTitle("Options");
 
         this.setSize(WIDTH, HEIGHT);
@@ -21,7 +24,11 @@ public class ConfigETWindow extends JFrame{
 
         this.setResizable(false);
 
-        ConfigETPanel pan = new ConfigETPanel();
+        pan = new ConfigETPanel(this);
         this.setContentPane(pan);
      }
+
+    public void algoHaveChanged(String algoName) {
+        mainFrame.algoHaveChanged(algoName);
+    }
 }

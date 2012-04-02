@@ -63,7 +63,6 @@ public class NormalTreePanel extends TreePanel {
                 this.clickOnNode(path);
             }
             catch(NodeNotFoundException error) {
-                System.out.println("No path");
             }
         }
     }

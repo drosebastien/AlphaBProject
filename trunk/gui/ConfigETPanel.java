@@ -1,5 +1,7 @@
 package gui;
 
+import explorer.MinMaxAlgoFactory;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,8 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ConfigETPanel extends JPanel {
+    private ConfigETWindow listener;
     private JButton button;
     private GridBagConstraints gbc;
     private JSpinner minValueSpinner;
@@ -26,7 +31,8 @@ public class ConfigETPanel extends JPanel {
     private JLabel algoSelectionLabel;
     private JLabel evalFctLabel;
 
-    public ConfigETPanel() {
+    public ConfigETPanel(ConfigETWindow parentFrame) {
+        listener = parentFrame;
         setBackground(new Color(220, 220, 220));
 
         setLayout(new GridBagLayout());
@@ -34,6 +40,11 @@ public class ConfigETPanel extends JPanel {
         gbc = new GridBagConstraints();
 
         algoComboBox = new JComboBox();
+        algoComboBox.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    algoComboBoxActionPerformed(evt);
+                }
+            });
         fctComboBox = new JComboBox();
 
         JSeparator separator = new JSeparator();
@@ -103,5 +114,26 @@ public class ConfigETPanel extends JPanel {
         gbc.gridx = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(fctComboBox, gbc);
+
+        addAlgo();
+        addEvalFct();
+    }
+
+    private void algoComboBoxActionPerformed(ActionEvent evt) {
+        listener.algoHaveChanged(algoComboBox.getSelectedItem().toString());
+    }
+
+    public void addAlgo() {
+        String[] algoNames =
+                   MinMaxAlgoFactory.getInstance().getBuildableMinMaxAlgoName();
+        for(int i = 0; i < algoNames.length; i++) {
+            String[] splitAlgoNames = algoNames[i].split("\\.");
+            algoComboBox.addItem(splitAlgoNames[splitAlgoNames.length - 1]);
+        }
+    }
+
+    public void addEvalFct() {
+        fctComboBox.addItem(new String("Random"));
+        fctComboBox.addItem(new String("Simple"));
     }
 }

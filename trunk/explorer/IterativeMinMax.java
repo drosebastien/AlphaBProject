@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class IterativeMinMax extends MinMaxAlgo {
 
-    public IterativeMinMax(Game game, int maxDepth, EvalFunction evalFct) {
-        super(game, maxDepth, evalFct);
+    public IterativeMinMax(String name, Game game,
+                                           int maxDepth, EvalFunction evalFct) {
+        super(name, game, maxDepth, evalFct);
     }
 
     public Move launchMinMax() {
@@ -132,5 +133,9 @@ public class IterativeMinMax extends MinMaxAlgo {
 
     public int evalFunction(Player player) {
         return evalFct.evalFunction(game, player);
+    }
+
+    public static String getAlgoName() {
+        return "IDDFS MinMax";
     }
 }
