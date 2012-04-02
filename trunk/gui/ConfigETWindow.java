@@ -31,4 +31,10 @@ public class ConfigETWindow extends JFrame{
     public void algoHaveChanged(String algoName) {
         mainFrame.algoHaveChanged(algoName);
     }
+
+    public void minMaxWindowValuesSpinnerStateChanged(int minValue,
+                                                                 int maxValue) {
+
+        mainFrame.windowValuesHaveChanged(minValue, maxValue);
+    }
 }

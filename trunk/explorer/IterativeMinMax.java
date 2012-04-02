@@ -23,9 +23,9 @@ public class IterativeMinMax extends MinMaxAlgo {
         for(int j = 1; j <= maxDepth(); j++) {
             bestMove = null;
             warnListeners(Movement.NEUTRAL, 0);
-            giveValueToListeners("" + MIN_VALUE);
+            giveValueToListeners("" + getMinValue());
             MoveIterator iterator = game.getPossibleMoves();
-            int bestValue = MIN_VALUE;
+            int bestValue = getMinValue();
             this.lock();
 
             int i = 0;
@@ -61,7 +61,7 @@ public class IterativeMinMax extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MAX_VALUE;
+        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -93,7 +93,7 @@ public class IterativeMinMax extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MIN_VALUE;
+        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public abstract class MinMaxAlgo {
-    protected static final int MAX_VALUE = 100;
-    protected static final int MIN_VALUE = -100;
+    private int maxValue = 100;
+    private int minValue = -100;
 
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;
@@ -41,6 +41,22 @@ public abstract class MinMaxAlgo {
         if(semaphore != null && semaphore.availablePermits() == 0) {
             semaphore.release();
         }
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMinValue(int minValue) {
+        this.minValue = minValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
     }
 
     public int maxDepth() {

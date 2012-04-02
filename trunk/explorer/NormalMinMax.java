@@ -18,12 +18,12 @@ public class NormalMinMax extends MinMaxAlgo {
         }
         Player nodePlayer = game.nextPlayer();
 
-        int bestValue = MIN_VALUE;
+        int bestValue = getMinValue();
         Move bestMove = null;
         MoveIterator iterator = game.getPossibleMoves();
 
         warnListeners(Movement.NEUTRAL, 0);
-        giveValueToListeners("" + MIN_VALUE);
+        giveValueToListeners("" + getMinValue());
         this.lock();
 
         int i = 0;
@@ -60,7 +60,7 @@ public class NormalMinMax extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MAX_VALUE;
+        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -96,7 +96,7 @@ public class NormalMinMax extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MIN_VALUE;
+        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;

@@ -14,6 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.JSeparator;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -64,9 +69,20 @@ public class ConfigETPanel extends JPanel {
         minValueSpinner = new JSpinner();
         minValueSpinner.setMinimumSize(new Dimension(60, 25));
         minValueSpinner.setPreferredSize(new Dimension(60, 25));
+        minValueSpinner.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent evt) {
+                    minMaxWindowValuesSpinnerStateChanged(evt);
+                }
+            });
+
         maxValueSpinner = new JSpinner();
         maxValueSpinner.setMinimumSize(new Dimension(60, 25));
         maxValueSpinner.setPreferredSize(new Dimension(60, 25));
+        maxValueSpinner.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent evt) {
+                    minMaxWindowValuesSpinnerStateChanged(evt);
+                }
+            });
 
         gbc.insets = new Insets(5, 5, 10, 5);
         gbc.gridheight = 1;
@@ -119,11 +135,7 @@ public class ConfigETPanel extends JPanel {
         addEvalFct();
     }
 
-    private void algoComboBoxActionPerformed(ActionEvent evt) {
-        listener.algoHaveChanged(algoComboBox.getSelectedItem().toString());
-    }
-
-    public void addAlgo() {
+    private void addAlgo() {
         String[] algoNames =
                    MinMaxAlgoFactory.getInstance().getBuildableMinMaxAlgoName();
         for(int i = 0; i < algoNames.length; i++) {
@@ -132,8 +144,27 @@ public class ConfigETPanel extends JPanel {
         }
     }
 
-    public void addEvalFct() {
+    private void addEvalFct() {
         fctComboBox.addItem(new String("Random"));
         fctComboBox.addItem(new String("Simple"));
+    }
+
+    private void algoComboBoxActionPerformed(ActionEvent evt) {
+        listener.algoHaveChanged(algoComboBox.getSelectedItem().toString());
+    }
+
+    private void minMaxWindowValuesSpinnerStateChanged(ChangeEvent evt) {
+        int minValue = getIntValueOfSpinner(minValueSpinner);
+        int maxValue = getIntValueOfSpinner(maxValueSpinner);
+
+        listener.minMaxWindowValuesSpinnerStateChanged(minValue, maxValue);
+
+        System.out.printf("ConfigETPanel : Window : %d < - > %d\n", minValue
+                                                                  , maxValue);
+    }
+
+    private int getIntValueOfSpinner(JSpinner spinner) {
+        SpinnerNumberModel model = (SpinnerNumberModel) spinner.getModel();
+        return model.getNumber().intValue();
     }
 }

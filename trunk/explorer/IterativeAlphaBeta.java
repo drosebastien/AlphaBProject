@@ -21,8 +21,8 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
         Move bestMove = null;
 
         for(int j = 1; j <= maxDepth(); j++) {
-            int alpha = MIN_VALUE;
-            int beta = MAX_VALUE;
+            int alpha = getMinValue();
+            int beta = getMaxValue();
             bestMove = null;
             MoveIterator iterator = game.getPossibleMoves();
 
@@ -65,7 +65,7 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MAX_VALUE;
+        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -103,7 +103,7 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MIN_VALUE;
+        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
