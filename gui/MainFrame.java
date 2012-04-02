@@ -93,6 +93,12 @@ public class MainFrame extends JFrame {
         }
     }
 
+    public void windowValuesHaveChanged(int minValue, int maxValue) {
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).windowValuesHaveChanged(minValue, maxValue);
+        }
+    }
+
     public void initMenu() {
         configETWindow = new ConfigETWindow(this);
         JMenuBar menuBar = new JMenuBar();
@@ -263,7 +269,7 @@ public class MainFrame extends JFrame {
         listeners.add(listener);
     }
 
-    public class TreeDepthSpinnerListener implements ChangeListener {
+    private class TreeDepthSpinnerListener implements ChangeListener {
 
         public void stateChanged(ChangeEvent evt) {
             int value = getIntValueOfSpinner(treeDepthSpinner);

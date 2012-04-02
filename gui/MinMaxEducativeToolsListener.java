@@ -10,4 +10,6 @@ public interface MinMaxEducativeToolsListener {
     public void treeDepthChanged(int treeDepth);
 
     public void algoHaveChanged(MinMaxAlgo algo);
+
+    public void windowValuesHaveChanged(int minValue, int maxValue);
 }

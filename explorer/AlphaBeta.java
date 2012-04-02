@@ -18,13 +18,13 @@ public class AlphaBeta extends MinMaxAlgo {
         }
         Player nodePlayer = game.nextPlayer();
 
-        int alpha = MIN_VALUE;
-        int beta = MAX_VALUE;
+        int alpha = getMinValue();
+        int beta = getMaxValue();
         Move bestMove = null;
         MoveIterator iterator = game.getPossibleMoves();
 
         warnListeners(Movement.NEUTRAL, 0);
-        giveValueToListeners("" + MIN_VALUE);
+        giveValueToListeners("" + alpha);
         this.lock();
 
         int i = 0;
@@ -63,7 +63,7 @@ public class AlphaBeta extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MAX_VALUE;
+        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -106,7 +106,7 @@ public class AlphaBeta extends MinMaxAlgo {
 
         this.lock();
 
-        int bestValue = MIN_VALUE;
+        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;

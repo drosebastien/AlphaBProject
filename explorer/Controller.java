@@ -20,6 +20,11 @@ public class Controller implements GamePanelListener, TreePanelListener,
         explorer.restart();
     }
 
+    public void windowValuesHaveChanged(int minValue, int maxValue) {
+        executor.windowValuesHaveChanged(minValue, maxValue);
+        explorer.restart();
+    }
+
     public void clickOnNode(boolean inExplorerMode, int[] treePosition) {
 
         if(inExplorerMode) {

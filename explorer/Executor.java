@@ -29,8 +29,13 @@ public class Executor implements MinMaxListener {
     }
 
     public void setMinMaxAlgo(MinMaxAlgo minMaxAlgo) {
+        int minValue = this.minMaxAlgo.getMinValue();
+        int maxValue = this.minMaxAlgo.getMaxValue();
+
         this.minMaxAlgo = minMaxAlgo;
-        minMaxAlgo.addListener(this);
+        this.minMaxAlgo.addListener(this);
+        this.minMaxAlgo.setMinValue(minValue);
+        this.minMaxAlgo.setMaxValue(maxValue);
     }
 
     public void restart() {
@@ -49,6 +54,11 @@ public class Executor implements MinMaxListener {
 
     public void progress() {
         minMaxAlgo.unlock();
+    }
+
+    public void windowValuesHaveChanged(int minValue, int maxValue) {
+        minMaxAlgo.setMinValue(minValue);
+        minMaxAlgo.setMaxValue(maxValue);
     }
 
     public void progress(int[] moves) {
