@@ -1,6 +1,7 @@
 package gui;
 
 import morpion.gui.*;
+import framework.*;
 import explorer.*;
 
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class MainFrame extends JFrame {
     private ConfigETWindow configETWindow;
 
     private GridBagConstraints gbc;
+    private Game game;                                                          // à retirer
+    private EvalFunction fct;                                                   // à retirer
     private GamePanel gamePanel;
     private TreePanel treePanel;
     private boolean inExplorerMode;
@@ -57,8 +60,12 @@ public class MainFrame extends JFrame {
     private JCheckBox checkBox;
     private JTextArea dialogTextArea;
 
-    public MainFrame(GamePanel gPanel, TreePanel treePanel) {
+    public MainFrame(Game game, EvalFunction fct,
+                     GamePanel gPanel, TreePanel treePanel) {                   //retirer game et evalFunction.
         super("Exploration algorithm");
+
+        this.game = game;                                                       // à retirer
+        this.fct = fct;                                                         // à retirer
 
         this.treePanel = treePanel;
         this.gamePanel = gPanel;
@@ -77,8 +84,17 @@ public class MainFrame extends JFrame {
         //repaint();
     }
 
+    public void algoHaveChanged(String algoName) {
+        int depth = getIntValueOfSpinner(treeDepthSpinner);
+        for(int i = 0; i < listeners.size(); i++) {
+            MinMaxAlgo algo = MinMaxAlgoFactory.getInstance().getMinMaxAlgo(
+                              algoName, game, depth, fct);
+            listeners.get(i).algoHaveChanged(algo);
+        }
+    }
+
     public void initMenu() {
-        configETWindow = new ConfigETWindow();
+        configETWindow = new ConfigETWindow(this);
         JMenuBar menuBar = new JMenuBar();
 
         JMenu toolsMenu = new JMenu("Tools");
@@ -250,14 +266,17 @@ public class MainFrame extends JFrame {
     public class TreeDepthSpinnerListener implements ChangeListener {
 
         public void stateChanged(ChangeEvent evt) {
-            SpinnerNumberModel model = (SpinnerNumberModel)
-                                       treeDepthSpinner.getModel();
-            int value = model.getNumber().intValue();
+            int value = getIntValueOfSpinner(treeDepthSpinner);
 
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.treeDepthChanged(value);
             }
         }
+    }
+
+    private int getIntValueOfSpinner(JSpinner spinner) {
+        SpinnerNumberModel model = (SpinnerNumberModel) spinner.getModel();
+        return model.getNumber().intValue();
     }
 
     public class NextListener implements ActionListener {

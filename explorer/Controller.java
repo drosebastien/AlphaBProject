@@ -15,6 +15,11 @@ public class Controller implements GamePanelListener, TreePanelListener,
         this.name = name;
     }
 
+    public void algoHaveChanged(MinMaxAlgo algo) {
+        executor.setMinMaxAlgo(algo);
+        explorer.restart();
+    }
+
     public void clickOnNode(boolean inExplorerMode, int[] treePosition) {
 
         if(inExplorerMode) {

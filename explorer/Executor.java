@@ -20,11 +20,17 @@ public class Executor implements MinMaxListener {
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
         this.minMaxAlgo = minMaxAlgo;
+        minMaxAlgo.addListener(this);
     }
 
     public void start() {
         this.thread = new Thread(new launcher());
         thread.start();
+    }
+
+    public void setMinMaxAlgo(MinMaxAlgo minMaxAlgo) {
+        this.minMaxAlgo = minMaxAlgo;
+        minMaxAlgo.addListener(this);
     }
 
     public void restart() {

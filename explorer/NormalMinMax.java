@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class NormalMinMax extends MinMaxAlgo {
 
-    public NormalMinMax(Game game, int maxDepth, EvalFunction evalFct) {
-        super(game, maxDepth, evalFct);
+    public NormalMinMax(String name, Game game,
+                                           int maxDepth, EvalFunction evalFct) {
+        super(name, game, maxDepth, evalFct);
     }
 
     public Move launchMinMax() {
@@ -139,5 +140,9 @@ public class NormalMinMax extends MinMaxAlgo {
 
     public int evalFunction(Player player) {
         return evalFct.evalFunction(game, player);
+    }
+
+    public static String getAlgoName() {
+        return "MinMax";
     }
 }
