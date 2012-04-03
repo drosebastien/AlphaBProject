@@ -19,10 +19,6 @@ public class MinMaxAlgoFactory {
     }
 
     private static void initBuildabelMinMaxAlgo() {
-//        buidableMinMaxAlgo = new String[] {NormalMinMax.class.getName(),
-//                                           IterativeMinMax.class.getName(),
-//                                           AlphaBeta.class.getName(),
-//                                           IterativeAlphaBeta.class.getName()};
         buidableMinMaxAlgo = new String[] {NormalMinMax.getAlgoName(),
                                            IterativeMinMax.getAlgoName(),
                                            AlphaBeta.getAlgoName(),
@@ -41,7 +37,8 @@ public class MinMaxAlgoFactory {
             return new IterativeMinMax(name, game, maxDepth,fct);
         else if(name.equals(buidableMinMaxAlgo[2]))
             return new AlphaBeta(name, game, maxDepth, fct);
-        else
+        else if(name.equals(buidableMinMaxAlgo[3]))
             return new IterativeAlphaBeta(name, game, maxDepth, fct);
+        return new NormalMinMax(name, game, maxDepth, fct);
     }
 }

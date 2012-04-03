@@ -58,9 +58,11 @@ public class NormalMinMax extends MinMaxAlgo {
             return value;
         }
 
+        int bestValue = getMaxValue();
+        giveValueToListeners("" + bestValue);
+
         this.lock();
 
-        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -94,9 +96,11 @@ public class NormalMinMax extends MinMaxAlgo {
             return value;
         }
 
+        int bestValue = getMinValue();
+        giveValueToListeners("" + bestValue);
+
         this.lock();
 
-        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -130,7 +134,6 @@ public class NormalMinMax extends MinMaxAlgo {
             e.printStackTrace();
         }
         warnListeners(Movement.FORWARD, indexOfMove);
-        giveValueToListeners("x");
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {

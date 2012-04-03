@@ -33,6 +33,14 @@ public abstract class MinMaxAlgo {
         return name;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public EvalFunction getEvalFunction() {
+        return evalFct;
+    }
+
     public void addListener(MinMaxListener listener) {
         listeners.add(listener);
     }

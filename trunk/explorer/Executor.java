@@ -23,19 +23,22 @@ public class Executor implements MinMaxListener {
         minMaxAlgo.addListener(this);
     }
 
-    public void start() {
-        this.thread = new Thread(new launcher());
-        thread.start();
-    }
-
-    public void setMinMaxAlgo(MinMaxAlgo minMaxAlgo) {
+    public void changeAlgo(String algoName) {
         int minValue = this.minMaxAlgo.getMinValue();
         int maxValue = this.minMaxAlgo.getMaxValue();
 
-        this.minMaxAlgo = minMaxAlgo;
-        this.minMaxAlgo.addListener(this);
-        this.minMaxAlgo.setMinValue(minValue);
-        this.minMaxAlgo.setMaxValue(maxValue);
+        this.minMaxAlgo = MinMaxAlgoFactory.getInstance().getMinMaxAlgo(
+                              algoName, minMaxAlgo.getGame(),
+                              minMaxAlgo.maxDepth(),
+                              minMaxAlgo.getEvalFunction());
+        this.minMaxAlgo.addListener(this); // ajout du listener
+        this.minMaxAlgo.setMinValue(minValue); // ajout de la valeur min courant
+        this.minMaxAlgo.setMaxValue(maxValue); // idem pour la valeur max
+    }
+
+    public void start() {
+        this.thread = new Thread(new launcher());
+        thread.start();
     }
 
     public void restart() {

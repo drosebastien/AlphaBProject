@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Graphics;
+import java.awt.FontMetrics;
 import java.awt.Color;
 
 public class JLabel {
@@ -34,20 +35,22 @@ public class JLabel {
         return y;
     }
 
+    protected int getWidth(Graphics g, String word) {
+        FontMetrics metrics = g.getFontMetrics();
+        return metrics.stringWidth(word);
+    }
+
     public void paintLabel(Graphics g) {
-        int width = 80;
+        int width = getWidth(g, " " + getLabel() + " ");
         int height = 20;
-        int margin = 5;
-        int leftD = (int) (width * 7./8);
+        int leftD = (int) (width * 4./5);
 
         Color tmp = g.getColor();
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(x - leftD - margin, y - (height + 5),
-                    width, height);
+        g.fillRect(x - leftD, y - (height + 5),  width, height);
         g.setColor(new Color(0, 0, 0));
-        g.drawString(label, x - leftD, y - height + 10);
-        g.drawRect(x - leftD - margin, y - (height + 5),
-                   width, height);
+        g.drawString(" " + getLabel(), x - leftD, y - height + 10);
+        g.drawRect(x - leftD, y - (height + 5), width, height);
         g.setColor(tmp);
     }
 }

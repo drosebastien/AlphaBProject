@@ -74,17 +74,20 @@ public class AlphaBeta extends MinMaxAlgo {
             int tmpValue = maxValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
-            if(beta > tmpValue) {
-                beta = tmpValue;
-                giveValueToListeners("[" + alpha + ", " + beta + "]");
-                warnListenersOfNewBestNode(i);
-            }
-            else{
-                warnListenersOfDropNode(i);
-            }
-            if(beta <= alpha) {
+            if(alpha >= tmpValue) {
+                giveValueToListeners(" " + alpha + " ≥ " + tmpValue);
                 this.lock();
-                return beta;
+                return tmpValue;
+            }
+            else {
+                if(beta > tmpValue) {
+                    beta = tmpValue;
+                    giveValueToListeners("[" + alpha + ", " + beta + "]");
+                    warnListenersOfNewBestNode(i);
+                }
+                else {
+                    warnListenersOfDropNode(i);
+                }
             }
 
             this.lock();
@@ -117,17 +120,21 @@ public class AlphaBeta extends MinMaxAlgo {
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
-            if(alpha < tmpValue) {
-                alpha = tmpValue;
-                giveValueToListeners("[" + alpha + ", " + beta + "]");
-                warnListenersOfNewBestNode(i);
-            }
-            else{
-                warnListenersOfDropNode(i);
-            }
-            if(alpha >= beta) {
+
+            if(beta <= tmpValue) {
+                giveValueToListeners(" " + tmpValue + " ≥ " + beta);
                 this.lock();
-                return alpha;
+                return tmpValue;
+            }
+            else {
+                if(alpha < tmpValue) {
+                    alpha = tmpValue;
+                    giveValueToListeners("[" + alpha + ", " + beta + "]");
+                    warnListenersOfNewBestNode(i);
+                }
+                else {
+                    warnListenersOfDropNode(i);
+                }
             }
 
             this.lock();

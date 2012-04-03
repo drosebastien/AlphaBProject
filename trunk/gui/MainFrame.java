@@ -47,8 +47,6 @@ public class MainFrame extends JFrame {
     private ConfigETWindow configETWindow;
 
     private GridBagConstraints gbc;
-    private Game game;                                                          // à retirer
-    private EvalFunction fct;                                                   // à retirer
     private GamePanel gamePanel;
     private TreePanel treePanel;
     private boolean inExplorerMode;
@@ -60,12 +58,8 @@ public class MainFrame extends JFrame {
     private JCheckBox checkBox;
     private JTextArea dialogTextArea;
 
-    public MainFrame(Game game, EvalFunction fct,
-                     GamePanel gPanel, TreePanel treePanel) {                   //retirer game et evalFunction.
+    public MainFrame(GamePanel gPanel, TreePanel treePanel) {
         super("Exploration algorithm");
-
-        this.game = game;                                                       // à retirer
-        this.fct = fct;                                                         // à retirer
 
         this.treePanel = treePanel;
         this.gamePanel = gPanel;
@@ -87,9 +81,7 @@ public class MainFrame extends JFrame {
     public void algoHaveChanged(String algoName) {
         int depth = getIntValueOfSpinner(treeDepthSpinner);
         for(int i = 0; i < listeners.size(); i++) {
-            MinMaxAlgo algo = MinMaxAlgoFactory.getInstance().getMinMaxAlgo(
-                              algoName, game, depth, fct);
-            listeners.get(i).algoHaveChanged(algo);
+            listeners.get(i).algoHaveChanged(algoName);
         }
     }
 
