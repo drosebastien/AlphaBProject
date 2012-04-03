@@ -45,7 +45,7 @@ public class Processor {
 
         EvalFunction evalFct = new MorpionEvalFunction();
 
-        mainFrame = new MainFrame(gameCopy, evalFct, gamePanel, treePanel);
+        mainFrame = new MainFrame(gamePanel, treePanel);
         mainFrame.addListener(controller);
 
         String[] algoNames =

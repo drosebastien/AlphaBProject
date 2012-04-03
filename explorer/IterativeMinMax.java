@@ -19,13 +19,13 @@ public class IterativeMinMax extends MinMaxAlgo {
         Player nodePlayer = game.nextPlayer();
 
         Move bestMove = null;
-
         for(int j = 1; j <= maxDepth(); j++) {
+            int bestValue = getMinValue();
             bestMove = null;
+            MoveIterator iterator = game.getPossibleMoves();
+
             warnListeners(Movement.NEUTRAL, 0);
             giveValueToListeners("" + getMinValue());
-            MoveIterator iterator = game.getPossibleMoves();
-            int bestValue = getMinValue();
             this.lock();
 
             int i = 0;
@@ -39,12 +39,15 @@ public class IterativeMinMax extends MinMaxAlgo {
                     bestMove = tmp;
                     bestValue = tmpValue;
                     giveValueToListeners("" + bestValue);
+                    warnListenersOfNewBestNode(i);
+                }
+                else {
+                    warnListenersOfDropNode(i);
                 }
                 this.lock();
 
                 i++;
             }
-
             refreshTreeOfListener();
         }
 
@@ -59,9 +62,11 @@ public class IterativeMinMax extends MinMaxAlgo {
             return value;
         }
 
+        int bestValue = getMaxValue();
+        giveValueToListeners("" + bestValue);
+
         this.lock();
 
-        int bestValue = getMaxValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -74,6 +79,10 @@ public class IterativeMinMax extends MinMaxAlgo {
             if(tmpValue < bestValue) {
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue);
+                warnListenersOfNewBestNode(i);
+            }
+            else {
+                warnListenersOfDropNode(i);
             }
             this.lock();
 
@@ -91,9 +100,11 @@ public class IterativeMinMax extends MinMaxAlgo {
             return value;
         }
 
+        int bestValue = getMinValue();
+        giveValueToListeners("" + bestValue);
+
         this.lock();
 
-        int bestValue = getMinValue();
         MoveIterator iterator = game.getPossibleMoves();
 
         int i = 0;
@@ -106,6 +117,10 @@ public class IterativeMinMax extends MinMaxAlgo {
             if(tmpValue > bestValue) {
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue);
+                warnListenersOfNewBestNode(i);
+            }
+            else {
+                warnListenersOfDropNode(i);
             }
             this.lock();
 
@@ -123,7 +138,6 @@ public class IterativeMinMax extends MinMaxAlgo {
             e.printStackTrace();
         }
         warnListeners(Movement.FORWARD, indexOfMove);
-        giveValueToListeners("x");
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {

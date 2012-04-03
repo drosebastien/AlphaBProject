@@ -16,9 +16,11 @@ public class JLeafLabel extends JLabel{
     }
 
     public void paintLabel(Graphics g) {
+        int width = getWidth(g, getLabel());
+
         Color tmp = g.getColor();
         g.setColor(new Color(0, 0, 155));
-        g.drawString(getLabel(), getX() - 5, getY() + 20);
+        g.drawString(getLabel(), getX() - width / 2, getY() + 20);
         g.setColor(tmp);
     }
 }
