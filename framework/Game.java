@@ -44,6 +44,18 @@ public abstract class Game {
     public abstract ArrayList<Move> getListOfPossibleMoves();
 
     public void setFirstMovesOfPossibleMoves(int[] firsts) {
+        if(this.firsts != null) {
+            int minLength = (firsts.length < this.firsts.length)?
+                            firsts.length: this.firsts.length;
+            for(int i = 0; i < minLength; i++) {
+                if(firsts[i] == 0) {
+                    firsts[i] = this.firsts[i];
+                }
+                else if(firsts[i] <= this.firsts[i]) {
+                    firsts[i]--;
+                }
+            }
+        }
         this.firsts = firsts;
         this.depthToSelectState = 0;
     }
