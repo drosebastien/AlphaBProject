@@ -60,7 +60,12 @@ public class NormalTreePanel extends TreePanel {
         if(jTreeRoot != null) {
             try {
                 int[] path = jTreeRoot.getPathToCoordinate(x, y);
-                this.clickOnNode(path);
+                if(e.getButton() == MouseEvent.BUTTON1) { // if Button 1
+                    this.clickOnNode(path);
+                }
+                else {                                    // else
+                    this.bestNodeSelected(path);
+                }
             }
             catch(NodeNotFoundException error) {
             }

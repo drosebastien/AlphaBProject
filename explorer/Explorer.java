@@ -14,6 +14,7 @@ public class Explorer {
     private Executor executor;
     private ArrayList<Move> lastMoves;
     private int treeDepth;
+    private boolean haveToRemovePreferedMove = true;
 
     public Explorer(Game game, GamePanel gamePanel,
                     TreePanel treePanel, int treeDepth) {
@@ -31,11 +32,16 @@ public class Explorer {
     }
 
     public void restart() {
+        if(haveToRemovePreferedMove) {
+            game.resetFirstMovesOfPossibleMove();
+        }
         game.loadSavedState();
         makeTreePanel();
         executor.setMaxDepth(treeDepth);
         executor.setTree(root);
         executor.restart();
+
+        haveToRemovePreferedMove = true;
     }
 
     public void makeTreePanel() {
@@ -44,6 +50,17 @@ public class Explorer {
         treePanel.setTreeRootNode(root);
         treePanel.repaint();
         gamePanel.repaint();
+    }
+
+    /**
+     * Cette méthode permet de séléctionner le premier noeud à évaluer.
+     * @param path Le chemin du premier noeud à évaluer.
+     */
+    public void selectFirstNode(int[] path) {
+        game.loadSavedState();
+        game.setFirstMovesOfPossibleMoves(path);
+        haveToRemovePreferedMove = false;
+        restart();
     }
 
     public void setTreeDepth(int treeDepth) {
@@ -61,7 +78,7 @@ public class Explorer {
 //        }
 //        return new LeafNode(null, 100);
 
-        MoveIterator iterator = game.getPossibleMoves();
+        MoveIterator iterator = game.getPossibleOrderedMoves();
         if(iterator.hasNext()) {
             TreeNode root = new TreeNode(null);
             makeTree(height - 1, root);
@@ -78,7 +95,7 @@ public class Explorer {
         else {
             TreeNode child = new TreeNode(parent);
             parent.addChildNode(child);
-            MoveIterator iterator = game.getPossibleMoves();
+            MoveIterator iterator = game.getPossibleOrderedMoves();
             while(iterator.hasNext()) {
                 Move move = iterator.next();
                 try {
@@ -121,7 +138,14 @@ public class Explorer {
 
         int size = moves.length;
         for(int i = 0; i < size; i++) {
-            Move tmp = game.getListOfPossibleMoves().get(moves[i]);
+            MoveIterator iterator = game.getPossibleOrderedMoves();
+            Move tmp = null;
+            try {
+                tmp = iterator.getMove(moves[i]);
+            }
+            catch(MoveException exception) {
+                exception.printStackTrace();
+            }
             lastMoves.add(0, tmp);
             try {
                 game.play(lastMoves.get(0));
@@ -131,11 +155,13 @@ public class Explorer {
             }
         }
 
-        makeTreePanel();
 
-        executor.setTree(root);
-        executor.restart(); //restart the executor and the MinMax algorithme
+//        makeTreePanel();
+
+//        executor.setTree(root);
+//        executor.restart(); //restart the executor and the MinMax algorithme
         game.saveStateOfGame(); //save the new state of game.
+        restart();
     }
 
     public void removeLast() {

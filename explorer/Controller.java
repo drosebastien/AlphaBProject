@@ -25,13 +25,19 @@ public class Controller implements GamePanelListener, TreePanelListener,
         explorer.restart();
     }
 
-    public void clickOnNode(boolean inExplorerMode, int[] treePosition) {
+    public void clickOnNode(boolean inExplorerMode, int[] pathToNode) {
 
         if(inExplorerMode) {
-            explorer.moveForward(treePosition);
+            explorer.moveForward(pathToNode);
         }
         else {
-            executor.progress(treePosition);
+            executor.progress(pathToNode);
+        }
+    }
+
+    public void bestNodeSelected(boolean inExplorerMode, int[] pathToNode) {
+        if(!inExplorerMode) {
+            explorer.selectFirstNode(pathToNode);
         }
     }
 
