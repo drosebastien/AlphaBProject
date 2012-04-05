@@ -5,6 +5,8 @@ import gui.GamePanel;
 
 public abstract class Game {
     protected ArrayList<Player> listOfPlayers;
+    protected int depthToSelectState;
+    protected int[] firsts;
     protected Board board;
     protected GamePanel gamePanel;
 
@@ -41,7 +43,19 @@ public abstract class Game {
 
     public abstract ArrayList<Move> getListOfPossibleMoves();
 
+    public void setFirstMovesOfPossibleMoves(int[] firsts) {
+        this.firsts = firsts;
+        this.depthToSelectState = 0;
+    }
+
+    public void resetFirstMovesOfPossibleMove() {
+        firsts = null;
+        this.depthToSelectState = 0;
+    }
+
     public abstract MoveIterator getPossibleMoves();
+
+    public abstract MoveIterator getPossibleOrderedMoves();
 
     public abstract boolean isPossibleMove(Move move);
 
@@ -51,7 +65,9 @@ public abstract class Game {
 
     public abstract void saveStateOfGame();
 
-    public abstract void loadSavedState();
+    public void loadSavedState() {
+        depthToSelectState = 0;
+    }
 
     public abstract Player getWinner();
 

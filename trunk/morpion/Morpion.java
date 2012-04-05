@@ -51,11 +51,15 @@ public class Morpion extends Game {
         }
         board.placePiece(morpionMove.getPosition(), morpionMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
+
+        depthToSelectState++;
     }
 
     public void removeMove(Move move) {
         board.removePiece(((MorpionMove) move).getPosition());
         currentPlayer = (currentPlayer + 1) % 2;
+
+        depthToSelectState--;
     }
 
     public Move completeMove(Move move) {
@@ -83,6 +87,15 @@ public class Morpion extends Game {
 
     public MoveIterator getPossibleMoves() {
         return new MoveIterator(getListOfPossibleMoves());
+    }
+
+    public MoveIterator getPossibleOrderedMoves() {
+        if(depthToSelectState >= 0 && firsts != null && 
+                                      firsts.length > depthToSelectState) {
+            return new MoveIterator(getListOfPossibleMoves(),
+                                    firsts[depthToSelectState]);
+        }
+        return getPossibleMoves();
     }
 
     public boolean isPossibleMove(Move move) {
@@ -193,6 +206,7 @@ public class Morpion extends Game {
     }
 
     public void loadSavedState() {
+        super.loadSavedState();
         board.copyBoard(copyOfBoard);
         currentPlayer = copyOfCurrentPlayer;
     }

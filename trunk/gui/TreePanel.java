@@ -32,6 +32,12 @@ public abstract class TreePanel extends JPanel {
         }
     }
 
+    protected void bestNodeSelected(int[] path) {
+        for(TreePanelListener listener : listeners) {
+            listener.bestNodeSelected(isInExplorerMode(), path);
+        }
+    }
+
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
     }
