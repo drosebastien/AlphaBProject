@@ -41,8 +41,6 @@ public abstract class Game {
 
     public abstract Move completeMove(Move move);
 
-    public abstract ArrayList<Move> getListOfPossibleMoves();
-
     public void setFirstMovesOfPossibleMoves(int[] firsts) {
         if(this.firsts != null) {
             int minLength = (firsts.length < this.firsts.length)?
@@ -66,8 +64,6 @@ public abstract class Game {
     }
 
     public abstract MoveIterator getPossibleMoves();
-
-    public abstract MoveIterator getPossibleOrderedMoves();
 
     public abstract boolean isPossibleMove(Move move);
 

@@ -7,9 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import java.util.ArrayList;
 
@@ -17,13 +22,27 @@ public class NormalTreePanel extends TreePanel {
     private static final int RADIUSNODE = 4;
 
     private JTree jTreeRoot;
+    private Timer timer;
+    private TimerListener timerListener;
 
     public NormalTreePanel() {
         super();
 
+        timerListener = new TimerListener();
+        timer = new Timer(500, timerListener);
+
         addMouseListener(new MouseAdapter () {
-            public void mouseClicked(MouseEvent e) {
-                mouseClickedEvent(e);
+            public void mouseClicked(MouseEvent evt) {
+                mouseClickedEvent(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                mouseExitedEvent(evt);
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseMoved(MouseEvent evt) {
+                mouseMovedEvent(evt);
             }
         });
 
@@ -53,14 +72,14 @@ public class NormalTreePanel extends TreePanel {
         }
     }
 
-    public void mouseClickedEvent(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+    private void mouseClickedEvent(MouseEvent evt) {
+        int x = evt.getX();
+        int y = evt.getY();
 
         if(jTreeRoot != null) {
             try {
                 int[] path = jTreeRoot.getPathToCoordinate(x, y);
-                if(e.getButton() == MouseEvent.BUTTON1) { // if Button 1
+                if(evt.getButton() == MouseEvent.BUTTON1) { // if Button 1
                     this.clickOnNode(path);
                 }
                 else {                                    // else
@@ -68,6 +87,50 @@ public class NormalTreePanel extends TreePanel {
                 }
             }
             catch(NodeNotFoundException error) {
+            }
+        }
+    }
+
+    private void mouseExitedEvent(MouseEvent evt) {
+        timer.stop();
+    }
+
+    private void mouseMovedEvent(MouseEvent evt) {
+        int x = evt.getX();
+        int y = evt.getY();
+        timerListener.setMouseEvent(evt);
+        timer.restart();
+    }
+
+    private void mousePausedEvent(MouseEvent evt) {
+        System.out.println("pause dans panel");
+        try {
+            int[] path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
+            System.out.println("Path : ");
+            for(int i = 0; i < path.length; i++) {
+                System.out.print("|" + path[i]);
+            }
+            System.out.println();
+        }
+        catch(NodeNotFoundException error) {
+        }
+        timer.stop();
+    }
+
+    private class TimerListener implements ActionListener {
+        private MouseEvent evt;
+
+        public TimerListener() {
+            this.evt = null;
+        }
+
+        public void setMouseEvent(MouseEvent evt) {
+            this.evt = evt;
+        }
+
+        public void actionPerformed(ActionEvent evt) {
+            if(evt != null) {
+                mousePausedEvent(this.evt);
             }
         }
     }

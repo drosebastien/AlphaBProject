@@ -16,26 +16,26 @@ public class MorpionAI extends AI {
 
     public Move minimax() {
         int maxValue = -200;
-        int bestMoveIndex = 0;
-        ArrayList<Move> listOfPossibleMoves =
-                                game.getListOfPossibleMoves();
-        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+        Move bestMove = null;
+        MoveIterator possibleMoves = game.getPossibleMoves();
+        for(int i = 0; possibleMoves.hasNext(); i++) {
+            Move move = possibleMoves.next();
             try {
-                game.play(listOfPossibleMoves.get(i));
+                game.play(move);
             }
             catch(MoveException e) {
                 e.printStackTrace();
             }
             int value = minValue();
-            game.removeMove(listOfPossibleMoves.get(i));
+            game.removeMove(move);
             if(value > maxValue) {
                 maxValue = value;
-                bestMoveIndex = i;
+                bestMove = move;
             }
         }
         System.out.println("maxValue " + maxValue);
 
-        return listOfPossibleMoves.get(bestMoveIndex);
+        return bestMove;
     }
 
     public int minValue() {
@@ -48,16 +48,17 @@ public class MorpionAI extends AI {
             }
         }
         int minValue = 200;
-        ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
-        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+        MoveIterator possibleMoves = game.getPossibleMoves();
+        for(int i = 0; possibleMoves.hasNext(); i++) {
+            Move move = possibleMoves.next();
             try {
-                game.play(listOfPossibleMoves.get(i));
+                game.play(move);
             }
             catch(MoveException e) {
                 e.printStackTrace();
             }
             int value = maxValue();
-            game.removeMove(listOfPossibleMoves.get(i));
+            game.removeMove(move);
             if(value < minValue) {
                 minValue = value;
             }
@@ -76,17 +77,18 @@ public class MorpionAI extends AI {
             }
         }
         int maxValue = -200;
-        ArrayList<Move> listOfPossibleMoves = game.getListOfPossibleMoves();
+        MoveIterator possibleMoves = game.getPossibleMoves();
 
-        for(int i = 0; i < listOfPossibleMoves.size(); i++) {
+        for(int i = 0; possibleMoves.hasNext(); i++) {
+            Move move = possibleMoves.next();
             try {
-                game.play(listOfPossibleMoves.get(i));
+                game.play(move);
             }
             catch(MoveException e) {
                 e.printStackTrace();
             }
             int value = minValue();
-            game.removeMove(listOfPossibleMoves.get(i));
+            game.removeMove(move);
             if(value > maxValue) {
                 maxValue = value;
             }
