@@ -69,33 +69,13 @@ public class Morpion extends Game {
         return new MorpionMove(position, piece);
     }
 
-    public ArrayList<Move> getListOfPossibleMoves() {
-        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
-        MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();
-
-        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
-            for(int j = 0; j < ((MorpionBoard) board).getWidth(); j++) {
-                if(board.isFree(new MorpionPosition(i, j))) {
-                    listOfPossibleMoves.add(new MorpionMove(
-                                    new MorpionPosition(i, j), piece));
-                }
-            }
-        }
-
-        return listOfPossibleMoves;
-    }
-
     public MoveIterator getPossibleMoves() {
-        return new MoveIterator(getListOfPossibleMoves());
-    }
-
-    public MoveIterator getPossibleOrderedMoves() {
-        if(depthToSelectState >= 0 && firsts != null && 
+        if(depthToSelectState >= 0 && firsts != null &&
                                       firsts.length > depthToSelectState) {
             return new MoveIterator(getListOfPossibleMoves(),
                                     firsts[depthToSelectState]);
         }
-        return getPossibleMoves();
+        return new MoveIterator(getListOfPossibleMoves());
     }
 
     public boolean isPossibleMove(Move move) {
@@ -228,5 +208,21 @@ public class Morpion extends Game {
 
     public String toString() {
         return board.toString();
+    }
+
+    private ArrayList<Move> getListOfPossibleMoves() {
+        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
+        MorpionPiece piece = (MorpionPiece) nextPlayer().getPiece();
+
+        for(int i = 0; i < ((MorpionBoard) board).getWidth(); i++) {
+            for(int j = 0; j < ((MorpionBoard) board).getWidth(); j++) {
+                if(board.isFree(new MorpionPosition(i, j))) {
+                    listOfPossibleMoves.add(new MorpionMove(
+                                    new MorpionPosition(i, j), piece));
+                }
+            }
+        }
+
+        return listOfPossibleMoves;
     }
 }

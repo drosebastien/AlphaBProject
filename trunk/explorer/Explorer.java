@@ -78,7 +78,7 @@ public class Explorer {
 //        }
 //        return new LeafNode(null, 100);
 
-        MoveIterator iterator = game.getPossibleOrderedMoves();
+        MoveIterator iterator = game.getPossibleMoves();
         if(iterator.hasNext()) {
             TreeNode root = new TreeNode(null);
             makeTree(height - 1, root);
@@ -95,7 +95,7 @@ public class Explorer {
         else {
             TreeNode child = new TreeNode(parent);
             parent.addChildNode(child);
-            MoveIterator iterator = game.getPossibleOrderedMoves();
+            MoveIterator iterator = game.getPossibleMoves();
             while(iterator.hasNext()) {
                 Move move = iterator.next();
                 try {
@@ -138,7 +138,7 @@ public class Explorer {
 
         int size = moves.length;
         for(int i = 0; i < size; i++) {
-            MoveIterator iterator = game.getPossibleOrderedMoves();
+            MoveIterator iterator = game.getPossibleMoves();
             Move tmp = null;
             try {
                 tmp = iterator.getMove(moves[i]);
