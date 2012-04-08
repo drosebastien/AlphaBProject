@@ -77,6 +77,10 @@ public abstract class Game {
         depthToSelectState = 0;
     }
 
+    public abstract GameMemento saveToMemento();
+
+    public abstract void resetFromMemento(GameMemento memento);
+
     public abstract Player getWinner();
 
     public Board getBoard() {

@@ -191,6 +191,23 @@ public class Morpion extends Game {
         currentPlayer = copyOfCurrentPlayer;
     }
 
+    public GameMemento saveToMemento() {
+        MorpionMemento memento = new MorpionMemento();
+        memento.setBoardState(this.board.clone());
+        memento.setCurrentPlayerState(this.currentPlayer);
+
+        return memento;
+    }
+
+    public void resetFromMemento(GameMemento memento) {
+        if(memento != null) {
+            super.loadSavedState();
+            MorpionMemento morpionMemento = (MorpionMemento) memento;
+            board.copyBoard(morpionMemento.getBoardSavedState());
+            currentPlayer = morpionMemento.getCurrentPlayerSavedState();
+        }
+    }
+
     public GamePanel getPanel() {
         return gamePanel;
     }

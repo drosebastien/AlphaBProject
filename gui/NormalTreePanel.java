@@ -24,12 +24,15 @@ public class NormalTreePanel extends TreePanel {
     private JTree jTreeRoot;
     private Timer timer;
     private TimerListener timerListener;
+    private boolean pauseOnThisPanel;
 
     public NormalTreePanel() {
         super();
 
+        pauseOnThisPanel = false;
+
         timerListener = new TimerListener();
-        timer = new Timer(500, timerListener);
+        timer = new Timer(300, timerListener);
 
         addMouseListener(new MouseAdapter () {
             public void mouseClicked(MouseEvent evt) {
@@ -98,11 +101,17 @@ public class NormalTreePanel extends TreePanel {
     private void mouseMovedEvent(MouseEvent evt) {
         int x = evt.getX();
         int y = evt.getY();
+        if(pauseOnThisPanel) {
+            System.out.println("je suis reveillé");
+            quitPreview();
+            pauseOnThisPanel = false;
+        }
         timerListener.setMouseEvent(evt);
         timer.restart();
     }
 
     private void mousePausedEvent(MouseEvent evt) {
+        pauseOnThisPanel = true;
         System.out.println("pause dans panel");
         try {
             int[] path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
@@ -111,6 +120,7 @@ public class NormalTreePanel extends TreePanel {
                 System.out.print("|" + path[i]);
             }
             System.out.println();
+            preview(path);
         }
         catch(NodeNotFoundException error) {
         }
