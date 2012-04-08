@@ -137,6 +137,13 @@ public class ConnectFour extends Game {
     public void loadSavedState() {
     }
 
+    public GameMemento saveToMemento() {
+        return null;
+    }
+
+    public void resetFromMemento(GameMemento memento) {
+    }
+
     public Game clone() {
         ConnectFour gameCopy = new ConnectFour();
         gameCopy.board = board.clone();

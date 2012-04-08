@@ -38,6 +38,18 @@ public abstract class TreePanel extends JPanel {
         }
     }
 
+    protected void preview(int[] path) {
+        for(TreePanelListener listener : listeners) {
+            listener.preview(path);
+        }
+    }
+
+    protected void quitPreview() {
+        for(TreePanelListener listener : listeners) {
+            listener.quitPreview();
+        }
+    }
+
     public void setInExplorerMode(boolean mode) {
         this.inExplorerMode = mode;
     }

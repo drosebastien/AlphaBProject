@@ -15,10 +15,15 @@ public class Explorer {
     private ArrayList<Move> lastMoves;
     private int treeDepth;
     private boolean haveToRemovePreferedMove = true;
+    private GameMemento explorationMemento;
+    private GameMemento previewMemento;
+    private boolean previewMade;
 
     public Explorer(Game game, GamePanel gamePanel,
                     TreePanel treePanel, int treeDepth) {
+
         lastMoves = new ArrayList<Move>();
+        this.previewMade = false;
         this.game = game;
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
@@ -26,6 +31,7 @@ public class Explorer {
     }
 
     public void start() {
+        explorationMemento = game.saveToMemento();
         makeTreePanel();
         executor.setTree(root);
         executor.start();
@@ -35,7 +41,9 @@ public class Explorer {
         if(haveToRemovePreferedMove) {
             game.resetFirstMovesOfPossibleMove();
         }
-        game.loadSavedState();
+        game.resetFromMemento(explorationMemento);
+        previewMade = false;
+
         makeTreePanel();
         executor.setMaxDepth(treeDepth);
         executor.setTree(root);
@@ -57,7 +65,8 @@ public class Explorer {
      * @param path Le chemin du premier noeud à évaluer.
      */
     public void selectFirstNode(int[] path) {
-        game.loadSavedState();
+        game.resetFromMemento(explorationMemento);
+
         game.setFirstMovesOfPossibleMoves(path);
         haveToRemovePreferedMove = false;
         restart();
@@ -65,18 +74,11 @@ public class Explorer {
 
     public void setTreeDepth(int treeDepth) {
         this.treeDepth = treeDepth;
-        game.loadSavedState();
+
         restart();
     }
 
     public TreeNode makeTree(int height) {
-//        game.getListOfPossibleMove();
-//        if(game.getListOfPossibleMove().size() != 0) {
-//            TreeNode root = new TreeNode(null);
-//            makeTree(height - 1, root);
-//            return root.getChild(0);
-//        }
-//        return new LeafNode(null, 100);
 
         MoveIterator iterator = game.getPossibleMoves();
         if(iterator.hasNext()) {
@@ -111,7 +113,8 @@ public class Explorer {
     }
 
     public void moveForward(Move move) {
-        game.loadSavedState();
+        game.resetFromMemento(explorationMemento);
+
         if(!game.isFinish()) {
             // permet de donner la bonne piece au mouvement
             Move completeMove = game.completeMove(move);
@@ -123,18 +126,17 @@ public class Explorer {
                     e.printStackTrace();
                 }
                 lastMoves.add(0, completeMove);
-                game.saveStateOfGame();
+
+                explorationMemento = game.saveToMemento();
             }
 
-            makeTreePanel();
-
-            executor.setTree(root);
-            executor.restart();
+        restart();
         }
     }
 
     public void moveForward(int[] moves) {
-        game.loadSavedState(); //load the last game state where explorer stop;
+        //load the last game state where explorer stop;
+        game.resetFromMemento(explorationMemento);
 
         int size = moves.length;
         for(int i = 0; i < size; i++) {
@@ -155,26 +157,59 @@ public class Explorer {
             }
         }
 
+        //save the new state of game.
+        explorationMemento = game.saveToMemento();
 
-//        makeTreePanel();
-
-//        executor.setTree(root);
-//        executor.restart(); //restart the executor and the MinMax algorithme
-        game.saveStateOfGame(); //save the new state of game.
         restart();
     }
 
+    public void preview(int[] moves) {
+        previewMade = true;
+        previewMemento = game.saveToMemento();
+        game.resetFromMemento(explorationMemento);
+
+        int size = moves.length;
+        for(int i = 0; i < size; i++) {
+            MoveIterator iterator = game.getPossibleMoves();
+            Move tmp = null;
+            try {
+                tmp = iterator.getMove(moves[i]);
+            }
+            catch(MoveException exception) {
+                exception.printStackTrace();
+            }
+            try {
+                game.play(tmp);
+            }
+            catch(MoveException e) {
+                e.printStackTrace();
+            }
+        }
+
+        gamePanel.repaint();
+    }
+
+    public void quitPreview() {
+        if(previewMemento != null && previewMade) {
+            previewMade = false;
+            game.resetFromMemento(previewMemento);
+
+            gamePanel.repaint();
+        }
+    }
+
     public void removeLast() {
-        game.loadSavedState(); //load the last game state where explorer stop;
+        //load the last game state where explorer stop;
+        game.resetFromMemento(explorationMemento);
 
         if(lastMoves.size() > 0) {
             game.removeMove(lastMoves.remove(0));
         }
-        makeTreePanel();
 
-        executor.setTree(root);
-        executor.restart(); //restart the executor and the MinMax algorithme
-        game.saveStateOfGame(); //save the new state of game.
+        //save the new state of game.
+        explorationMemento = game.saveToMemento();
+
+        restart();
     }
 
     public void addExecutor(Executor executor) {
