@@ -53,8 +53,9 @@ public class MainFrame extends JFrame {
     private TreePanel treePanel;
     private boolean inExplorerMode;
 
-    private JButton playButton;
     private JSpinner treeDepthSpinner;
+    private JButton playButton;
+    private JButton stopButton;
     private JButton nextButton;
     private JButton previousButton;
     private JCheckBox checkBox;
@@ -80,12 +81,6 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         //repaint();
-    }
-
-    public void windowValuesHaveChanged(int minValue, int maxValue) {
-        for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).windowValuesHaveChanged(minValue, maxValue);
-        }
     }
 
     public void initMenu() {
@@ -134,8 +129,17 @@ public class MainFrame extends JFrame {
                 playPausePerformed(evt);
             }
         });
-        playButton.setMinimumSize(new Dimension(120, 25));
-        playButton.setPreferredSize(new Dimension(120, 25));
+        playButton.setMinimumSize(new Dimension(80, 25));
+        playButton.setPreferredSize(new Dimension(80, 25));
+
+        stopButton = new JButton("stop");
+        stopButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                stopPerformed(evt);
+            }
+        });
+        stopButton.setMinimumSize(new Dimension(80, 25));
+        stopButton.setPreferredSize(new Dimension(80, 25));
 
         Integer value = new Integer(2);
         Integer min = new Integer(2);
@@ -230,21 +234,38 @@ public class MainFrame extends JFrame {
         add(new JScrollPane(treePanel), gbc);
 
         gbc.gridy = 10;
-        gbc.weightx = gbc.weighty = 0.;
+        gbc.weighty = 0.;
+        gbc.weightx = 1.;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(5, 5, 5, 0);
         add(previousButton, gbc);
 
         gbc.gridx = 4;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 0.;
+        gbc.insets = new Insets(5, 5, 5, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
         add(playButton, gbc);
 
         gbc.gridx = 5;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(5, 5, 5, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(stopButton, gbc);
+
+        gbc.gridx = 6;
+        gbc.weightx = 1.;
+        gbc.insets = new Insets(5, 5, 5, 0);
+        gbc.anchor = GridBagConstraints.LINE_START;
         add(nextButton, gbc);
+    }
+
+    public void windowValuesHaveChanged(int minValue, int maxValue) {
+        makePause();
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).windowValuesHaveChanged(minValue, maxValue);
+        }
     }
 
     public void algoHaveChanged(String algoName) {
@@ -268,6 +289,13 @@ public class MainFrame extends JFrame {
         }
     }
 
+    private void stopPerformed(ActionEvent evt) {
+        for(MinMaxEducativeToolsListener listener : listeners) {
+            makePause();
+            listener.stop(inExplorerMode);
+        }
+    }
+
     private void makePause() {
         for(MinMaxEducativeToolsListener listener : listeners) {
             listener.pause(inExplorerMode);
@@ -285,12 +313,14 @@ public class MainFrame extends JFrame {
                 treePanel.setInExplorerMode(true);
                 inExplorerMode = true;
                 playButton.setEnabled(false);
+                stopButton.setEnabled(false);
             }
             else {
                 gamePanel.setInExplorerMode(false);
                 treePanel.setInExplorerMode(false);
                 inExplorerMode = false;
                 playButton.setEnabled(true);
+                stopButton.setEnabled(true);
             }
         }
     }
@@ -302,6 +332,7 @@ public class MainFrame extends JFrame {
     private class TreeDepthSpinnerListener implements ChangeListener {
 
         public void stateChanged(ChangeEvent evt) {
+            makePause();
             int value = getIntValueOfSpinner(treeDepthSpinner);
 
             for(MinMaxEducativeToolsListener listener : listeners) {

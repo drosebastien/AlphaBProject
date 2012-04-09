@@ -99,4 +99,11 @@ public class Controller implements GamePanelListener, TreePanelListener,
             executor.pause();
         }
     }
+
+    public void stop(boolean inExplorerMode) {
+        if(!inExplorerMode) {
+            executor.pause();
+            explorer.restart();
+        }
+    }
 }

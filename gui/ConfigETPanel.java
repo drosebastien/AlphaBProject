@@ -158,9 +158,6 @@ public class ConfigETPanel extends JPanel {
         int maxValue = getIntValueOfSpinner(maxValueSpinner);
 
         listener.minMaxWindowValuesSpinnerStateChanged(minValue, maxValue);
-
-        System.out.printf("ConfigETPanel : Window : %d < - > %d\n", minValue
-                                                                  , maxValue);
     }
 
     private int getIntValueOfSpinner(JSpinner spinner) {

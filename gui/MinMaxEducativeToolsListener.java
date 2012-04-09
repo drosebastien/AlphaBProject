@@ -16,4 +16,6 @@ public interface MinMaxEducativeToolsListener {
     public void play(boolean inExplorerMode);
 
     public void pause(boolean inExplorerMode);
+
+    public void stop(boolean inExplorerMode);
 }
