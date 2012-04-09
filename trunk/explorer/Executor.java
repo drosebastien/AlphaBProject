@@ -6,6 +6,10 @@ import framework.*;
 
 import java.util.ArrayList;
 
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class Executor implements MinMaxListener {
     private Game game;
     private GamePanel gamePanel;
@@ -13,6 +17,7 @@ public class Executor implements MinMaxListener {
     private TreeNode currentNode;
     private MinMaxAlgo minMaxAlgo;
     private Thread thread;
+    private Timer timer;
 
     public Executor(Game game, GamePanel gamePanel,
                     TreePanel treePanel, MinMaxAlgo minMaxAlgo) {
@@ -20,6 +25,7 @@ public class Executor implements MinMaxListener {
         this.gamePanel = gamePanel;
         this.treePanel = treePanel;
         this.minMaxAlgo = minMaxAlgo;
+        timer = new Timer(100, new TimerListener());
         minMaxAlgo.addListener(this);
     }
 
@@ -141,6 +147,14 @@ public class Executor implements MinMaxListener {
         treePanel.repaint();
     }
 
+    public void play() {
+        timer.restart();
+    }
+
+    public void pause() {
+        timer.stop();
+    }
+
     /*
      * A thread have to be used otherwise everything is blocked by the
      * lock methode from a MinMaxAlgo.
@@ -148,6 +162,12 @@ public class Executor implements MinMaxListener {
     private class launcher implements Runnable {
         public void run() {
             minMaxAlgo.launchMinMax();
+        }
+    }
+
+    public class TimerListener implements ActionListener {
+        public void actionPerformed(ActionEvent evt) {
+            progress();
         }
     }
 }
