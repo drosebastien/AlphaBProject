@@ -102,7 +102,6 @@ public class NormalTreePanel extends TreePanel {
         int x = evt.getX();
         int y = evt.getY();
         if(pauseOnThisPanel) {
-            System.out.println("je suis reveillé");
             quitPreview();
             pauseOnThisPanel = false;
         }
@@ -112,14 +111,8 @@ public class NormalTreePanel extends TreePanel {
 
     private void mousePausedEvent(MouseEvent evt) {
         pauseOnThisPanel = true;
-        System.out.println("pause dans panel");
         try {
             int[] path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
-            System.out.println("Path : ");
-            for(int i = 0; i < path.length; i++) {
-                System.out.print("|" + path[i]);
-            }
-            System.out.println();
             preview(path);
         }
         catch(NodeNotFoundException error) {

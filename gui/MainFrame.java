@@ -44,6 +44,8 @@ public class MainFrame extends JFrame {
 
     private ArrayList<MinMaxEducativeToolsListener> listeners;
 
+    private boolean play;
+
     private ConfigETWindow configETWindow;
 
     private GridBagConstraints gbc;
@@ -51,7 +53,7 @@ public class MainFrame extends JFrame {
     private TreePanel treePanel;
     private boolean inExplorerMode;
 
-    private JButton button;
+    private JButton playButton;
     private JSpinner treeDepthSpinner;
     private JButton nextButton;
     private JButton previousButton;
@@ -60,6 +62,8 @@ public class MainFrame extends JFrame {
 
     public MainFrame(GamePanel gPanel, TreePanel treePanel) {
         super("Exploration algorithm");
+
+        play = false;
 
         this.treePanel = treePanel;
         this.gamePanel = gPanel;
@@ -76,13 +80,6 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         //repaint();
-    }
-
-    public void algoHaveChanged(String algoName) {
-        int depth = getIntValueOfSpinner(treeDepthSpinner);
-        for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).algoHaveChanged(algoName);
-        }
     }
 
     public void windowValuesHaveChanged(int minValue, int maxValue) {
@@ -131,10 +128,14 @@ public class MainFrame extends JFrame {
 
         dialogTextArea = new JTextArea();
 
-//        button = new JButton("OK");
-//        button.addActionListener(new OKListener());
-//        button.setMinimumSize(new Dimension(120, 25));
-//        button.setPreferredSize(new Dimension(120, 25));
+        playButton = new JButton("Play");
+        playButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                playPausePerformed(evt);
+            }
+        });
+        playButton.setMinimumSize(new Dimension(120, 25));
+        playButton.setPreferredSize(new Dimension(120, 25));
 
         Integer value = new Integer(2);
         Integer min = new Integer(2);
@@ -239,20 +240,57 @@ public class MainFrame extends JFrame {
 
         gbc.gridx = 4;
         gbc.insets = new Insets(5, 5, 5, 5);
+        add(playButton, gbc);
+
+        gbc.gridx = 5;
+        gbc.insets = new Insets(5, 5, 5, 5);
         add(nextButton, gbc);
+    }
+
+    public void algoHaveChanged(String algoName) {
+        int depth = getIntValueOfSpinner(treeDepthSpinner);
+        makePause();
+        for(int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).algoHaveChanged(algoName);
+        }
+    }
+
+    private void playPausePerformed(ActionEvent evt) {
+        if(play) {
+            makePause();
+        }
+        else {
+            for(MinMaxEducativeToolsListener listener : listeners) {
+                listener.play(inExplorerMode);
+                play = !play;
+                playButton.setText("Pause");
+            }
+        }
+    }
+
+    private void makePause() {
+        for(MinMaxEducativeToolsListener listener : listeners) {
+            listener.pause(inExplorerMode);
+            play = false;
+            playButton.setText("Play");
+        }
     }
 
     public class ExplorerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(checkBox.isSelected()) {
+                makePause();
+
                 gamePanel.setInExplorerMode(true);
                 treePanel.setInExplorerMode(true);
                 inExplorerMode = true;
+                playButton.setEnabled(false);
             }
             else {
                 gamePanel.setInExplorerMode(false);
                 treePanel.setInExplorerMode(false);
                 inExplorerMode = false;
+                playButton.setEnabled(true);
             }
         }
     }

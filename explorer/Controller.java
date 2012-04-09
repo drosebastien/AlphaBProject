@@ -17,6 +17,7 @@ public class Controller implements GamePanelListener, TreePanelListener,
 
     public void algoHaveChanged(String algoName) {
         executor.changeAlgo(algoName);
+        executor.pause();
         explorer.restart();
     }
 
@@ -85,5 +86,17 @@ public class Controller implements GamePanelListener, TreePanelListener,
 
     public void addExecutor(Executor executor) {
         this.executor = executor;
+    }
+
+    public void play(boolean inExplorerMode) {
+        if(!inExplorerMode) {
+            executor.play();
+        }
+    }
+
+    public void pause(boolean inExplorerMode) {
+        if(!inExplorerMode) {
+            executor.pause();
+        }
     }
 }
