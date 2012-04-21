@@ -27,6 +27,7 @@ public class Executor implements MinMaxListener {
         this.minMaxAlgo = minMaxAlgo;
         timer = new Timer(100, new TimerListener());
         minMaxAlgo.addListener(this);
+        //minMaxAlgo.addListener(new MinMaxListenerTest());
     }
 
     public void changeAlgo(String algoName) {

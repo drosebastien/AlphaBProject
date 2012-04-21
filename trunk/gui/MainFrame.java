@@ -38,7 +38,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements TreePanelListener {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1024;
 
@@ -51,6 +51,7 @@ public class MainFrame extends JFrame {
     private GridBagConstraints gbc;
     private GamePanel gamePanel;
     private TreePanel treePanel;
+    private JScrollPane treePanelScrollPane;
     private boolean inExplorerMode;
 
     private JSpinner treeDepthSpinner;
@@ -67,6 +68,7 @@ public class MainFrame extends JFrame {
         play = false;
 
         this.treePanel = treePanel;
+        treePanel.addListener(this);
         this.gamePanel = gPanel;
 
         listeners = new ArrayList<MinMaxEducativeToolsListener>();
@@ -117,6 +119,8 @@ public class MainFrame extends JFrame {
 
         JLabel explorerLabel = new JLabel("Explorer mode");
         JLabel treeDepthLabel = new JLabel("Tree depth");
+
+        treePanelScrollPane = new JScrollPane(treePanel);
 
         checkBox = new JCheckBox();
         checkBox.addActionListener(new ExplorerListener());
@@ -231,7 +235,7 @@ public class MainFrame extends JFrame {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
-        add(new JScrollPane(treePanel), gbc);
+        add(treePanelScrollPane, gbc);
 
         gbc.gridy = 10;
         gbc.weighty = 0.;
@@ -362,5 +366,23 @@ public class MainFrame extends JFrame {
                 listener.removeLast(inExplorerMode);
             }
         }
+    }
+
+//méthode listener
+
+    public void clickOnNode(boolean isInExplorerMode, int[] path) {
+        // ne fait rien
+    }
+
+    public void bestNodeSelected(boolean isInExplorerMode, int[] path) {
+        // ne fait rien
+    }
+
+    public void preview(int[] moves, boolean inExplorerMode) {
+        makePause();
+    }
+
+    public void quitPreview() {
+        // ne fait rien
     }
 }

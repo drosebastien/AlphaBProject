@@ -61,7 +61,7 @@ public class NormalTreePanel extends TreePanel {
                             RenderingHints.VALUE_ANTIALIAS_ON);
 
         if(root != null) {
-            jTreeRoot = new JTree(55, 30, 100, 8);
+            jTreeRoot = new JTree(55, 30, 100, 11);
             jTreeRoot.initTree(root);
             try {
                 jTreeRoot.paintComponent(g);
@@ -71,7 +71,7 @@ public class NormalTreePanel extends TreePanel {
             }
             int rightMargin = jTreeRoot.getRightMargin();
             setPreferredSize(new Dimension(rightMargin, 800));
-            setMaximumSize(new Dimension(rightMargin, 800));
+            setMinimumSize(new Dimension(rightMargin, 800));
         }
     }
 
