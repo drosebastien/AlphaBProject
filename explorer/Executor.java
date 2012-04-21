@@ -27,7 +27,7 @@ public class Executor implements MinMaxListener {
         this.minMaxAlgo = minMaxAlgo;
         timer = new Timer(100, new TimerListener());
         minMaxAlgo.addListener(this);
-        //minMaxAlgo.addListener(new MinMaxListenerTest());
+        minMaxAlgo.addListener(new MinMaxListenerTest());
     }
 
     public void changeAlgo(String algoName) {
@@ -39,6 +39,7 @@ public class Executor implements MinMaxListener {
                               minMaxAlgo.maxDepth(),
                               minMaxAlgo.getEvalFunction());
         this.minMaxAlgo.addListener(this); // ajout du listener
+        this.minMaxAlgo.addListener(new MinMaxListenerTest());
         this.minMaxAlgo.setMinValue(minValue); // ajout de la valeur min courant
         this.minMaxAlgo.setMaxValue(maxValue); // idem pour la valeur max
     }
@@ -81,12 +82,12 @@ public class Executor implements MinMaxListener {
         System.out.println("je dois avancer mon algo en : " + line);
     }
 
-    public void setValueOfNode(String value) {
+    public void setValueOfNode(String value, MinMaxEvent evt) {
         currentNode.setLabel(value);
         repaintPanels();
     }
 
-    public void setNewBestNode(int indexOfChild) {
+    public void setNewBestNode(int indexOfChild, MinMaxEvent evt) {
         removeStateOfPastImportantNode(currentNode);
 
         TreeNode newImportantNode = currentNode.getChild(indexOfChild);
@@ -116,11 +117,11 @@ public class Executor implements MinMaxListener {
         }
     }
 
-    public void setDropedNode(int indexOfChild) {
+    public void setDropedNode(int indexOfChild, MinMaxEvent evt) {
         removeStateOfPastImportantNode(currentNode.getChild(indexOfChild));
     }
 
-    public void moved(Movement move, int indexInTreeGame) {
+    public void moved(Movement move, int indexInTreeGame, MinMaxEvent evt) {
         switch(move) {
             case FORWARD :
                 currentNode.setType(NodeType.ANCESTOR_OF_CURRENT);
@@ -139,7 +140,7 @@ public class Executor implements MinMaxListener {
         repaintPanels();
     }
 
-    public void refreshTree() {
+    public void refreshTree(MinMaxEvent evt) {
         Tree.removeStatesOfTree(currentNode);
     }
 

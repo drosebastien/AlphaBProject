@@ -22,8 +22,8 @@ public class NormalMinMax extends MinMaxAlgo {
         Move bestMove = null;
         MoveIterator iterator = game.getPossibleMoves();
 
-        warnListeners(Movement.NEUTRAL, 0);
-        giveValueToListeners("" + getMinValue());
+        warnListeners(Movement.NEUTRAL, 0, new MinMaxEvent());
+        giveValueToListeners("" + getMinValue(), new MinMaxEvent());
         this.lock();
 
         int i = 0;
@@ -36,11 +36,11 @@ public class NormalMinMax extends MinMaxAlgo {
             if(tmpValue > bestValue) {
                 bestMove = tmp;
                 bestValue = tmpValue;
-                giveValueToListeners("" + bestValue);
-                warnListenersOfNewBestNode(i);
+                giveValueToListeners("" + bestValue, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, new MinMaxEvent());
             }
             else {
-                warnListenersOfDropNode(i);
+                warnListenersOfDropNode(i, new MinMaxEvent());
             }
             this.lock();
 
@@ -53,13 +53,13 @@ public class NormalMinMax extends MinMaxAlgo {
     public int minValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            giveValueToListeners("" + value, new MinMaxEvent());
             this.lock();
             return value;
         }
 
         int bestValue = getMaxValue();
-        giveValueToListeners("" + bestValue);
+        giveValueToListeners("" + bestValue, new MinMaxEvent());
 
         this.lock();
 
@@ -74,11 +74,11 @@ public class NormalMinMax extends MinMaxAlgo {
 
             if(tmpValue < bestValue) {
                 bestValue = tmpValue;
-                giveValueToListeners("" + bestValue);
-                warnListenersOfNewBestNode(i);
+                giveValueToListeners("" + bestValue, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, new MinMaxEvent());
             }
             else {
-                warnListenersOfDropNode(i);
+                warnListenersOfDropNode(i, new MinMaxEvent());
             }
             this.lock();
 
@@ -91,13 +91,13 @@ public class NormalMinMax extends MinMaxAlgo {
     public int maxValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            giveValueToListeners("" + value, new MinMaxEvent());
             this.lock();
             return value;
         }
 
         int bestValue = getMinValue();
-        giveValueToListeners("" + bestValue);
+        giveValueToListeners("" + bestValue, new MinMaxEvent());
 
         this.lock();
 
@@ -112,11 +112,11 @@ public class NormalMinMax extends MinMaxAlgo {
 
             if(tmpValue > bestValue) {
                 bestValue = tmpValue;
-                giveValueToListeners("" + bestValue);
-                warnListenersOfNewBestNode(i);
+                giveValueToListeners("" + bestValue, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, new MinMaxEvent());
             }
             else {
-                warnListenersOfDropNode(i);
+                warnListenersOfDropNode(i, new MinMaxEvent());
             }
             this.lock();
 
@@ -133,11 +133,11 @@ public class NormalMinMax extends MinMaxAlgo {
         catch(MoveException e) {
             e.printStackTrace();
         }
-        warnListeners(Movement.FORWARD, indexOfMove);
+        warnListeners(Movement.FORWARD, indexOfMove, new MinMaxEvent());
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
-        warnListeners(Movement.BACKWARD, indexOfMove);
+        warnListeners(Movement.BACKWARD, indexOfMove, new MinMaxEvent());
         game.removeMove(move);
     }
 

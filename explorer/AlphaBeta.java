@@ -23,26 +23,29 @@ public class AlphaBeta extends MinMaxAlgo {
         Move bestMove = null;
         MoveIterator iterator = game.getPossibleMoves();
 
-        warnListeners(Movement.NEUTRAL, 0);
-        giveValueToListeners("" + alpha);
+        warnListeners(Movement.NEUTRAL, 0, new MinMaxEvent());
+        giveValueToListeners("" + alpha, new MinMaxEvent());
         this.lock();
 
         int i = 0;
         while(iterator.hasNext()) {
             Move tmp = iterator.next();
             playMove(tmp, i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]");
+            giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
             int tmpValue = minValue(maxDepth() - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
             if(alpha < tmpValue) {
                 bestMove = tmp;
+                MinMaxEvent evt = new MinMaxEvent("" + alpha + " < " +
+                    tmpValue + ", the new bestValue is " + tmpValue);
                 alpha = tmpValue;
-                giveValueToListeners("" + alpha);
-                warnListenersOfNewBestNode(i);
+                giveValueToListeners("" + alpha, evt);
+                warnListenersOfNewBestNode(i, new MinMaxEvent());
             }
             else{
-                warnListenersOfDropNode(i);
+                warnListenersOfDropNode(i, new MinMaxEvent());
             }
             this.lock();
 
@@ -56,7 +59,9 @@ public class AlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            MinMaxEvent evt = new MinMaxEvent("The leaf is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -70,23 +75,34 @@ public class AlphaBeta extends MinMaxAlgo {
         while(iterator.hasNext()) {
             Move tmp = iterator.next();
             playMove(tmp, i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]");
+            giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
             int tmpValue = maxValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
             if(alpha >= tmpValue) {
-                giveValueToListeners(" " + alpha + " ≥ " + tmpValue);
+                MinMaxEvent evt = new MinMaxEvent("MAX(" + alpha + ", MIN(" +
+                            tmpValue + ", ...)) = " + alpha +
+                            ", the search will be cut");
+                giveValueToListeners(" " + alpha + " ≥ " + tmpValue, evt);
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(beta > tmpValue) {
+                    MinMaxEvent evt = new MinMaxEvent("" + beta + " > " +
+                        tmpValue +", the new value of beta is : " + tmpValue);
+
                     beta = tmpValue;
-                    giveValueToListeners("[" + alpha + ", " + beta + "]");
-                    warnListenersOfNewBestNode(i);
+                    giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
+                    warnListenersOfNewBestNode(i, evt);
                 }
                 else {
-                    warnListenersOfDropNode(i);
+                    MinMaxEvent evt = new MinMaxEvent("" + beta + " ≤ " +
+                        tmpValue + ", the value of beta doesn't change");
+
+                    warnListenersOfDropNode(i, evt);
                 }
             }
 
@@ -102,7 +118,9 @@ public class AlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            MinMaxEvent evt = new MinMaxEvent("The leaf is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -116,24 +134,32 @@ public class AlphaBeta extends MinMaxAlgo {
         while(iterator.hasNext()) {
             Move tmp = iterator.next();
             playMove(tmp, i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]");
+            giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
 
             if(beta <= tmpValue) {
-                giveValueToListeners(" " + tmpValue + " ≥ " + beta);
+                MinMaxEvent evt = new MinMaxEvent("MIN(" + beta + ", MAX(" +
+                            tmpValue + ", ...)) = " + beta +
+                            ", the search will be cut");
+                giveValueToListeners(" " + tmpValue + " ≥ " + beta, evt);
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(alpha < tmpValue) {
+                    MinMaxEvent evt = new MinMaxEvent("" + alpha + " < " +
+                        tmpValue +", the new value of alpha is : " + tmpValue);
                     alpha = tmpValue;
-                    giveValueToListeners("[" + alpha + ", " + beta + "]");
-                    warnListenersOfNewBestNode(i);
+                    giveValueToListeners("[" + alpha + ", " + beta + "]", evt);
+                    warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else {
-                    warnListenersOfDropNode(i);
+                    MinMaxEvent evt = new MinMaxEvent("" + alpha + " ≥ " +
+                        tmpValue + ", the value of alpha doesn't change");
+                    warnListenersOfDropNode(i, evt);
                 }
             }
 
@@ -152,11 +178,11 @@ public class AlphaBeta extends MinMaxAlgo {
         catch(MoveException e) {
             e.printStackTrace();
         }
-        warnListeners(Movement.FORWARD, indexOfMove);
+        warnListeners(Movement.FORWARD, indexOfMove, new MinMaxEvent());
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
-        warnListeners(Movement.BACKWARD, indexOfMove);
+        warnListeners(Movement.BACKWARD, indexOfMove, new MinMaxEvent());
         game.removeMove(move);
     }
 
