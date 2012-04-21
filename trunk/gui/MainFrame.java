@@ -375,7 +375,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
     }
 
     public void bestNodeSelected(boolean isInExplorerMode, int[] path) {
-        // ne fait rien
+        makePause();
     }
 
     public void preview(int[] moves, boolean inExplorerMode) {
