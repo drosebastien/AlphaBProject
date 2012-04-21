@@ -37,6 +37,7 @@ public class Controller implements GamePanelListener, TreePanelListener,
     }
 
     public void bestNodeSelected(boolean inExplorerMode, int[] pathToNode) {
+        pause(inExplorerMode);
         if(!inExplorerMode) {
             explorer.selectFirstNode(pathToNode);
         }
