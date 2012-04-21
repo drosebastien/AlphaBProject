@@ -94,33 +94,34 @@ public abstract class MinMaxAlgo {
         }
     }
 
-    protected void giveValueToListeners(String value) {
+    protected void giveValueToListeners(String value, MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).setValueOfNode(value);
+            listeners.get(i).setValueOfNode(value, evt);
         }
     }
 
-    protected void warnListenersOfNewBestNode(int index) {
+    protected void warnListenersOfNewBestNode(int index, MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).setNewBestNode(index);
+            listeners.get(i).setNewBestNode(index, evt);
         }
     }
 
-    protected void warnListenersOfDropNode(int index) {
+    protected void warnListenersOfDropNode(int index, MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).setDropedNode(index);
+            listeners.get(i).setDropedNode(index, evt);
         }
     }
 
-    protected void refreshTreeOfListener() {
+    protected void refreshTreeOfListener(MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).refreshTree();
+            listeners.get(i).refreshTree(evt);
         }
     }
 
-    protected void warnListeners(Movement move, int indexOfMove) {
+    protected void warnListeners(Movement move, int indexOfMove,
+                                                        MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).moved(move, indexOfMove);
+            listeners.get(i).moved(move, indexOfMove, evt);
         }
     }
 

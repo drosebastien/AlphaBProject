@@ -25,15 +25,16 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
             bestMove = null;
             MoveIterator iterator = game.getPossibleMoves();
 
-            warnListeners(Movement.NEUTRAL, 0);
-            giveValueToListeners("" + alpha);
+            warnListeners(Movement.NEUTRAL, 0, new MinMaxEvent());
+            giveValueToListeners("" + alpha, new MinMaxEvent());
             this.lock();
 
             int i = 0;
             while(iterator.hasNext()) {
                 Move tmp = iterator.next();
                 playMove(tmp, i);
-                giveValueToListeners("[" + alpha + ", " + beta + "]");
+                giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
                 int tmpValue = minValue(j - 1, nodePlayer, i,
                                                                alpha, beta);
                 removeMove(tmp, i, "" + tmpValue);
@@ -41,18 +42,18 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                 if(alpha < tmpValue) {
                     bestMove = tmp;
                     alpha = tmpValue;
-                    giveValueToListeners("" + alpha);
-                    warnListenersOfNewBestNode(i);
+                    giveValueToListeners("" + alpha, new MinMaxEvent());
+                    warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else{
-                    warnListenersOfDropNode(i);
+                    warnListenersOfDropNode(i, new MinMaxEvent());
                 }
                 this.lock();
 
                 i++;
             }
 
-            refreshTreeOfListener();
+            refreshTreeOfListener(new MinMaxEvent());
         }
 
         return bestMove;
@@ -62,7 +63,7 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            giveValueToListeners("" + value, new MinMaxEvent());
             this.lock();
             return value;
         }
@@ -76,23 +77,26 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
         while(iterator.hasNext()) {
             Move tmp = iterator.next();
             playMove(tmp, i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]");
+            giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
             int tmpValue = maxValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
             if(alpha >= tmpValue) {
-                giveValueToListeners(" " + alpha + " ≥ " + tmpValue);
+                giveValueToListeners(" " + alpha + " ≥ " + tmpValue,
+                                                        new MinMaxEvent());
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(beta > tmpValue) {
                     beta = tmpValue;
-                    giveValueToListeners("[" + alpha + ", " + beta + "]");
-                    warnListenersOfNewBestNode(i);
+                    giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
+                    warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else {
-                    warnListenersOfDropNode(i);
+                    warnListenersOfDropNode(i, new MinMaxEvent());
                 }
             }
 
@@ -108,7 +112,7 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value);
+            giveValueToListeners("" + value, new MinMaxEvent());
             this.lock();
             return value;
         }
@@ -122,24 +126,27 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
         while(iterator.hasNext()) {
             Move tmp = iterator.next();
             playMove(tmp, i);
-            giveValueToListeners("[" + alpha + ", " + beta + "]");
+            giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                        new MinMaxEvent());
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
 
             if(beta <= tmpValue) {
-                giveValueToListeners(" " + tmpValue + " ≥ " + beta);
+                giveValueToListeners(" " + tmpValue + " ≥ " + beta,
+                                                            new MinMaxEvent());
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(alpha < tmpValue) {
                     alpha = tmpValue;
-                    giveValueToListeners("[" + alpha + ", " + beta + "]");
-                    warnListenersOfNewBestNode(i);
+                    giveValueToListeners("[" + alpha + ", " + beta + "]",
+                                                            new MinMaxEvent());
+                    warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else {
-                    warnListenersOfDropNode(i);
+                    warnListenersOfDropNode(i, new MinMaxEvent());
                 }
             }
 
@@ -158,11 +165,11 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
         catch(MoveException e) {
             e.printStackTrace();
         }
-        warnListeners(Movement.FORWARD, indexOfMove);
+        warnListeners(Movement.FORWARD, indexOfMove, new MinMaxEvent());
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
-        warnListeners(Movement.BACKWARD, indexOfMove);
+        warnListeners(Movement.BACKWARD, indexOfMove, new MinMaxEvent());
         game.removeMove(move);
     }
 
