@@ -79,7 +79,7 @@ public class JNode extends TreeNode{
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
-        int circonf = 6;
+        int circonf = 8;
 
         Color tmp = g.getColor();
         int grayLvl = 150;

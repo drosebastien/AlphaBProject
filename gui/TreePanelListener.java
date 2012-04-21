@@ -6,7 +6,7 @@ public interface TreePanelListener {
 
     public void bestNodeSelected(boolean isInExplorerMode, int[] path);
 
-    public void preview(int[] moves);
+    public void preview(int[] moves, boolean inExplorerMode);
 
     public void quitPreview();
 }

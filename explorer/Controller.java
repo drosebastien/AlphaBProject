@@ -68,7 +68,8 @@ public class Controller implements GamePanelListener, TreePanelListener,
         }
     }
 
-    public void preview(int[] moves) {
+    public void preview(int[] moves, boolean inExplorerMode) {
+        pause(inExplorerMode);
         explorer.preview(moves);
     }
 

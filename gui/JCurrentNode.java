@@ -14,7 +14,7 @@ public class JCurrentNode extends JAncestorNode {
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
-        int circonf = 8;
+        int circonf = 10;
 
         Color tmp = g.getColor();
 

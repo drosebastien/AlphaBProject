@@ -40,11 +40,17 @@ public abstract class TreePanel extends JPanel {
 
     protected void preview(int[] path) {
         for(TreePanelListener listener : listeners) {
-            listener.preview(path);
+            listener.preview(path, isInExplorerMode());
         }
     }
 
     protected void quitPreview() {
+        for(TreePanelListener listener : listeners) {
+            listener.quitPreview();
+        }
+    }
+
+    protected void treeIsRepaint() {
         for(TreePanelListener listener : listeners) {
             listener.quitPreview();
         }
