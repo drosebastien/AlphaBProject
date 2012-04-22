@@ -18,6 +18,7 @@ public class Executor implements MinMaxListener {
     private MinMaxAlgo minMaxAlgo;
     private Thread thread;
     private Timer timer;
+    private ArrayList<MinMaxListener> minMaxListeners;
 
     public Executor(Game game, GamePanel gamePanel,
                     TreePanel treePanel, MinMaxAlgo minMaxAlgo) {
@@ -26,8 +27,22 @@ public class Executor implements MinMaxListener {
         this.treePanel = treePanel;
         this.minMaxAlgo = minMaxAlgo;
         timer = new Timer(100, new TimerListener());
+        minMaxListeners = new ArrayList<MinMaxListener>();
+        setListeners();
+    }
+
+    private void setListeners() {
+        minMaxAlgo.removeListeners();
         minMaxAlgo.addListener(this);
         minMaxAlgo.addListener(new MinMaxListenerTest());
+        for(int i = 0; i < minMaxListeners.size(); i++) {
+            minMaxAlgo.addListener(minMaxListeners.get(i));
+        }
+    }
+
+    public void addMinMaxListener(MinMaxListener listener) {
+        minMaxListeners.add(listener);
+        setListeners();
     }
 
     public void changeAlgo(String algoName) {
@@ -38,8 +53,7 @@ public class Executor implements MinMaxListener {
                               algoName, minMaxAlgo.getGame(),
                               minMaxAlgo.maxDepth(),
                               minMaxAlgo.getEvalFunction());
-        this.minMaxAlgo.addListener(this); // ajout du listener
-        this.minMaxAlgo.addListener(new MinMaxListenerTest());
+        setListeners();
         this.minMaxAlgo.setMinValue(minValue); // ajout de la valeur min courant
         this.minMaxAlgo.setMaxValue(maxValue); // idem pour la valeur max
     }

@@ -59,6 +59,8 @@ public class Processor {
                                          treePanel, maxDepth);
         Executor executor = new Executor(gameCopy, gamePanel,
                                          treePanel, minMaxAlgo);
+        // demande à l'executor de le mettre dans la liste de listener de l'algo
+        executor.addMinMaxListener(algoPanel);
 
         explorer.addExecutor(executor);
         controller.addExplorer(explorer);

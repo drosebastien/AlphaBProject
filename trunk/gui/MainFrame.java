@@ -216,7 +216,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridy = 6;
         gbc.gridwidth = 2;
-        gbc.gridheight = 1;
+        gbc.gridheight = GridBagConstraints.RELATIVE;
         gbc.fill = GridBagConstraints.BOTH;
         add(algoPanel, gbc);
 
@@ -237,7 +237,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         gbc.insets = new Insets(5, 5, 5, 5);
         add(treePanelScrollPane, gbc);
 
-        gbc.gridy = 10;
+        gbc.gridy = 7;
         gbc.weighty = 0.;
         gbc.weightx = 1.;
         gbc.gridheight = 1;
