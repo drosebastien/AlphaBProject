@@ -41,6 +41,10 @@ public abstract class MinMaxAlgo {
         return evalFct;
     }
 
+    public void removeListeners() {
+        listeners = new ArrayList<MinMaxListener>();
+    }
+
     public void addListener(MinMaxListener listener) {
         listeners.add(listener);
     }
