@@ -34,13 +34,17 @@ public class NormalMinMax extends MinMaxAlgo {
             removeMove(tmp, i, "" + tmpValue);
 
             if(tmpValue > bestValue) {
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " > " + bestValue +
+                    ", The new best value of this MAX Node is " + tmpValue);
                 bestMove = tmp;
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue, new MinMaxEvent());
-                warnListenersOfNewBestNode(i, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, evt);
             }
             else {
-                warnListenersOfDropNode(i, new MinMaxEvent());
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " ≤ " + bestValue +
+                    ", The best Value doesn't change");
+                warnListenersOfDropNode(i, evt);
             }
             this.lock();
 
@@ -53,7 +57,9 @@ public class NormalMinMax extends MinMaxAlgo {
     public int minValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value, new MinMaxEvent());
+            MinMaxEvent evt = new MinMaxEvent("The node is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -73,12 +79,16 @@ public class NormalMinMax extends MinMaxAlgo {
             removeMove(tmp, i, "" + tmpValue);
 
             if(tmpValue < bestValue) {
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " < " + bestValue +
+                    ", The new best value of this Min Node is " + tmpValue);
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue, new MinMaxEvent());
-                warnListenersOfNewBestNode(i, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, evt);
             }
             else {
-                warnListenersOfDropNode(i, new MinMaxEvent());
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " ≥ " + bestValue +
+                    ", The best Value doesn't change");
+                warnListenersOfDropNode(i, evt);
             }
             this.lock();
 
@@ -91,7 +101,9 @@ public class NormalMinMax extends MinMaxAlgo {
     public int maxValue(int depth, Player nodePlayer, int index) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value, new MinMaxEvent());
+            MinMaxEvent evt = new MinMaxEvent("The node is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -111,12 +123,16 @@ public class NormalMinMax extends MinMaxAlgo {
             removeMove(tmp, i, "" + tmpValue);
 
             if(tmpValue > bestValue) {
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " > " + bestValue +
+                    ", The new best value of this MAX Node is " + tmpValue);
                 bestValue = tmpValue;
                 giveValueToListeners("" + bestValue, new MinMaxEvent());
-                warnListenersOfNewBestNode(i, new MinMaxEvent());
+                warnListenersOfNewBestNode(i, evt);
             }
             else {
-                warnListenersOfDropNode(i, new MinMaxEvent());
+                MinMaxEvent evt = new MinMaxEvent(tmpValue + " ≤ " + bestValue +
+                    ", The best Value doesn't change");
+                warnListenersOfDropNode(i, evt);
             }
             this.lock();
 

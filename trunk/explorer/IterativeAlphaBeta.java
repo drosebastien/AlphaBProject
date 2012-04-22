@@ -34,15 +34,16 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                 Move tmp = iterator.next();
                 playMove(tmp, i);
                 giveValueToListeners("[" + alpha + ", " + beta + "]",
-                                                            new MinMaxEvent());
-                int tmpValue = minValue(j - 1, nodePlayer, i,
-                                                               alpha, beta);
+                                                                new MinMaxEvent());
+                int tmpValue = minValue(j - 1, nodePlayer, i, alpha, beta);
                 removeMove(tmp, i, "" + tmpValue);
 
                 if(alpha < tmpValue) {
                     bestMove = tmp;
+                    MinMaxEvent evt = new MinMaxEvent("" + alpha + " < " +
+                        tmpValue + ", the new bestValue is " + tmpValue);
                     alpha = tmpValue;
-                    giveValueToListeners("" + alpha, new MinMaxEvent());
+                    giveValueToListeners("" + alpha, evt);
                     warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else{
@@ -52,7 +53,6 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
 
                 i++;
             }
-
             refreshTreeOfListener(new MinMaxEvent());
         }
 
@@ -63,7 +63,9 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value, new MinMaxEvent());
+            MinMaxEvent evt = new MinMaxEvent("The leaf is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -83,20 +85,28 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
             removeMove(tmp, i, "" + tmpValue);
 
             if(alpha >= tmpValue) {
-                giveValueToListeners(" " + alpha + " ≥ " + tmpValue,
-                                                        new MinMaxEvent());
+                MinMaxEvent evt = new MinMaxEvent("MAX(" + alpha + ", MIN(" +
+                            tmpValue + ", ...)) = " + alpha +
+                            ", the search will be cut");
+                giveValueToListeners(" " + alpha + " ≥ " + tmpValue, evt);
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(beta > tmpValue) {
+                    MinMaxEvent evt = new MinMaxEvent("" + beta + " > " +
+                        tmpValue +", the new value of beta is : " + tmpValue);
+
                     beta = tmpValue;
                     giveValueToListeners("[" + alpha + ", " + beta + "]",
                                                             new MinMaxEvent());
-                    warnListenersOfNewBestNode(i, new MinMaxEvent());
+                    warnListenersOfNewBestNode(i, evt);
                 }
                 else {
-                    warnListenersOfDropNode(i, new MinMaxEvent());
+                    MinMaxEvent evt = new MinMaxEvent("" + beta + " ≤ " +
+                        tmpValue + ", the value of beta doesn't change");
+
+                    warnListenersOfDropNode(i, evt);
                 }
             }
 
@@ -112,7 +122,9 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
                         int alpha, int beta) {
         if(game.isFinish() || depth == 0) {
             int value = evalFunction(nodePlayer);
-            giveValueToListeners("" + value, new MinMaxEvent());
+            MinMaxEvent evt = new MinMaxEvent("The leaf is evaluate to " +
+                                                                        value);
+            giveValueToListeners("" + value, evt);
             this.lock();
             return value;
         }
@@ -127,26 +139,31 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
             Move tmp = iterator.next();
             playMove(tmp, i);
             giveValueToListeners("[" + alpha + ", " + beta + "]",
-                                                        new MinMaxEvent());
+                                                            new MinMaxEvent());
             int tmpValue = minValue(depth - 1, nodePlayer, i, alpha, beta);
             removeMove(tmp, i, "" + tmpValue);
 
 
             if(beta <= tmpValue) {
-                giveValueToListeners(" " + tmpValue + " ≥ " + beta,
-                                                            new MinMaxEvent());
+                MinMaxEvent evt = new MinMaxEvent("MIN(" + beta + ", MAX(" +
+                            tmpValue + ", ...)) = " + beta +
+                            ", the search will be cut");
+                giveValueToListeners(" " + tmpValue + " ≥ " + beta, evt);
                 this.lock();
                 return tmpValue;
             }
             else {
                 if(alpha < tmpValue) {
+                    MinMaxEvent evt = new MinMaxEvent("" + alpha + " < " +
+                        tmpValue +", the new value of alpha is : " + tmpValue);
                     alpha = tmpValue;
-                    giveValueToListeners("[" + alpha + ", " + beta + "]",
-                                                            new MinMaxEvent());
+                    giveValueToListeners("[" + alpha + ", " + beta + "]", evt);
                     warnListenersOfNewBestNode(i, new MinMaxEvent());
                 }
                 else {
-                    warnListenersOfDropNode(i, new MinMaxEvent());
+                    MinMaxEvent evt = new MinMaxEvent("" + alpha + " ≥ " +
+                        tmpValue + ", the value of alpha doesn't change");
+                    warnListenersOfDropNode(i, evt);
                 }
             }
 
