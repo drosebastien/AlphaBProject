@@ -60,9 +60,10 @@ public class MainFrame extends JFrame implements TreePanelListener {
     private JButton nextButton;
     private JButton previousButton;
     private JCheckBox checkBox;
-    private JTextArea dialogTextArea;
+    private AlgoPanel algoPanel;
 
-    public MainFrame(GamePanel gPanel, TreePanel treePanel) {
+    public MainFrame(GamePanel gPanel, TreePanel treePanel,
+                                                        AlgoPanel algoPanel) {
         super("Exploration algorithm");
 
         play = false;
@@ -70,6 +71,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         this.treePanel = treePanel;
         treePanel.addListener(this);
         this.gamePanel = gPanel;
+        this.algoPanel = algoPanel;
 
         listeners = new ArrayList<MinMaxEducativeToolsListener>();
         inExplorerMode = false;
@@ -124,8 +126,6 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
         checkBox = new JCheckBox();
         checkBox.addActionListener(new ExplorerListener());
-
-        dialogTextArea = new JTextArea();
 
         playButton = new JButton("Play");
         playButton.addActionListener(new ActionListener() {
@@ -216,9 +216,9 @@ public class MainFrame extends JFrame implements TreePanelListener {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridy = 6;
         gbc.gridwidth = 2;
-        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.gridheight = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        add(new JScrollPane(dialogTextArea), gbc);
+        add(algoPanel, gbc);
 
         gbc.weightx = gbc.weighty = 0.;
         gbc.gridheight = GridBagConstraints.REMAINDER;

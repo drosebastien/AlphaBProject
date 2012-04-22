@@ -43,9 +43,11 @@ public class Processor {
         GamePanel gamePanel = gameCopy.getPanel();
         gamePanel.addListener(controller);
 
+        AlgoPanel algoPanel = new DialogAlgoPanel();
+
         EvalFunction evalFct = new MorpionEvalFunction();
 
-        mainFrame = new MainFrame(gamePanel, treePanel);
+        mainFrame = new MainFrame(gamePanel, treePanel, algoPanel);
         mainFrame.addListener(controller);
 
         String[] algoNames =
