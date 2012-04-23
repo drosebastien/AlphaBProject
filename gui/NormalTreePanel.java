@@ -110,9 +110,9 @@ public class NormalTreePanel extends TreePanel {
     }
 
     private void mousePausedEvent(MouseEvent evt) {
-        pauseOnThisPanel = true;
         try {
             int[] path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
+            pauseOnThisPanel = true;
             preview(path);
         }
         catch(NodeNotFoundException error) {
