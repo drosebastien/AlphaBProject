@@ -19,6 +19,7 @@ public class Executor implements MinMaxListener {
     private Thread thread;
     private Timer timer;
     private ArrayList<MinMaxListener> minMaxListeners;
+    private boolean isFirstActionPerformedOfTimer;
 
     public Executor(Game game, GamePanel gamePanel,
                     TreePanel treePanel, MinMaxAlgo minMaxAlgo) {
@@ -28,6 +29,7 @@ public class Executor implements MinMaxListener {
         this.minMaxAlgo = minMaxAlgo;
         timer = new Timer(100, new TimerListener());
         minMaxListeners = new ArrayList<MinMaxListener>();
+        isFirstActionPerformedOfTimer = true;
         setListeners();
     }
 
@@ -64,6 +66,7 @@ public class Executor implements MinMaxListener {
     }
 
     public void restart() {
+        isFirstActionPerformedOfTimer = false();
         this.thread.stop();                                                     // à changer stop est déprécié.
         this.thread = new Thread(new launcher());
         thread.start();
@@ -171,6 +174,15 @@ public class Executor implements MinMaxListener {
         timer.stop();
     }
 
+    public void setSpeed(int value) {
+        System.out.println(value);
+        isFirstActionPerformedOfTimer = true;
+        if(timer.isRunning()) {
+            timer.restart();
+        }
+        timer.setDelay(value);
+    }
+
     /*
      * A thread have to be used otherwise everything is blocked by the
      * lock methode from a MinMaxAlgo.
@@ -183,7 +195,10 @@ public class Executor implements MinMaxListener {
 
     public class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
-            progress();
+            if(!isFirstActionPerformedOfTimer) {
+                progress();
+            }
+            isFirstActionPerformedOfTimer = false;
         }
     }
 }

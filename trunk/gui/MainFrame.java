@@ -22,6 +22,7 @@ import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -56,6 +57,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
     private JSpinner treeDepthSpinner;
     private JButton playButton;
+    private JSlider speedSlider;
     private JButton stopButton;
     private JButton nextButton;
     private JButton previousButton;
@@ -144,6 +146,18 @@ public class MainFrame extends JFrame implements TreePanelListener {
         });
         stopButton.setMinimumSize(new Dimension(80, 25));
         stopButton.setPreferredSize(new Dimension(80, 25));
+
+        speedSlider = new JSlider();
+        speedSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                speedSliderStateChanged(evt);
+            }
+        });
+
+        speedSlider.setMinimumSize(new Dimension(100,25));
+        speedSlider.setValue(17);
+        speedSlider.setMinimum(8);
+        speedSlider.setMaximum(18);
 
         Integer value = new Integer(2);
         Integer min = new Integer(2);
@@ -259,10 +273,28 @@ public class MainFrame extends JFrame implements TreePanelListener {
         add(stopButton, gbc);
 
         gbc.gridx = 6;
-        gbc.weightx = 1.;
+        gbc.weightx = 0.;
         gbc.insets = new Insets(5, 5, 5, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
         add(nextButton, gbc);
+
+//        gbc.gridx = 7;
+//        gbc.insets = new Insets(5,5,5,5);
+//        gbc.weightx = 0;
+//        gbc.anchor = GridBagConstraints.LINE_START;
+//        add(new JLabel("Speed"));
+
+        gbc.gridx = 7;
+        gbc.weightx = 1;
+        gbc.insets = new Insets(5,5,5,10);
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Speed"), gbc);
+
+        gbc.gridx = 8;
+        gbc.weightx = 0;
+        gbc.insets = new Insets(5,5,5,10);
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(speedSlider, gbc);
     }
 
     public void windowValuesHaveChanged(int minValue, int maxValue) {
@@ -285,6 +317,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
             makePause();
         }
         else {
+            sendSpeedToListeners();
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.play(inExplorerMode);
                 play = !play;
@@ -365,6 +398,16 @@ public class MainFrame extends JFrame implements TreePanelListener {
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.removeLast(inExplorerMode);
             }
+        }
+    }
+
+    private void speedSliderStateChanged(ChangeEvent evt) {
+        sendSpeedToListeners();
+    }
+
+    private void sendSpeedToListeners() {
+        for(MinMaxEducativeToolsListener listener : listeners) {
+            listener.setSpeed((int) Math.round(Math.pow(1.6, speedSlider.getValue())));
         }
     }
 

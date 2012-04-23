@@ -102,6 +102,10 @@ public class Controller implements GamePanelListener, TreePanelListener,
         }
     }
 
+    public void setSpeed(int value) {
+        executor.setSpeed(value);
+    }
+
     public void stop(boolean inExplorerMode) {
         if(!inExplorerMode) {
             executor.pause();
