@@ -36,7 +36,6 @@ public class Executor implements MinMaxListener {
     private void setListeners() {
         minMaxAlgo.removeListeners();
         minMaxAlgo.addListener(this);
-        minMaxAlgo.addListener(new MinMaxListenerTest());
         for(int i = 0; i < minMaxListeners.size(); i++) {
             minMaxAlgo.addListener(minMaxListeners.get(i));
         }
@@ -66,7 +65,6 @@ public class Executor implements MinMaxListener {
     }
 
     public void restart() {
-        isFirstActionPerformedOfTimer = false();
         this.thread.stop();                                                     // à changer stop est déprécié.
         this.thread = new Thread(new launcher());
         thread.start();
@@ -167,6 +165,7 @@ public class Executor implements MinMaxListener {
     }
 
     public void play() {
+        isFirstActionPerformedOfTimer = false;
         timer.restart();
     }
 
@@ -175,7 +174,6 @@ public class Executor implements MinMaxListener {
     }
 
     public void setSpeed(int value) {
-        System.out.println(value);
         isFirstActionPerformedOfTimer = true;
         if(timer.isRunning()) {
             timer.restart();

@@ -7,12 +7,16 @@ import java.util.Random;
 
 public class MorpionEvalFunction implements EvalFunction {
 
+    public MorpionEvalFunction() {
+    }
+
     public int evalFunction(Game game, Player player) {
         if(! (game instanceof Morpion)) {
             // mauvais jeu.
         }
 
-        if(game.isFinish() && game.isVictory() && game.getWinner().equals(player)) {
+        if(game.isFinish() && game.isVictory() &&
+           game.getWinner().equals(player)) {
             return 50;
         }
         else if(game.isFinish() && game.isVictory()) {
@@ -21,5 +25,9 @@ public class MorpionEvalFunction implements EvalFunction {
 
         Random gen = new Random();
         return gen.nextInt(99) - 49;
+    }
+
+    public static String getName() {
+        return "Random";
     }
 }
