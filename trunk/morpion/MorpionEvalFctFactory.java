@@ -1,9 +1,11 @@
 package morpion;
 
-import framework.*;
+import explorer.AbstractGameEvalFctFactory;
+import explorer.RandomEvalFunction;
+import explorer.EvalFunction;
 import morpion.evaluationFunction.*;
 
-public class MorpionEvalFctFactory {
+public class MorpionEvalFctFactory extends AbstractGameEvalFctFactory {
     private static MorpionEvalFctFactory instance;
     private static String[] buildableMorpionEvalFct;
 
@@ -20,16 +22,20 @@ public class MorpionEvalFctFactory {
     }
 
     private static void initBuildabelEvalFct() {
-        buildableMorpionEvalFct = new String[] {MorpionEvalFunction.getName()};
+        buildableMorpionEvalFct = new String[] {
+                                            MorpionEvalFunction.getName(),
+                                            MorpionEvalFunctionCST.getName()};
     }
 
-    public String[] getBuildableMorpionEvalFct() {
+    public String[] getBuildableEvalFct() {
         return buildableMorpionEvalFct;
     }
 
-    public MorpionEvalFunction getMorpionEvalFct(String name) {
+    public EvalFunction getEvalFct(String name) {
         if(name.equals(buildableMorpionEvalFct[0]))
             return new MorpionEvalFunction();
-        return new MorpionEvalFunction();
+        else if(name.equals(buildableMorpionEvalFct[1]))
+            return new MorpionEvalFunctionCST();
+        return new RandomEvalFunction();
     }
 }

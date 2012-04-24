@@ -37,6 +37,10 @@ public abstract class MinMaxAlgo {
         return game;
     }
 
+    public void setEvalFunction(EvalFunction evalFct) {
+        this.evalFct = evalFct;
+    }
+
     public EvalFunction getEvalFunction() {
         return evalFct;
     }

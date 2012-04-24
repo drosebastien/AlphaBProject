@@ -1,6 +1,7 @@
 package gui;
 
 import explorer.MinMaxAlgoFactory;
+import explorer.AbstractGameEvalFctFactory;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ConfigETPanel extends JPanel {
+    private AbstractGameEvalFctFactory gameEvalFctFactory;
     private ConfigETWindow listener;
     private JButton button;
     private GridBagConstraints gbc;
@@ -51,6 +53,11 @@ public class ConfigETPanel extends JPanel {
                 }
             });
         fctComboBox = new JComboBox();
+        fctComboBox.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    evalFctComboBoxActionPerformed(evt);
+                }
+            });
 
         JSeparator separator = new JSeparator();
         separator.setOrientation(separator.HORIZONTAL);
@@ -132,7 +139,11 @@ public class ConfigETPanel extends JPanel {
         add(fctComboBox, gbc);
 
         addAlgo();
-        addEvalFct();
+    }
+
+    public void setEvalFctFactory(AbstractGameEvalFctFactory factory) {
+        this.gameEvalFctFactory = factory;
+        addEvalFct(factory.getBuildableEvalFct());
     }
 
     private void addAlgo() {
@@ -144,13 +155,18 @@ public class ConfigETPanel extends JPanel {
         }
     }
 
-    private void addEvalFct() {
-        fctComboBox.addItem(new String("Random"));
-        fctComboBox.addItem(new String("Simple"));
+    private void addEvalFct(String[] evalFcts) {
+        for(int i = 0; i < evalFcts.length; i++) {
+            fctComboBox.addItem(evalFcts[i]);
+        }
     }
 
     private void algoComboBoxActionPerformed(ActionEvent evt) {
         listener.algoHaveChanged(algoComboBox.getSelectedItem().toString());
+    }
+
+    private void evalFctComboBoxActionPerformed(ActionEvent evt) {
+        listener.fctHaveChanged(fctComboBox.getSelectedItem().toString());
     }
 
     private void minMaxWindowValuesSpinnerStateChanged(ChangeEvent evt) {

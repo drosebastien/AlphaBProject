@@ -10,15 +10,26 @@ public class Controller implements GamePanelListener, TreePanelListener,
     private String name;
     private Explorer explorer;
     private Executor executor;
+    private boolean firstChangeAlgo;
 
     public Controller(String name) {
         this.name = name;
+        firstChangeAlgo = true;
     }
 
     public void algoHaveChanged(String algoName) {
         executor.changeAlgo(algoName);
         executor.pause();
         explorer.restart();
+    }
+
+    public void fctHaveChanged(String fctName) {
+        executor.setEvalFunction(fctName);
+        executor.pause();
+        if(!firstChangeAlgo) {
+            explorer.restart();
+        }
+        firstChangeAlgo = false;
     }
 
     public void windowValuesHaveChanged(int minValue, int maxValue) {

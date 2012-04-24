@@ -16,8 +16,10 @@ public class Executor implements MinMaxListener {
     private TreePanel treePanel;
     private TreeNode currentNode;
     private MinMaxAlgo minMaxAlgo;
+    private EvalFunction evalFunction;
     private Thread thread;
     private Timer timer;
+    private AbstractGameEvalFctFactory gameEvalFctFactory;
     private ArrayList<MinMaxListener> minMaxListeners;
     private boolean isFirstActionPerformedOfTimer;
 
@@ -100,6 +102,15 @@ public class Executor implements MinMaxListener {
     public void setValueOfNode(String value, MinMaxEvent evt) {
         currentNode.setLabel(value);
         repaintPanels();
+    }
+
+    public void setEvalFctFactory(AbstractGameEvalFctFactory factory) {
+        this.gameEvalFctFactory = factory;
+    }
+
+    public void setEvalFunction(String fctName) {
+        evalFunction = gameEvalFctFactory.getEvalFct(fctName);
+        minMaxAlgo.setEvalFunction(evalFunction);
     }
 
     public void setNewBestNode(int indexOfChild, MinMaxEvent evt) {
