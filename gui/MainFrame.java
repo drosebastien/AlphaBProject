@@ -155,7 +155,8 @@ public class MainFrame extends JFrame implements TreePanelListener {
         });
 
         speedSlider.setMinimumSize(new Dimension(100,25));
-        speedSlider.setValue(17);
+        speedSlider.setInverted(true);
+        speedSlider.setValue(18);
         speedSlider.setMinimum(8);
         speedSlider.setMaximum(18);
 
@@ -278,12 +279,6 @@ public class MainFrame extends JFrame implements TreePanelListener {
         gbc.anchor = GridBagConstraints.LINE_START;
         add(nextButton, gbc);
 
-//        gbc.gridx = 7;
-//        gbc.insets = new Insets(5,5,5,5);
-//        gbc.weightx = 0;
-//        gbc.anchor = GridBagConstraints.LINE_START;
-//        add(new JLabel("Speed"));
-
         gbc.gridx = 7;
         gbc.weightx = 1;
         gbc.insets = new Insets(5,5,5,10);
@@ -295,6 +290,10 @@ public class MainFrame extends JFrame implements TreePanelListener {
         gbc.insets = new Insets(5,5,5,10);
         gbc.anchor = GridBagConstraints.LINE_END;
         add(speedSlider, gbc);
+    }
+
+    public void setEvalFctFactory(AbstractGameEvalFctFactory factory) {
+        configETWindow.setEvalFctFactory(factory);
     }
 
     public void windowValuesHaveChanged(int minValue, int maxValue) {
@@ -309,6 +308,14 @@ public class MainFrame extends JFrame implements TreePanelListener {
         makePause();
         for(int i = 0; i < listeners.size(); i++) {
             listeners.get(i).algoHaveChanged(algoName);
+        }
+    }
+
+    public void fctHaveChanged(String fctName) {
+        int depth = getIntValueOfSpinner(treeDepthSpinner);//pas sur utile
+        makePause();
+        for(MinMaxEducativeToolsListener listener : listeners) {
+            listener.fctHaveChanged(fctName);
         }
     }
 

@@ -45,7 +45,7 @@ public class Processor {
 
         AlgoPanel algoPanel = new DialogAlgoPanel();
 
-        EvalFunction evalFct = new MorpionEvalFunction();
+        EvalFunction evalFct = new RandomEvalFunction();
 
         mainFrame = new MainFrame(gamePanel, treePanel, algoPanel);
         mainFrame.addListener(controller);
@@ -60,11 +60,21 @@ public class Processor {
         Executor executor = new Executor(gameCopy, gamePanel,
                                          treePanel, minMaxAlgo);
         // demande à l'executor de le mettre dans la liste de listener de l'algo
+
         executor.addMinMaxListener(algoPanel);
 
         explorer.addExecutor(executor);
         controller.addExplorer(explorer);
         controller.addExecutor(executor);
+
+        //
+        EvalFctFactory evalFctFactory = EvalFctFactory.getInstance();
+        String gameName = "Morpion";
+        executor.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
+                                                    gameName));
+        mainFrame.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
+                                                    gameName));
+        //
 
         explorer.start();
     }

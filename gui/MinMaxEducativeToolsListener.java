@@ -11,6 +11,8 @@ public interface MinMaxEducativeToolsListener {
 
     public void algoHaveChanged(String algoName);
 
+    public void fctHaveChanged(String fctName);
+
     public void windowValuesHaveChanged(int minValue, int maxValue);
 
     public void play(boolean inExplorerMode);
