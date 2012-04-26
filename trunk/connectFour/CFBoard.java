@@ -54,7 +54,7 @@ public class CFBoard extends Board {
     public void removePiece(Position pos) {
         int columnIndex = ((CFPosition) pos).getX();
 
-        int lineIndex = firstAvailableLine(columnIndex);
+        int lineIndex = firstAvailableLine(columnIndex) - 1;
         board[columnIndex][lineIndex] = null;
     }
 
@@ -72,9 +72,12 @@ public class CFBoard extends Board {
             lineIndex = ((CFPosition) pos).getY();
         }
         else {
-            lineIndex = firstAvailableLine(columnIndex) - 1;
+            lineIndex = firstAvailableLine(columnIndex);
         }
 
+        if(lineIndex < 0 || columnIndex < 0) {
+            System.out.println(lineIndex + " + " + columnIndex);
+        }
         return board[columnIndex][lineIndex];
     }
 
@@ -93,6 +96,11 @@ public class CFBoard extends Board {
     }
 
     public void copyBoard(Board board) {
+        for(int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                this.board[i][j] = ((CFBoard) board).board[i][j];
+            }
+        }
     }
 
     public String toString() {

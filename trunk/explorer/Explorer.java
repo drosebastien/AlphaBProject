@@ -32,7 +32,9 @@ public class Explorer {
 
     public void start() {
         explorationMemento = game.saveToMemento();
+        System.out.println("explorer : start1");
         makeTreePanel();
+        System.out.println("explorer : start2");
         executor.setTree(root);
         executor.start();
     }
@@ -79,7 +81,6 @@ public class Explorer {
     }
 
     public TreeNode makeTree(int height) {
-
         MoveIterator iterator = game.getPossibleMoves();
         if(iterator.hasNext()) {
             TreeNode root = new TreeNode(null);
@@ -95,13 +96,18 @@ public class Explorer {
             parent.addChildNode(child);
         }
         else {
+            System.out.println("Explorer : makeTree");
             TreeNode child = new TreeNode(parent);
             parent.addChildNode(child);
             MoveIterator iterator = game.getPossibleMoves();
             while(iterator.hasNext()) {
                 Move move = iterator.next();
+                System.out.println("Explorer : makeTree2");
                 try {
+                    System.out.println("Explorer : makeTree3 " + ((connectFour.CFMove) move).getPosition().getX());
+                    System.out.println("Explorer : makeTree3 " + ((connectFour.CFMove) move).getPosition().getY());
                     game.play(move);
+                    System.out.println("Explorer : makeTree4");
                 }
                 catch(MoveException e) {
                     e.printStackTrace();

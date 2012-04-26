@@ -55,7 +55,7 @@ public class CFGamePanel extends GamePanel {
             for(int j = 0; j < width; j++) {
                 Image img = null;
 
-                Piece pieceToPlace = board.getPiece(new CFPosition(i, j));
+                Piece pieceToPlace = board.getPiece(new CFPosition(j, i));
                 if(board == null || pieceToPlace == null) {
                     img = empty;
                 }
@@ -68,7 +68,7 @@ public class CFGamePanel extends GamePanel {
 
                 g.drawImage(img,
                             LEFT_BOARDER + j*SQUARE_SIZE,
-                            TOP_BOARDER + i*SQUARE_SIZE,
+                            TOP_BOARDER + (height - 1 -i)*SQUARE_SIZE,
                             SQUARE_SIZE, SQUARE_SIZE,
                             this);
             }
