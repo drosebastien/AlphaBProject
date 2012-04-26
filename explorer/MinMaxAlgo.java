@@ -27,6 +27,7 @@ public abstract class MinMaxAlgo {
         this.evalFct = evalFct;
 
         listeners = new ArrayList<MinMaxListener>();
+        listeners.add(evalFct);
     }
 
     public String getName() {
@@ -39,6 +40,7 @@ public abstract class MinMaxAlgo {
 
     public void setEvalFunction(EvalFunction evalFct) {
         this.evalFct = evalFct;
+        listeners.set(0, evalFct);
     }
 
     public EvalFunction getEvalFunction() {
@@ -47,6 +49,7 @@ public abstract class MinMaxAlgo {
 
     public void removeListeners() {
         listeners = new ArrayList<MinMaxListener>();
+        listeners.add(evalFct);
     }
 
     public void addListener(MinMaxListener listener) {

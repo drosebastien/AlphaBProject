@@ -13,12 +13,14 @@ public class Morpion extends Game {
 
     public Morpion() {
         super(new MorpionBoard());
+
         gamePanel = new MorpionGamePanel(board);
         currentPlayer = 0;
     }
 
     public Morpion(MorpionBoard board) {
         super(board);
+
         gamePanel = new MorpionGamePanel(board);
         currentPlayer = 0;
     }

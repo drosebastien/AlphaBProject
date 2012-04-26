@@ -4,7 +4,7 @@ import framework.*;
 
 import java.util.Random;
 
-public class RandomEvalFunction implements EvalFunction {
+public class RandomEvalFunction extends EvalFunction {
 
     public static final int MAXVALUE = 50;
     public static final int MINVALUE = -50;

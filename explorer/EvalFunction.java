@@ -2,7 +2,17 @@ package explorer;
 
 import framework.*;
 
-public interface EvalFunction {
+public abstract class EvalFunction implements MinMaxListener {
 
-    public int evalFunction(Game game, Player player);
+    public abstract int evalFunction(Game game, Player player);
+
+    public void moved(Movement move, int indexInTreeGame, MinMaxEvent event) {}
+
+    public void setValueOfNode(String value, MinMaxEvent event) {}
+
+    public void refreshTree(MinMaxEvent event) {}
+
+    public void setNewBestNode(int indexOfChild, MinMaxEvent event) {}
+
+    public void setDropedNode(int indexOfChild, MinMaxEvent event) {}
 }
