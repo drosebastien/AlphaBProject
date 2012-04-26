@@ -156,7 +156,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
         speedSlider.setMinimumSize(new Dimension(100,25));
         speedSlider.setInverted(true);
-        speedSlider.setValue(18);
+        speedSlider.setValue(13);
         speedSlider.setMinimum(8);
         speedSlider.setMaximum(18);
 

@@ -28,6 +28,7 @@ public class MorpionGamePanel extends GamePanel {
 
     public MorpionGamePanel(Board board) {
         super(board);
+
         addMouseListener(new MouseAdapter () {
             public void mouseClicked(MouseEvent e) {
                 mouseClickedEvent(e);
@@ -53,7 +54,8 @@ public class MorpionGamePanel extends GamePanel {
             for(int j = 0; j < length; j++) {
                 Image img = null;
 
-                Piece pieceToPlace = board.getPiece(new MorpionPosition(2 - j, i));
+                Piece pieceToPlace = board.getPiece(
+                                        new MorpionPosition(2 - j, i));
                 if(board == null || pieceToPlace == null) {
                     img = piece;
                 }

@@ -2,20 +2,27 @@ package connectFour;
 
 import java.util.ArrayList;
 import framework.*;
+import connectFour.gui.CFGamePanel;
 import gui.GamePanel;
 
 public class ConnectFour extends Game {
     private static final int NB_PLAYERS = 2;
     private int currentPlayer;
+    private Board copyOfBoard;
     private CFMove lastMove;
 
     public ConnectFour() {
         super(new CFBoard());
+
+        gamePanel = new CFGamePanel(board);
         currentPlayer = 0;
     }
 
-    public GamePanel getPanel() {                                               // attention, il faut changer ça
-        return null;
+    public ConnectFour(CFBoard board) {
+        super(board);
+
+        gamePanel = new CFGamePanel(board);
+        currentPlayer = 0;
     }
 
     public void piecesDistribution() {
@@ -39,44 +46,46 @@ public class ConnectFour extends Game {
         return listOfPlayers.get(currentPlayer);
     }
 
-    public void play(Move move) {
-        lastMove = (CFMove) move;
+    public void play(Move move) throws MoveException {
+        CFMove cFMove = (CFMove) move;
+        if(board.getPiece(cFMove.getPosition()) != null) {
+            throw new MoveException("Position is already taken");
+        }
+        lastMove = cFMove;//dernier coup retenu pour test de victoire !
+
         board.placePiece(lastMove.getPosition(), lastMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
+
+        depthToSelectState++;
     }
 
     public void removeMove(Move move) {
         board.removePiece(((CFMove) move).getPosition());
         currentPlayer = (currentPlayer + 1) % 2;
+
+        depthToSelectState--;
     }
 
     public Move completeMove(Move move) {
-        return null;
-    }
-
-    public ArrayList<Move> getListOfPossibleMoves() {
-        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
         CFPiece piece = (CFPiece) nextPlayer().getPiece();
+        CFPosition position = ((CFMove) move).getPosition();
 
-        for(int i = 0; i < ((CFBoard) board).getWidth(); i++) {
-            if(board.isFree(new CFPosition(i))) {
-                listOfPossibleMoves.add(new CFMove(new CFPosition(i), piece));
-            }
-        }
-
-        return listOfPossibleMoves;
+        return new CFMove(position, piece);
     }
 
     public MoveIterator getPossibleMoves() {
+        if(depthToSelectState >= 0 && firsts != null &&
+                                      firsts.length > depthToSelectState) {
+            return new MoveIterator(getListOfPossibleMoves(),
+                                    firsts[depthToSelectState]);
+        }
         return new MoveIterator(getListOfPossibleMoves());
     }
 
-    public MoveIterator getPossibleOrderedMoves() {
-        return new MoveIterator(getListOfPossibleMoves());                      // à modifier
-    }
-
     public boolean isPossibleMove(Move move) {
-        return true;
+        CFMove cFMove = (CFMove) move;
+
+        return board.getPiece(cFMove.getPosition()) == null;
     }
 
     public boolean isVictory() {
@@ -138,15 +147,28 @@ public class ConnectFour extends Game {
     }
 
     public GameMemento saveToMemento() {
-        return null;
+        CFMemento memento = new CFMemento();
+        memento.setBoardState(this.board.clone());
+        memento.setCurrentPlayerState(this.currentPlayer);
+
+        return memento;
     }
 
     public void resetFromMemento(GameMemento memento) {
+        if(memento != null) {
+            super.loadSavedState();
+            CFMemento cFMemento = (CFMemento) memento;
+            board.copyBoard(cFMemento.getBoardSavedState());
+            currentPlayer = cFMemento.getCurrentPlayerSavedState();
+        }
+    }
+
+    public GamePanel getPanel() {
+        return gamePanel;
     }
 
     public Game clone() {
-        ConnectFour gameCopy = new ConnectFour();
-        gameCopy.board = board.clone();
+        ConnectFour gameCopy = new ConnectFour((CFBoard) board.clone());
         gameCopy.currentPlayer = currentPlayer;
 
         for(int i = 0; i < listOfPlayers.size(); i++) {
@@ -158,5 +180,18 @@ public class ConnectFour extends Game {
 
     public String toString() {
         return board.toString();
+    }
+
+    private ArrayList<Move> getListOfPossibleMoves() {
+        ArrayList<Move> listOfPossibleMoves = new ArrayList<Move>();
+        CFPiece piece = (CFPiece) nextPlayer().getPiece();
+
+        for(int i = 0; i < ((CFBoard) board).getWidth(); i++) {
+            if(board.isFree(new CFPosition(i))) {
+                listOfPossibleMoves.add(new CFMove(new CFPosition(i), piece));
+            }
+        }
+
+        return listOfPossibleMoves;
     }
 }
