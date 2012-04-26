@@ -1,4 +1,4 @@
-package morpion;
+package connectFour;
 
 import explorer.AbstractGameEvalFctFactory;
 import explorer.RandomEvalFunction;

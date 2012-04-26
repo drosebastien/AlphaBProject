@@ -1,6 +1,7 @@
 package explorer;
 
-import morpion.*;
+import morpion.MorpionEvalFctFactory;
+import connectFour.CFEvalFctFactory;
 
 public class EvalFctFactory {
     private static EvalFctFactory instance;
@@ -19,7 +20,8 @@ public class EvalFctFactory {
     }
 
     private static void initBuildabelEvalFctFactory() {
-        buildableEvalFctFactory = new String[] {"Morpion"};
+        buildableEvalFctFactory = new String[] {"Morpion",
+                                                "ConnectFour"};
     }
 
     public String[] getBuildableEvalFctFactory() {
@@ -29,6 +31,8 @@ public class EvalFctFactory {
     public AbstractGameEvalFctFactory getGameEvalFctFactory(String name) {
         if(name.equals(buildableEvalFctFactory[0]))
             return MorpionEvalFctFactory.getInstance();
+        else if(name.equals(buildableEvalFctFactory[1]))
+            return CFEvalFctFactory.getInstance();
         return MorpionEvalFctFactory.getInstance();
     }
 }

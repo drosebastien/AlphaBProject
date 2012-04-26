@@ -47,10 +47,15 @@ public class ConnectFour extends Game {
     }
 
     public void play(Move move) throws MoveException {
+        System.out.println("ConnectFour : play");
         CFMove cFMove = (CFMove) move;
+        System.out.println("ConnectFour : play2");
+        board.getPiece(cFMove.getPosition());
+        System.out.println("ConnectFour : play3");
         if(board.getPiece(cFMove.getPosition()) != null) {
             throw new MoveException("Position is already taken");
         }
+        System.out.println("ConnectFour : play4");
         lastMove = cFMove;//dernier coup retenu pour test de victoire !
 
         board.placePiece(lastMove.getPosition(), lastMove.getPiece());

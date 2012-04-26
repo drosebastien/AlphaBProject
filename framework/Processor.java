@@ -31,9 +31,16 @@ public class Processor {
         int maxDepth = 2;
 
         Controller controller = new Controller("sebController");
-        game = new Morpion();
-        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
-        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
+//        game = new Morpion();
+//        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
+//        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
+//        String gameName = "Morpion";
+        game = new ConnectFour();
+        game.addPlayer(new CFHumanPlayer("joueur1", 0));
+        game.addPlayer(new CFHumanPlayer("joueur1", 0));
+        String gameName = "ConnectFour";
+
+
         game.piecesDistribution();
         Game gameCopy = game.clone();
 
@@ -69,7 +76,7 @@ public class Processor {
 
         //
         EvalFctFactory evalFctFactory = EvalFctFactory.getInstance();
-        String gameName = "Morpion";
+
         executor.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
                                                     gameName));
         mainFrame.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
