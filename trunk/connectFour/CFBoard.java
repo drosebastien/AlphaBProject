@@ -75,9 +75,6 @@ public class CFBoard extends Board {
             lineIndex = firstAvailableLine(columnIndex);
         }
 
-        if(lineIndex < 0 || columnIndex < 0) {
-            System.out.println(lineIndex + " + " + columnIndex);
-        }
         return board[columnIndex][lineIndex];
     }
 

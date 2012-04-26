@@ -47,15 +47,11 @@ public class ConnectFour extends Game {
     }
 
     public void play(Move move) throws MoveException {
-        System.out.println("ConnectFour : play");
         CFMove cFMove = (CFMove) move;
-        System.out.println("ConnectFour : play2");
         board.getPiece(cFMove.getPosition());
-        System.out.println("ConnectFour : play3");
         if(board.getPiece(cFMove.getPosition()) != null) {
             throw new MoveException("Position is already taken");
         }
-        System.out.println("ConnectFour : play4");
         lastMove = cFMove;//dernier coup retenu pour test de victoire !
 
         board.placePiece(lastMove.getPosition(), lastMove.getPiece());
@@ -67,6 +63,9 @@ public class ConnectFour extends Game {
     public void removeMove(Move move) {
         board.removePiece(((CFMove) move).getPosition());
         currentPlayer = (currentPlayer + 1) % 2;
+        //la ligne suivant peu se faire étant donné que si on retire un coup
+        //gagnant, le précédent ne pouvait être gagnant.
+        lastMove = null;
 
         depthToSelectState--;
     }
