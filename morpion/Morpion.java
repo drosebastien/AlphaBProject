@@ -182,7 +182,7 @@ public class Morpion extends Game {
         return isFinish || isVictory();
     }
 
-    public void saveStateOfGame() {
+    public void saveStateOfGame(){
         copyOfBoard = board.clone();
         copyOfCurrentPlayer = currentPlayer;
     }

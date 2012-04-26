@@ -85,11 +85,10 @@ public class CFGamePanel extends GamePanel {
             x = (x - LEFT_BOARDER) / SQUARE_SIZE;
             y = height - 1 - (y - TOP_BOARDER) / SQUARE_SIZE;
 
-            CFPosition pos = new CFPosition(x, y);
+            CFPosition pos = new CFPosition(x, -1);
             CFPiece piece = new CFPiece("UNKNOW", -1);
             Move move = new CFMove(pos, piece);
 
-            System.out.printf("(x, y) = (%d; %d)\n", x, y);
             this.hitFired(move);
         }
     }
