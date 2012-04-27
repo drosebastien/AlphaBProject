@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public abstract class MinMaxAlgo {
-    private int maxValue = 100;
-    private int minValue = -100;
+    private int maxValue = 500;
+    private int minValue = -500;
 
     private ArrayList<MinMaxListener> listeners;
     private Semaphore semaphore;
@@ -27,6 +27,8 @@ public abstract class MinMaxAlgo {
         this.evalFct = evalFct;
 
         listeners = new ArrayList<MinMaxListener>();
+        evalFct.setGame(game);
+        evalFct.setPlayer(game.nextPlayer());
         listeners.add(evalFct);
     }
 
@@ -40,6 +42,8 @@ public abstract class MinMaxAlgo {
 
     public void setEvalFunction(EvalFunction evalFct) {
         this.evalFct = evalFct;
+        this.evalFct.setGame(game);
+        this.evalFct.setPlayer(game.nextPlayer());
         listeners.set(0, evalFct);
     }
 
@@ -126,6 +130,12 @@ public abstract class MinMaxAlgo {
     protected void refreshTreeOfListener(MinMaxEvent evt) {
         for(int i = 0; i < listeners.size(); i++) {
             listeners.get(i).refreshTree(evt);
+        }
+    }
+
+    protected void started() {
+        for(MinMaxListener listener : listeners) {
+            listener.started();
         }
     }
 
