@@ -91,16 +91,35 @@ public class C4Analyser {
      * Le premier étant celui de l'ia et le second celui de l'opposant.
      */
     public String toString() {
-        String line = "Ai Array : ";
-        for(int i = 0; i < NBC4; i++) {
-            line += player1Array[i] + " | ";
-        }
-        line += "\nOpp Array : ";
-        for(int i = 0; i < NBC4; i++) {
-            line += player2Array[i] + " | ";
-        }
-        line += "\n";
+        String line = "------------------------------------------------\n";
+        line += "Joueur 1 : \n";
+        line += printTab(player1Array);
+
+        line += "\nJoueur 2 : \n";
+        line += printTab(player2Array);
+        line += "------------------------------------------------";
+
         return line;
+    }
+
+    private String printTab(int[] tab) {
+        String line = "V :\t";
+        for(int i = FIRST_V; i < FIRST_H; i++) {
+            line += tab[i] + " | ";
+        }
+        line += "\nF :\t";
+        for(int i = FIRST_H; i < FIRST_ID; i++) {
+            line += tab[i] + " | ";
+        }
+        line += "\n/ :\t";
+        for(int i = FIRST_ID; i < FIRST_DD; i++) {
+            line += tab[i] + " | ";
+        }
+        line += "\n\\ :\t";
+        for(int i = FIRST_ID; i < NBC4; i++) {
+            line += tab[i] + " | ";
+        }
+        return line + "\n";
     }
 
     /**
