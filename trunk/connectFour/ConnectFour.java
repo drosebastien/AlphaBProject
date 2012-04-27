@@ -120,6 +120,8 @@ public class ConnectFour extends Game {
             }
 
             if(nb >= 3) {
+                System.out.println("ConnectFour + isVictory");
+                System.out.println(lastMove);
                 return true;
             }
         }
@@ -165,6 +167,7 @@ public class ConnectFour extends Game {
             board.copyBoard(cFMemento.getBoardSavedState());
             currentPlayer = cFMemento.getCurrentPlayerSavedState();
         }
+        lastMove = null;
     }
 
     public GamePanel getPanel() {
