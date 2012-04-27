@@ -120,8 +120,6 @@ public class ConnectFour extends Game {
             }
 
             if(nb >= 3) {
-                System.out.println("ConnectFour + isVictory");
-                System.out.println(lastMove);
                 return true;
             }
         }

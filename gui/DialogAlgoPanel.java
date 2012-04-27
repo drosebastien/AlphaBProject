@@ -68,6 +68,10 @@ public class DialogAlgoPanel extends AlgoPanel {
     }
 
     //méthode de l'interface MinMaxListener
+
+    public void started() {
+    }
+
     public void moved(Movement move, int indexInTreeGame, MinMaxEvent evt) {
         if(evt.getMessage() != null) {
             if(move == Movement.FORWARD) {

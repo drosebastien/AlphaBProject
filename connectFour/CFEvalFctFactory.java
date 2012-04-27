@@ -3,6 +3,7 @@ package connectFour;
 import explorer.AbstractGameEvalFctFactory;
 import explorer.RandomEvalFunction;
 import explorer.EvalFunction;
+
 import connectFour.evaluationFunction.*;
 
 public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
@@ -22,8 +23,8 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
     }
 
     private static void initBuildabelEvalFct() {
-        buildableCFEvalFct = new String[] {
-                                            CFEvalFunction.getName()};
+        buildableCFEvalFct = new String[] {CFEvalFunction.getName(),
+                                           CFSmartEvalFunction.getName()};
     }
 
     public String[] getBuildableEvalFct() {
@@ -33,6 +34,9 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
     public EvalFunction getEvalFct(String name) {
         if(name.equals(buildableCFEvalFct[0]))
             return new CFEvalFunction();
+        else if (name.equals(buildableCFEvalFct[1]))
+            return new CFSmartEvalFunction();
+
         return new RandomEvalFunction();
     }
 }

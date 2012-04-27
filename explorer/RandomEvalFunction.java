@@ -4,17 +4,35 @@ import framework.*;
 
 import java.util.Random;
 
-public class RandomEvalFunction extends EvalFunction {
+public class RandomEvalFunction implements EvalFunction {
 
     public static final int MAXVALUE = 50;
     public static final int MINVALUE = -50;
     private Random gen;
+    private Game game;
+    private Player player;
 
     public RandomEvalFunction() {
         gen = new Random();
     }
 
-    public int evalFunction(Game game, Player player) {
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    protected Game getGame() {
+        return game;
+    }
+
+    protected Player getPlayer() {
+        return player;
+    }
+
+    public int evalFunction() {
 
         if(game.isFinish() && game.isVictory() &&
            game.getWinner().equals(player)) {
@@ -30,4 +48,16 @@ public class RandomEvalFunction extends EvalFunction {
     public static String getName() {
         return "Random";
     }
+
+    public void started() {}
+
+    public void moved(Movement move, int indexInTreeGame, MinMaxEvent event) {}
+
+    public void setValueOfNode(String value, MinMaxEvent event) {}
+
+    public void refreshTree(MinMaxEvent event) {}
+
+    public void setNewBestNode(int indexOfChild, MinMaxEvent event) {}
+
+    public void setDropedNode(int indexOfChild, MinMaxEvent event) {}
 }

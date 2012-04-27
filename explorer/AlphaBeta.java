@@ -23,6 +23,7 @@ public class AlphaBeta extends MinMaxAlgo {
         Move bestMove = null;
         MoveIterator iterator = game.getPossibleMoves();
 
+        started();
         warnListeners(Movement.NEUTRAL, 0, new MinMaxEvent());
         giveValueToListeners("" + alpha, new MinMaxEvent());
         this.lock();
@@ -178,16 +179,21 @@ public class AlphaBeta extends MinMaxAlgo {
         catch(MoveException e) {
             e.printStackTrace();
         }
-        warnListeners(Movement.FORWARD, indexOfMove, new MinMaxEvent());
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMove(move);
+        warnListeners(Movement.FORWARD, indexOfMove, evt);
     }
 
     public void removeMove(Move move, int indexOfMove, String label) {
-        warnListeners(Movement.BACKWARD, indexOfMove, new MinMaxEvent());
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMove(move);
+        warnListeners(Movement.BACKWARD, indexOfMove, evt);
         game.removeMove(move);
     }
 
     public int evalFunction(Player player) {
-        return evalFct.evalFunction(game, player);
+        evalFct.setPlayer(player);
+        return evalFct.evalFunction();
     }
 
     public static String getAlgoName() {

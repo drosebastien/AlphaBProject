@@ -54,7 +54,6 @@ public abstract class Game {
                 }
             }
         }
-        System.out.println("firsts : " + firsts.length);
         this.firsts = firsts;
         this.depthToSelectState = 0;
     }

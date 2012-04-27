@@ -147,6 +147,9 @@ public class Executor implements MinMaxListener {
         removeStateOfPastImportantNode(currentNode.getChild(indexOfChild));
     }
 
+    public void started() {
+    }
+
     public void moved(Movement move, int indexInTreeGame, MinMaxEvent evt) {
         switch(move) {
             case FORWARD :

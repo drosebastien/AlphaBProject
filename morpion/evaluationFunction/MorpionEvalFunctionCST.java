@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class MorpionEvalFunctionCST extends RandomEvalFunction {
 
-    public int evalFunction(Game game, Player player) {
+    public int evalFunction() {
         //MorpionPiece piece = (Piece) player.getPiece();
         return 10;
     }
