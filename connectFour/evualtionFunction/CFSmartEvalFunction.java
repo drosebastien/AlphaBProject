@@ -64,6 +64,7 @@ public class CFSmartEvalFunction extends RandomEvalFunction {
                 analyser.removeToken(move);
             }
         }
+        System.out.println(analyser);
     }
 
     public void setValueOfNode(String value, MinMaxEvent event) {}
