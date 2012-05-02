@@ -9,11 +9,12 @@ public class ConnectFour extends Game {
     private static final int NB_PLAYERS = 2;
     private int currentPlayer;
     private Board copyOfBoard;
-    private CFMove lastMove;
+    private ArrayList<CFMove> lastMoves;
 
     public ConnectFour() {
         super(new CFBoard());
 
+        lastMoves = new ArrayList<CFMove>();
         gamePanel = new CFGamePanel(board);
         currentPlayer = 0;
     }
@@ -21,6 +22,7 @@ public class ConnectFour extends Game {
     public ConnectFour(CFBoard board) {
         super(board);
 
+        lastMoves = new ArrayList<CFMove>();
         gamePanel = new CFGamePanel(board);
         currentPlayer = 0;
     }
@@ -52,9 +54,9 @@ public class ConnectFour extends Game {
         if(board.getPiece(cFMove.getPosition()) != null) {
             throw new MoveException("Position is already taken");
         }
-        lastMove = cFMove;//dernier coup retenu pour test de victoire !
+        lastMoves.add(0,cFMove);//dernier coup retenu pour test de victoire !
 
-        board.placePiece(lastMove.getPosition(), lastMove.getPiece());
+        board.placePiece(cFMove.getPosition(), cFMove.getPiece());
         currentPlayer = (currentPlayer + 1) % 2;
 
         depthToSelectState++;
@@ -65,7 +67,7 @@ public class ConnectFour extends Game {
         currentPlayer = (currentPlayer + 1) % 2;
         //la ligne suivant peu se faire étant donné que si on retire un coup
         //gagnant, le précédent ne pouvait être gagnant.
-        lastMove = null;
+        lastMoves.remove(0);
 
         depthToSelectState--;
     }
@@ -93,13 +95,14 @@ public class ConnectFour extends Game {
     }
 
     public boolean isVictory() {
-        if(lastMove == null) {
+        if(lastMoves.size() == 0) {
             return false;
         }
         int vTab[] = {1, 0, 1, 1};
         int hTab[] = {0, 1, 1, -1};
-        int xHit = lastMove.getPosition().getX();
-        int yHit = lastMove.getPosition().getY();
+        int xHit = lastMoves.get(0).getPosition().getX();
+        int yHit = lastMoves.get(0).getPosition().getY();
+        Piece piece = lastMoves.get(0).getPiece();
 
         for(int i = 0; i < vTab.length; i++) {
             int nb = 0;
@@ -110,7 +113,7 @@ public class ConnectFour extends Game {
                                                     yHit + (j * z * hTab[i]));
                     if(((CFBoard) board).inBoard(pos) &&
                        ((CFBoard) board).getPiece(pos) != null &&
-                       ((CFBoard) board).getPiece(pos).equals(lastMove.getPiece())) {
+                       ((CFBoard) board).getPiece(pos).equals(piece)) {
                         nb++;
                     }
                     else {
@@ -154,6 +157,7 @@ public class ConnectFour extends Game {
         CFMemento memento = new CFMemento();
         memento.setBoardState(this.board.clone());
         memento.setCurrentPlayerState(this.currentPlayer);
+        memento.setLastMove(lastMoves);
 
         return memento;
     }
@@ -164,8 +168,8 @@ public class ConnectFour extends Game {
             CFMemento cFMemento = (CFMemento) memento;
             board.copyBoard(cFMemento.getBoardSavedState());
             currentPlayer = cFMemento.getCurrentPlayerSavedState();
+            lastMoves = cFMemento.getLastMove();
         }
-        lastMove = null;
     }
 
     public GamePanel getPanel() {

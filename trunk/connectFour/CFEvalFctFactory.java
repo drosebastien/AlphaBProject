@@ -24,7 +24,9 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
 
     private static void initBuildabelEvalFct() {
         buildableCFEvalFct = new String[] {CFEvalFunction.getName(),
-                                           CFSmartEvalFunction.getName()};
+                                           CFRemainingEvalFunction.getName(),
+                                           CFRemainingDiffEvalFunction.getName()
+                                          };
     }
 
     public String[] getBuildableEvalFct() {
@@ -34,8 +36,12 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
     public EvalFunction getEvalFct(String name) {
         if(name.equals(buildableCFEvalFct[0]))
             return new CFEvalFunction();
-        else if (name.equals(buildableCFEvalFct[1]))
-            return new CFSmartEvalFunction();
+        else if(name.equals(buildableCFEvalFct[1]))
+            return new CFRemainingEvalFunction();
+        else if(name.equals(buildableCFEvalFct[2])) {
+            System.out.println("ok");
+            return new CFRemainingDiffEvalFunction();
+        }
 
         return new RandomEvalFunction();
     }
