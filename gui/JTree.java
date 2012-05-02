@@ -111,8 +111,6 @@ public class JTree{
     private boolean isPathToCoordinate(int x, int y, JNode current,
                                        ArrayList<Integer> path) {
 
-//        if(x < current.getX() + 5 && x > current.getX() - 5 &&
-//           y < current.getY() + 5 && y > current.getY() - 5) {
         int dist = distance(x, current.getX(), y, current.getY());
         if(dist <= 5) {
            return true;
@@ -129,8 +127,8 @@ public class JTree{
     }
 
     private int distance(int x1, int x2, int y1, int y2) {
-        int width = Math.abs(x1 - x2);
-        int height = Math.abs(y1 - y2);
+        double width = Math.abs(x1 - x2);
+        double height = Math.abs(y1 - y2);
 
         int dist = (int) Math.round(Math.sqrt(width * width + height * height));
 

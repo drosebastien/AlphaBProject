@@ -38,10 +38,8 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
             return new CFEvalFunction();
         else if(name.equals(buildableCFEvalFct[1]))
             return new CFRemainingEvalFunction();
-        else if(name.equals(buildableCFEvalFct[2])) {
-            System.out.println("ok");
+        else if(name.equals(buildableCFEvalFct[2]))
             return new CFRemainingDiffEvalFunction();
-        }
 
         return new RandomEvalFunction();
     }
