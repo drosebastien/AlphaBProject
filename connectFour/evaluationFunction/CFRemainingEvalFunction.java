@@ -40,6 +40,10 @@ public class CFRemainingEvalFunction extends CFAbstractEvalFunction {
         return count;
     }
 
+    public static String getDescription() {
+        return "# remaining CF";
+    }
+
     public static String getName() {
         return "# remaining CF";
     }
