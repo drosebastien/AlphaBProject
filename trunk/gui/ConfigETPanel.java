@@ -9,12 +9,14 @@ import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
 
+import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.SpinnerNumberModel;
@@ -37,6 +39,8 @@ public class ConfigETPanel extends JPanel {
     private JLabel windowMaxLabel;
     private JLabel algoSelectionLabel;
     private JLabel evalFctLabel;
+    private JTextArea textArea;
+    private JScrollPane scroll;
 
     public ConfigETPanel(ConfigETWindow parentFrame) {
         listener = parentFrame;
@@ -61,6 +65,15 @@ public class ConfigETPanel extends JPanel {
 
         JSeparator separator = new JSeparator();
         separator.setOrientation(separator.HORIZONTAL);
+
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scroll = new JScrollPane(textArea);
+        scroll.setViewportView(textArea);
+        scroll.setMinimumSize(new Dimension(50, 150));
+        scroll.setPreferredSize(new Dimension(50, 150));
 
         windowLabel = new JLabel("Window values");
         windowMinLabel = new JLabel("Min value");
@@ -115,7 +128,7 @@ public class ConfigETPanel extends JPanel {
         gbc.insets = new Insets(10, 0, 10, 0);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridwidth = GridBagConstraints.RELATIVE;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(separator, gbc);
 
@@ -137,6 +150,14 @@ public class ConfigETPanel extends JPanel {
         gbc.gridx = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(fctComboBox, gbc);
+
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        add(scroll, gbc);
 
         addAlgo();
     }
@@ -166,7 +187,10 @@ public class ConfigETPanel extends JPanel {
     }
 
     private void evalFctComboBoxActionPerformed(ActionEvent evt) {
-        listener.fctHaveChanged(fctComboBox.getSelectedItem().toString());
+        String choicedAlgo = fctComboBox.getSelectedItem().toString();
+        textArea.setText(gameEvalFctFactory.getDescription(choicedAlgo));
+        textArea.setCaretPosition(0);
+        listener.fctHaveChanged(choicedAlgo);
     }
 
     private void minMaxWindowValuesSpinnerStateChanged(ChangeEvent evt) {

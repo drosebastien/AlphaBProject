@@ -14,6 +14,10 @@ public class MorpionEvalFunction extends RandomEvalFunction {
             System.out.println("Morpion, retire : " + indexInTreeGame);
     }
 
+    public static String getDescription() {
+        return "Morpion Random";
+    }
+
     public static String getName() {
         return "Morpion Random";
     }

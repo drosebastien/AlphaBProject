@@ -6,6 +6,9 @@ import explorer.*;
 
 import java.util.ArrayList;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +19,9 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Color;
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -31,6 +37,8 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -46,6 +54,8 @@ public class MainFrame extends JFrame implements TreePanelListener {
     private ArrayList<MinMaxEducativeToolsListener> listeners;
 
     private boolean play;
+    private Icon playIcon;
+    private Icon pauseIcon;
 
     private ConfigETWindow configETWindow;
 
@@ -96,12 +106,19 @@ public class MainFrame extends JFrame implements TreePanelListener {
         JMenu toolsMenu = new JMenu("Tools");
         JMenuItem optionsItem = new JMenuItem("Options");
         optionsItem.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event) {
-                optionsItemEvent(event);
+            public void actionPerformed(ActionEvent evt) {
+                optionsItemEvent(evt);
+            }
+        });
+        JMenuItem quitItem = new JMenuItem("Quit");
+        quitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                System.exit(0);
             }
         });
 
         toolsMenu.add(optionsItem);
+        toolsMenu.add(quitItem);
 
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutItem = new JMenuItem("About");
@@ -121,7 +138,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
     public void initComponent() {
         gbc = new GridBagConstraints();
 
-        JLabel explorerLabel = new JLabel("Explorer mode");
+        JLabel explorerLabel = new JLabel("Exploration mode");
         JLabel treeDepthLabel = new JLabel("Tree depth");
 
         treePanelScrollPane = new JScrollPane(treePanel);
@@ -129,23 +146,46 @@ public class MainFrame extends JFrame implements TreePanelListener {
         checkBox = new JCheckBox();
         checkBox.addActionListener(new ExplorerListener());
 
-        playButton = new JButton("Play");
+        Image pauseImage = null;
+        try {
+            pauseImage = ImageIO.read(new File("img/button/pause.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        pauseIcon = new ImageIcon(pauseImage);
+
+        Image playImage = null;
+        try {
+            playImage = ImageIO.read(new File("img/button/play.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        playIcon = new ImageIcon(playImage);
+        playButton = new JButton(playIcon);
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 playPausePerformed(evt);
             }
         });
-        playButton.setMinimumSize(new Dimension(80, 25));
-        playButton.setPreferredSize(new Dimension(80, 25));
+        playButton.setMinimumSize(new Dimension(60, 27));
+        playButton.setPreferredSize(new Dimension(60, 27));
 
-        stopButton = new JButton("stop");
+
+        Image stopImage = null;
+        try {
+            stopImage = ImageIO.read(new File("img/button/stop.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        Icon stopIcon = new ImageIcon(stopImage);
+        stopButton = new JButton(stopIcon);
         stopButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 stopPerformed(evt);
             }
         });
-        stopButton.setMinimumSize(new Dimension(80, 25));
-        stopButton.setPreferredSize(new Dimension(80, 25));
+        stopButton.setMinimumSize(new Dimension(35, 27));
+        stopButton.setPreferredSize(new Dimension(35, 27));
 
         speedSlider = new JSlider();
         speedSlider.addChangeListener(new ChangeListener() {
@@ -172,10 +212,30 @@ public class MainFrame extends JFrame implements TreePanelListener {
                                                          value, min, max, step);
         treeDepthSpinner.setModel(treeDepthSpinnerModel);
 
-        nextButton = new JButton(">");
+
+        Image nextImage = null;
+        try {
+            nextImage = ImageIO.read(new File("img/button/next.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        Icon nextIcon = new ImageIcon(nextImage);
+        nextButton = new JButton(nextIcon);
+        nextButton.setMinimumSize(new Dimension(40, 27));
+        nextButton.setPreferredSize(new Dimension(40, 27));
         nextButton.addActionListener(new NextListener());
 
-        previousButton = new JButton("<");
+
+        Image previousImage = null;
+        try {
+            previousImage = ImageIO.read(new File("img/button/previous.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        Icon previousIcon = new ImageIcon(previousImage);
+        previousButton = new JButton(previousIcon);
+        previousButton.setMinimumSize(new Dimension(40, 27));
+        previousButton.setPreferredSize(new Dimension(40, 27));
         previousButton.addActionListener(new PreviousListener());
 
         gbc.insets = new Insets(5, 5, 5, 25);
@@ -254,29 +314,29 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
         gbc.gridy = 7;
         gbc.weighty = 0.;
-        gbc.weightx = 1.;
+        gbc.weightx = 0.;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 5, 5, 0);
-        add(previousButton, gbc);
+        add(playButton, gbc);
 
         gbc.gridx = 4;
         gbc.weightx = 0.;
-        gbc.insets = new Insets(5, 5, 5, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(playButton, gbc);
+        gbc.insets = new Insets(5, 40, 5, 0);
+//        gbc.anchor = GridBagConstraints.CENTER;
+        add(previousButton, gbc);
 
         gbc.gridx = 5;
         gbc.insets = new Insets(5, 5, 5, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
+//        gbc.anchor = GridBagConstraints.CENTER;
         add(stopButton, gbc);
 
         gbc.gridx = 6;
         gbc.weightx = 0.;
         gbc.insets = new Insets(5, 5, 5, 0);
-        gbc.anchor = GridBagConstraints.LINE_START;
+//        gbc.anchor = GridBagConstraints.LINE_START;
         add(nextButton, gbc);
 
         gbc.gridx = 7;
@@ -327,9 +387,9 @@ public class MainFrame extends JFrame implements TreePanelListener {
             sendSpeedToListeners();
             for(MinMaxEducativeToolsListener listener : listeners) {
                 listener.play(inExplorerMode);
-                play = !play;
-                playButton.setText("Pause");
             }
+            play = !play;
+            playButton.setIcon(pauseIcon);
         }
     }
 
@@ -344,7 +404,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         for(MinMaxEducativeToolsListener listener : listeners) {
             listener.pause(inExplorerMode);
             play = false;
-            playButton.setText("Play");
+            playButton.setIcon(playIcon);
         }
     }
 

@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 
 public class ConfigETWindow extends JFrame{
     private static final int HEIGHT = 200;
-    private static final int WIDTH = 300;
+    private static final int WIDTH = 480;
 
     private ConfigETPanel pan;
     private MainFrame mainFrame;

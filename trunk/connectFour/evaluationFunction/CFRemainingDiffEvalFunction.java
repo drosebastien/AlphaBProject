@@ -39,6 +39,10 @@ public class CFRemainingDiffEvalFunction extends CFAbstractEvalFunction {
             return -count;
     }
 
+    public static String getDescription() {
+        return "diff # Remaining CF";
+    }
+
     public static String getName() {
         return "diff # Remaining CF";
     }

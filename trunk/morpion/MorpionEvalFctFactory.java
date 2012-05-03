@@ -38,4 +38,13 @@ public class MorpionEvalFctFactory extends AbstractGameEvalFctFactory {
             return new MorpionEvalFunctionCST();
         return new RandomEvalFunction();
     }
+
+    public String getDescription(String name) {
+        if(name.equals(buildableMorpionEvalFct[0]))
+            return MorpionEvalFunction.getDescription();
+        else if(name.equals(buildableMorpionEvalFct[1]))
+            return MorpionEvalFunctionCST.getDescription();
+
+        return RandomEvalFunction.getDescription();
+    }
 }

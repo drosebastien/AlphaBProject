@@ -19,6 +19,10 @@ public class MorpionEvalFunctionCST extends RandomEvalFunction {
             System.out.println("MorpionCST, retire : " + indexInTreeGame);
     }
 
+    public static String getDescription() {
+        return "Morpion Constant";
+    }
+
     public static String getName() {
         return "Morpion Constant";
     }
