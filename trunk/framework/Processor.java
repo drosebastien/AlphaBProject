@@ -21,24 +21,23 @@ public class Processor {
     }
 
     public void start() {
-        launchPedMode();
+//        launchPedMode();
 //        initGame();
 //        initPlayers();
 //        startGame();
     }
 
-    public void launchPedMode() {
+    public void launchPedMode(String gameName) {
         int maxDepth = 2;
 
         Controller controller = new Controller("sebController");
-//        game = new Morpion();
-//        game.addPlayer(new MorpionHumanPlayer("joueur 1", 0));
-//        game.addPlayer(new MorpionHumanPlayer("joueur 2", 1));
-//        String gameName = "Morpion";
-        game = new ConnectFour();
-        game.addPlayer(new CFHumanPlayer("joueur1", 0));
-        game.addPlayer(new CFHumanPlayer("joueur1", 0));
-        String gameName = "ConnectFour";
+        GameFactory gameFactory = GameFactory.getInstance();
+
+        game = gameFactory.getGame(gameName);
+        int nbPlayer = game.getNbMinPlayer();
+        for(int i = 0; i < nbPlayer; i++) {
+            game.addPlayer(new MorpionHumanPlayer("joueur " + i, i));
+        }
 
 
         game.piecesDistribution();
@@ -74,12 +73,9 @@ public class Processor {
         controller.addExplorer(explorer);
         controller.addExecutor(executor);
 
-        //
-        EvalFctFactory evalFctFactory = EvalFctFactory.getInstance();
-
-        executor.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
+        executor.setEvalFctFactory(gameFactory.getGameEvalFctFactory(
                                                     gameName));
-        mainFrame.setEvalFctFactory(evalFctFactory.getGameEvalFctFactory(
+        mainFrame.setEvalFctFactory(gameFactory.getGameEvalFctFactory(
                                                     gameName));
         //
 

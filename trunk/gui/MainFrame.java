@@ -88,7 +88,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         listeners = new ArrayList<MinMaxEducativeToolsListener>();
         inExplorerMode = false;
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new GridBagLayout());
         initComponent();

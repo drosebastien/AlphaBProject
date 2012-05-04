@@ -27,7 +27,6 @@ public abstract class CFAbstractEvalFunction extends RandomEvalFunction {
                 analyser.removeToken(move);
             }
         }
-        System.out.println(analyser);
     }
 
     public void setValueOfNode(String value, MinMaxEvent event) {}

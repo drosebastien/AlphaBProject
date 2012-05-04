@@ -244,4 +244,8 @@ public class Morpion extends Game {
 
         return listOfPossibleMoves;
     }
+
+    public static String getName() {
+        return "Morpion";
+    }
 }

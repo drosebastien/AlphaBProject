@@ -106,7 +106,7 @@ public class ConfigETPanel extends JPanel {
 
         gbc.insets = new Insets(5, 5, 10, 5);
         gbc.gridheight = 1;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridwidth = GridBagConstraints.RELATIVE;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;

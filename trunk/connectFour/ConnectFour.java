@@ -203,4 +203,8 @@ public class ConnectFour extends Game {
 
         return listOfPossibleMoves;
     }
+
+    public static String getName() {
+        return "ConnectFour";
+    }
 }
