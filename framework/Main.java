@@ -3,6 +3,8 @@ package framework;
 import java.util.Scanner;
 import javax.swing.UIManager;
 
+import gui.StartWindow;
+
 public class Main {
     public static void main(String[] args) {
         for (UIManager.LookAndFeelInfo laf :
@@ -24,7 +26,9 @@ public class Main {
         // TODO: handle exception
         }
 
-        Processor processor = new Processor();
-        processor.start();
+        StartWindow tool = new StartWindow();
+
+//        Processor processor = new Processor();
+//        processor.start();
     }
 }
