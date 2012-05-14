@@ -41,10 +41,7 @@ public class JPreviewAncestorNode extends JNode {
     }
 
     public void paintLabel(Graphics g) {
-        if(getLabel() == null) {
-            System.out.println("No label");
-        }
-        else {
+        if(getLabel() != null) {
             JLabel label = new JLabel(getLabel(), x, y);
             label.paintLabel(g);
         }

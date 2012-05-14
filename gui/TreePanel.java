@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 public abstract class TreePanel extends JPanel {
-    private boolean inExplorerMode;
+    protected boolean inExplorerMode;
     protected TreeNode root;
     protected ArrayList<TreePanelListener> listeners;
 
@@ -61,7 +61,6 @@ public abstract class TreePanel extends JPanel {
     }
 
     public void previewMode(boolean inPreviewMode) {
-        System.out.println("NormalTreePanel");
         BufferedImage cursorImg = new BufferedImage(16, 16,
         BufferedImage.TYPE_INT_ARGB);
 
@@ -72,7 +71,7 @@ public abstract class TreePanel extends JPanel {
             setCursor(blankCursor);
         }
         else {
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            setCursor(null);
         }
     }
 
