@@ -5,6 +5,10 @@ import tree.*;
 import java.util.ArrayList;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -53,6 +57,22 @@ public abstract class TreePanel extends JPanel {
     protected void treeIsRepaint() {
         for(TreePanelListener listener : listeners) {
             listener.quitPreview();
+        }
+    }
+
+    public void previewMode(boolean inPreviewMode) {
+        System.out.println("NormalTreePanel");
+        BufferedImage cursorImg = new BufferedImage(16, 16,
+        BufferedImage.TYPE_INT_ARGB);
+
+        // Create a new blank cursor.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                cursorImg, new Point(0, 0), "blank cursor");
+        if(inPreviewMode) {
+            setCursor(blankCursor);
+        }
+        else {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
