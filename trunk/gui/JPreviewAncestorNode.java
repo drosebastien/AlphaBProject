@@ -3,8 +3,8 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class JViewedNode extends JNode {
-    public JViewedNode(JNode parent) {
+public class JPreviewAncestorNode extends JNode {
+    public JPreviewAncestorNode(JNode parent) {
         super(parent);
     }
 
@@ -18,7 +18,7 @@ public class JViewedNode extends JNode {
         Color tmp = g.getColor();
 
         g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(new Color(255, 255, 255));
+        g.setColor(new Color(255, 0, 0));
         g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
         g.setColor(new Color(0, 0, 0));
         g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
@@ -33,7 +33,7 @@ public class JViewedNode extends JNode {
     public void printEdgeToParent(Graphics g) {
         if(getParent() != null) {
             Color tmp = g.getColor();
-            g.setColor(new Color(0, 0, 0));
+            g.setColor(new Color(255, 0, 0));
             g.drawLine(x, y,
                     ((JNode) getParent()).getX(), ((JNode) getParent()).getY());
             g.setColor(tmp);
@@ -41,5 +41,12 @@ public class JViewedNode extends JNode {
     }
 
     public void paintLabel(Graphics g) {
+        if(getLabel() == null) {
+            System.out.println("No label");
+        }
+        else {
+            JLabel label = new JLabel(getLabel(), x, y);
+            label.paintLabel(g);
+        }
     }
 }

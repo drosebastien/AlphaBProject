@@ -18,6 +18,8 @@ public class Explorer {
     private GameMemento explorationMemento;
     private GameMemento previewMemento;
     private boolean previewMade;
+    private NodeType[] previewPathType;
+    private int[] previewPath;
 
     public Explorer(Game game, GamePanel gamePanel,
                     TreePanel treePanel, int treeDepth) {
@@ -166,6 +168,22 @@ public class Explorer {
         previewMade = true;
         previewMemento = game.saveToMemento();
         game.resetFromMemento(explorationMemento);
+        gamePanel.previewMode(true);
+        treePanel.previewMode(true);
+        TreeNode tmpNode = root;
+        previewPath = moves;
+        previewPathType = new NodeType[moves.length + 1];
+        for(int i = 0; i <= moves.length; i++) {
+            if(i == moves.length) {
+                previewPathType[i] = tmpNode.getType();
+                tmpNode.setType(NodeType.PREVIEW);
+            }
+            else {
+                previewPathType[i] = tmpNode.getType();
+                tmpNode.setType(NodeType.ANCESTOR_OF_PREVIEW);
+                tmpNode = tmpNode.getChild(moves[i]);
+            }
+        }
 
         int size = moves.length;
         for(int i = 0; i < size; i++) {
@@ -186,14 +204,25 @@ public class Explorer {
         }
 
         gamePanel.repaint();
+        treePanel.repaint();
     }
 
     public void quitPreview() {
         if(previewMemento != null && previewMade) {
+            treePanel.previewMode(false);
             previewMade = false;
+            TreeNode tmpNode = root;
+            for(int i = 0; i <= previewPath.length; i++) {
+                tmpNode.setType(previewPathType[i]);
+                if(i < previewPath.length) {
+                    tmpNode = tmpNode.getChild(previewPath[i]);
+                }
+            }
             game.resetFromMemento(previewMemento);
+            gamePanel.previewMode(false);
 
             gamePanel.repaint();
+            treePanel.repaint();
         }
     }
 

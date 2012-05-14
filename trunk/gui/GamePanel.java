@@ -15,25 +15,33 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel {
+public abstract class GamePanel extends JPanel {
+    private static final int GRAYLVL = 180;
     protected ArrayList<GamePanelListener> listeners;
     protected Board board;
+    private boolean inPreviewMode;
     private boolean inExplorerMode;
 
     public GamePanel(Board board) {
         this.board = board;
 
         listeners = new ArrayList<GamePanelListener>();
+        inPreviewMode = false;
 
         setMinimumSize(new Dimension(200, 200));
         setPreferredSize(new Dimension(200, 200));
 
-        int grayLvl = 180;
-        setBackground(new Color(grayLvl, grayLvl, grayLvl));
+        setBackground(new Color(GRAYLVL, GRAYLVL, GRAYLVL));
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        int grayLvl = GRAYLVL;
+        if(inPreviewMode) {
+            grayLvl = 255;
+        }
+        setBackground(new Color(grayLvl, grayLvl, grayLvl));
     }
 
     public void setInExplorerMode(boolean mode) {
@@ -42,6 +50,10 @@ public class GamePanel extends JPanel {
 
     public boolean isInExplorerMode() {
         return inExplorerMode;
+    }
+
+    public void previewMode(boolean inPreviewMode) {
+        this.inPreviewMode = inPreviewMode;
     }
 
     public void addListener(GamePanelListener listener) {

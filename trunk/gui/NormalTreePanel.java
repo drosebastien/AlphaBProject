@@ -23,6 +23,7 @@ public class NormalTreePanel extends TreePanel {
 
     private JTree jTreeRoot;
     private Timer timer;
+    private int[] path;
     private TimerListener timerListener;
     private boolean pauseOnThisPanel;
 
@@ -56,12 +57,14 @@ public class NormalTreePanel extends TreePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        revalidate();
+
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
 
         if(root != null) {
-            jTreeRoot = new JTree(55, 30, 100, 11);
+            jTreeRoot = new JTree(60, 30, 100, 11);
             jTreeRoot.initTree(root);
             try {
                 jTreeRoot.paintComponent(g);
@@ -70,8 +73,9 @@ public class NormalTreePanel extends TreePanel {
                 e.printStackTrace();
             }
             int rightMargin = jTreeRoot.getRightMargin();
-            setPreferredSize(new Dimension(rightMargin, 800));
-            setMinimumSize(new Dimension(rightMargin, 800));
+            int bottomMargin = jTreeRoot.getBottomMargin();
+            setPreferredSize(new Dimension(rightMargin, bottomMargin));
+            setMinimumSize(new Dimension(rightMargin, bottomMargin));
         }
     }
 
@@ -111,7 +115,7 @@ public class NormalTreePanel extends TreePanel {
 
     private void mousePausedEvent(MouseEvent evt) {
         try {
-            int[] path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
+            path = jTreeRoot.getPathToCoordinate(evt.getX(), evt.getY());
             pauseOnThisPanel = true;
             preview(path);
         }

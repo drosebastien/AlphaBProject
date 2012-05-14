@@ -48,7 +48,7 @@ public class DialogAlgoPanel extends AlgoPanel {
         gbc.fill = GridBagConstraints.BOTH;
         add(scroll, gbc);
 
-        JButton resetButton = new JButton("reset");
+        JButton resetButton = new JButton("Reset");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 resetPerformed(evt);

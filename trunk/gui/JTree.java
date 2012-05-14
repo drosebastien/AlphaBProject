@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author Sebastien Drobisz.
  */
 public class JTree{
+    private int maxDepth;
     private int leftMargin;
     private int tmpLeftMargin;
     private int topMargin;
@@ -27,6 +28,7 @@ public class JTree{
      * @param gap La distance minimum en largeur entre deux noeuds de même père.
      */
     public JTree(int leftMargin, int topMargin, int heightOfNode, int gap) {
+        maxDepth = 100;
         this.leftMargin = leftMargin;
         this.tmpLeftMargin = leftMargin;
         this.topMargin = topMargin;
@@ -75,6 +77,9 @@ public class JTree{
         }
         else { // si c'est une feuille la position en x = la marge de gauche.
             currentNode.setX(tmpLeftMargin);
+            if(depth > maxDepth) {
+                maxDepth = depth;
+            }
         }
 
         tmpLeftMargin += gap;
@@ -144,6 +149,10 @@ public class JTree{
         return tmpLeftMargin;
     }
 
+    public int getBottomMargin() {
+        return maxDepth + 50;
+    }
+
     /*
      * Méthode permettant la création d'un noeud graphique.
      */
@@ -162,6 +171,12 @@ public class JTree{
                 break;
             case IMPORTANT:
                 newNode = new JImportantNode(parentNode);
+                break;
+            case PREVIEW:
+                newNode = new JPreviewNode(parentNode);
+                break;
+            case ANCESTOR_OF_PREVIEW:
+                newNode = new JPreviewAncestorNode(parentNode);
                 break;
             default:
                 newNode = new JNode(parentNode);

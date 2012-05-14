@@ -202,7 +202,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
         Integer value = new Integer(2);
         Integer min = new Integer(2);
-        Integer max = new Integer(6);
+        Integer max = new Integer(7);
         Integer step = new Integer(1);
         treeDepthSpinner = new JSpinner();
         treeDepthSpinner.setMinimumSize(new Dimension(40, 25));
@@ -413,20 +413,20 @@ public class MainFrame extends JFrame implements TreePanelListener {
             if(checkBox.isSelected()) {
                 makePause();
 
-                gamePanel.setInExplorerMode(true);
-                treePanel.setInExplorerMode(true);
-                inExplorerMode = true;
-                playButton.setEnabled(false);
-                stopButton.setEnabled(false);
+                setInExplorerMode(true);
             }
             else {
-                gamePanel.setInExplorerMode(false);
-                treePanel.setInExplorerMode(false);
-                inExplorerMode = false;
-                playButton.setEnabled(true);
-                stopButton.setEnabled(true);
+                setInExplorerMode(false);
             }
         }
+    }
+
+    private void setInExplorerMode(boolean value) {
+        inExplorerMode = value;
+        gamePanel.setInExplorerMode(inExplorerMode);
+        treePanel.setInExplorerMode(inExplorerMode);
+        playButton.setEnabled(!inExplorerMode);
+        stopButton.setEnabled(!inExplorerMode);
     }
 
     public void addListener(MinMaxEducativeToolsListener listener) {
@@ -474,7 +474,8 @@ public class MainFrame extends JFrame implements TreePanelListener {
 
     private void sendSpeedToListeners() {
         for(MinMaxEducativeToolsListener listener : listeners) {
-            listener.setSpeed((int) Math.round(Math.pow(1.6, speedSlider.getValue())));
+            listener.setSpeed((int) Math.round(Math.pow(1.6,
+                                                    speedSlider.getValue())));
         }
     }
 
