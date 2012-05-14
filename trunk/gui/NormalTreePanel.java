@@ -34,6 +34,7 @@ public class NormalTreePanel extends TreePanel {
 
         timerListener = new TimerListener();
         timer = new Timer(300, timerListener);
+        //timer.start();
 
         addMouseListener(new MouseAdapter () {
             public void mouseClicked(MouseEvent evt) {

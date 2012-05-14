@@ -56,6 +56,8 @@ public class Explorer {
 
     public void makeTreePanel() {
         root = makeTree(treeDepth);
+        treePanel.previewMode(false);
+        gamePanel.previewMode(false);
 
         treePanel.setTreeRootNode(root);
         treePanel.repaint();
