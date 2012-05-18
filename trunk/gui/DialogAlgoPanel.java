@@ -108,4 +108,12 @@ public class DialogAlgoPanel extends AlgoPanel {
             dialogTextArea.insert(evt.getMessage() + "\n", 0);
         }
     }
+
+    public void finished(MinMaxEvent evt) {
+        if(evt.getMessage() != null) {
+            dialogTextArea.insert("--------------\n", 0);
+            dialogTextArea.insert("Evaluation end : " +
+                                  evt.getMessage() + "\n", 0);
+        }
+    }
 }

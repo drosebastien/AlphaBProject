@@ -146,6 +146,12 @@ public abstract class MinMaxAlgo {
         }
     }
 
+    protected void finished(MinMaxEvent evt) {
+        for(MinMaxListener listener : listeners) {
+            listener.finished(evt);
+        }
+    }
+
     public String toString() {
         return name;
     }

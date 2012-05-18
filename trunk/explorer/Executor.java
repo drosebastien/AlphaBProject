@@ -173,6 +173,9 @@ public class Executor implements MinMaxListener {
         Tree.removeStatesOfTree(currentNode);
     }
 
+    public void finished(MinMaxEvent evt) {
+    }
+
     public void repaintPanels() {
         gamePanel.repaint();
         treePanel.repaint();

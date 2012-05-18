@@ -19,8 +19,9 @@ public class IterativeMinMax extends MinMaxAlgo {
         Player nodePlayer = game.nextPlayer();
 
         Move bestMove = null;
+        int bestValue = getMinValue();
         for(int j = 1; j <= maxDepth(); j++) {
-            int bestValue = getMinValue();
+            bestValue = getMinValue();
             bestMove = null;
             MoveIterator iterator = game.getPossibleMoves();
 
@@ -57,6 +58,11 @@ public class IterativeMinMax extends MinMaxAlgo {
             }
             refreshTreeOfListener(new MinMaxEvent());
         }
+
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMessage("Root MinMax value is " + bestValue);
+        evt.setMove(bestMove);
+        finished(evt);
 
         return bestMove;
     }

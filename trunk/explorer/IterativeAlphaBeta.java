@@ -19,8 +19,9 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
         Player nodePlayer = game.nextPlayer();
 
         Move bestMove = null;
+        int alpha = getMinValue();
         for(int j = 1; j <= maxDepth(); j++) {
-            int alpha = getMinValue();
+            alpha = getMinValue();
             int beta = getMaxValue();
             bestMove = null;
             MoveIterator iterator = game.getPossibleMoves();
@@ -56,6 +57,11 @@ public class IterativeAlphaBeta extends MinMaxAlgo {
             }
             refreshTreeOfListener(new MinMaxEvent());
         }
+
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMessage("Root MinMax value is " + alpha);
+        evt.setMove(bestMove);
+        finished(evt);
 
         return bestMove;
     }
