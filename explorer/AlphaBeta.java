@@ -53,6 +53,11 @@ public class AlphaBeta extends MinMaxAlgo {
             i++;
         }
 
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMessage("Root MinMax value is " + alpha);
+        evt.setMove(bestMove);
+        finished(evt);
+
         return bestMove;
     }
 

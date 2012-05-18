@@ -52,6 +52,11 @@ public class NormalMinMax extends MinMaxAlgo {
             i++;
         }
 
+        MinMaxEvent evt = new MinMaxEvent();
+        evt.setMessage("Root MinMax value is " + bestValue);
+        evt.setMove(bestMove);
+        finished(evt);
+
         return bestMove;
     }
 

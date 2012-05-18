@@ -13,4 +13,6 @@ public interface MinMaxListener {
     public void setNewBestNode(int indexOfChild, MinMaxEvent event);
 
     public void setDropedNode(int indexOfChild, MinMaxEvent event);
+
+    public void finished(MinMaxEvent evt);
 }
