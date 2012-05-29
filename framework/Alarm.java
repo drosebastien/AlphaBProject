@@ -3,16 +3,15 @@ package framework;
 import java.util.concurrent.Semaphore;
 
 /**
- * This class is used to warn a class which use this alarm once a given time is
- * up. It implements the Runnable interface allowing it to be launched in a
- * thread.
+ * Cette classe permet de prevenir une classe l'utilisant qu'un temps gagné est
+ * passé. 
  */
 public class Alarm implements Runnable {
     private int time;
     private Semaphore sem;
 
     /**
-     * This constructor initialize the alarm with a given time.
+     * Ce constructeur initialise l'alarme avec le temps voulu.
      * @param time The time to wait.
      */
     public Alarm(int time) {
@@ -20,25 +19,26 @@ public class Alarm implements Runnable {
     }
 
     /**
-     * This method is used to set the semaphore on which the user class have
-     * to wait. This semaphore have to be initialize to 0 (critical section).
-     * @param sem The semaphore on which the userClass have to be blocked.
+     * Cette methode est utilisée pour fournir a l'alarme le semaphore qu'il
+     * faut liberer pour avertir la classe faisant appelle a cette classe.
+     * @param sem Le semaphore sur leque la classe utilisant une alarme est
+     * bloquee.
      */
     public void setSemaphore(Semaphore sem) {
         this.sem = sem;
     }
 
     /**
-     * This method is used to change the time of the alarm.
-     * @param time The new time of the alarm.
+     * Cette methode permet de changer le temps d'attente.
+     * @param time Le nouveau temps d'attente de l'alarme.
      */
     public void setTime(int time) {
         this.time = time;
     }
 
     /**
-     * Start the alarm thread. The alarm release the selected semaphore when
-     * the time is up. The time starts flowing when this method is called.
+     * demarre le thread de l'alarme. L'alarme relache le semaphore fournit
+     * lorsque le temps est ecoule.
      */
     public void run() {
         try {

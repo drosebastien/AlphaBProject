@@ -4,43 +4,41 @@ import connectFour.*;
 import framework.*;
 
 /**
- * Cette classe permet à une ia qui evalue des coup à l'avance (tel qu'une ia
- * alpha beta ou minimax) d'avoir une représentation claire des puissance 4
- * qui sont encore réaliables pour elle et pour le joueur adverse ainsi
- * que leur état (0, 1, 2, 3 pions déjà mis) et leurs directions tout en
- * faisant un minimum de calcul possible afin de ne pas pénaliser l'exploration 
- * Pour ce faire, cette classe utilise 2 tableaux (un pour chaque joueur)
- * constitué dans l'ordre :
- * des puissance 4 verticaux, des puissance 4 horizontaux, diagonaux croissant,
- * diagonaux décroissant.
+ * Cette classe permet a une ia qui evalue des coup à l'avance (tel qu'une ia
+ * alpha beta ou minimax) d'avoir une representation claire des puissance 4
+ * qui sont encore realiables pour elle et pour le joueur adverse ainsi
+ * que leur état (0, 1, 2, 3 pions deja mis) et leurs directions tout en
+ * faisant un minimum de calcules possible afin de ne pas penaliser
+ * l'exploration 
+ * @author Sebastien Drobisz
  */
 public class C4Analyser {
     /**
-     * Valeur donnée par pion mis pour un puissance 4.
+     * Valeur donnee pour chaque pion place pour former un puissance 4.
      */
     public static final int NATURAL = 1;
     /**
-     * Nombre de puissance 4 possible dans une grille 7*6
+     * Nombre de puissance 4 possibles dans une grille standard (7x6).
      */
     public static final int NBC4 = 69;
     /**
-     * Indice du premier puissance 4 vertical dans le tableau ou est stocké
-     * l'état des puissance 4.
+     * Indice du premier puissance 4 vertical dans le tableau ou est stocke
+     * l'etat des puissance 4.
      */
     public static final int FIRST_V = 0;
     /**
-     * Indice du premier puissance 4 horizontal dans le tableau ou est stocké
-     * l'état des puissance 4.
+     * Indice du premier puissance 4 horizontal dans le tableau ou est stocke
+     * l'etat des puissance 4.
      */
     public static final int FIRST_H = 21;
     /**
      * Indice du premier puissance 4 diagonal croissant dans le tableau ou est
-     * stocké l'état des puissance 4.
+     * stocke l'etat des puissance 4.
      */
     public static final int FIRST_ID = 45;
     /**
      * Indice du premier puissance 4 diagonal décroissant dans le tableau ou est
-     * stocké l'état des puissance 4.
+     * stocke l'etat des puissance 4.
      */
     public static final int FIRST_DD = 57;
 
@@ -52,9 +50,9 @@ public class C4Analyser {
     private CFBoard board;
 
     /**
-     * Constructeur permettant d'initialiser l'analyseyr.
-     * @param player_ai Valeur donnée au pion de l'ia.
-     * @param player2 Valeur donnée au pion du second joueur.
+     * Constructeur permettant d'initialiser l'analyser.
+     * @param player1 Premier joueur (correspondant au joueur Max).
+     * @param player2 Second joueur (correspondant au joueur Min).
      */
     public C4Analyser(Player player1, Player player2) {
         player1Array = new int[NBC4];
@@ -64,9 +62,9 @@ public class C4Analyser {
     }
 
     /**
-     * Permet d'initialiser les tableaux d'état des deux joueurs.
-     * doit se faire chaque coup avant de lancer l'exploration de l'ia.
-     * @param grid grille donnée à l'ia pour lancer son exploration.
+     * Permet d'initialiser les tableaux d'etats des deux joueurs.
+     * doit se faire chaque fois avant de lancer l'exploration de l'algorithme.
+     * @param game donne a l'algorithme pour lancer son exploration.
      */
     public void initializePossibleC4Array(ConnectFour game) {
         this.game = game;
@@ -86,9 +84,9 @@ public class C4Analyser {
     }
 
     /**
-     * Permet de retourner une chaine de caractère représentant les deux
-     * tableau d'état.
-     * Le premier étant celui de l'ia et le second celui de l'opposant.
+     * Permet de retourner une chaine de caracteres representant les deux
+     * tableaux d'etats.
+     * Le premier etant celui du joueur 1 et le second celui du joueur 2.
      */
     public String toString() {
         String line = "------------------------------------------------\n";
@@ -123,23 +121,24 @@ public class C4Analyser {
     }
 
     /**
-     * Permet de retourner un élément du tableau d'état de l'ia.
-     * @param L'indice de l'élément à retourner.
+     * Permet de retourner l'etat d'un alignement pour le joueur 1.
+     * @param x L'indice de l'alignement dont l'etat doit etre fourni.
      */
     public int getPlayer1Value(int x) {
         return player1Array[x];
     }
 
     /**
-     * Permet de retourner un élément du tableau d'état du joueur opposant.
-     * @param L'indice de l'élément à retourner.
+     * Permet de retourner l'etat d'un alignement pour le joueur 2.
+     * @param x L'indice de l'alignement dont l'etat doit etre fourni.
      */
     public int getPlayer2Value(int x) {
         return player2Array[x];
     }
 
     /**
-     * Permet de spécifier qu'un pion va être rajouté pour un certain joueur.
+     * Permet de specifier qu'un mouvement a ete realise.
+     * @param move le mouvement realise.
      */
     public void addToken(Move move) {
         CFPosition pos = ((CFMove) move).getPosition();
@@ -150,7 +149,8 @@ public class C4Analyser {
     }
 
     /**
-     * Permet de spécifier qu'un pion à été retiré pour un certain joueur.
+     * Permet de specifier qu'un mouvement a ete annule.
+     * @param move Le mouvement a annuler.
      */
     public void removeToken(Move move) {
         CFPosition pos = ((CFMove) move).getPosition();

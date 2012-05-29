@@ -1,15 +1,15 @@
 package framework;
 
 /**
- * The superclass of all AI players.
+ * La super classe de tous les joueurs IA
  * @author Sebastien Drobisz
  */
 public abstract class AI extends Player {
 
     /**
-     * Initialize an AI player.
-     * @param name Name of the player.
-     * @param id Number used to identify the player
+     * Initialise une IA
+     * @param name Le nom de l'IA.
+     * @param id Numero utilise pour identifier le joueur.
      */
     public AI(String name, int id) {
         super(name, id);

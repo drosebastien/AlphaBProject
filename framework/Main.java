@@ -5,6 +5,10 @@ import javax.swing.UIManager;
 
 import gui.StartWindow;
 
+/**
+ * Cette classe permet de lancer l'outil.
+ * @author Sebastien Drobisz.
+ */
 public class Main {
     public static void main(String[] args) {
         for (UIManager.LookAndFeelInfo laf :
