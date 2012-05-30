@@ -15,15 +15,27 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
+/**
+ * Cette classe permet de creer un AlgoPanel servant a fournir un descriptif
+ * du fonctionnement de l'algorithme en cours d'utilisation.
+ */
 public class DialogAlgoPanel extends AlgoPanel {
 
     private GridBagConstraints gbc;
     private JTextArea dialogTextArea;
 
+    /**
+     * Ce constructeur permet de creer le panel de dialogue et en y ajoutant les
+     * differents elements utils.
+     */
     public DialogAlgoPanel() {
         initComponent();
     }
 
+    /**
+     * Cette methode permet d'afficher les differents composants.
+     * @param g Le graphics.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }

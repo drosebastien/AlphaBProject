@@ -3,7 +3,17 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Cette classe permet de representer des noeuds qui peuvent etre dessine sur
+ * un panel. Les noeuds sont des noeuds deja explore mais  qui n'ont rien
+ * de special.
+ * @author Sebastien Drobisz
+ */
 public class JViewedNode extends JNode {
+    /**
+     * Ce constructeur permet de creer un noeud en lui donnant son pere.
+     * @param parent Le noeud pere.
+     */
     public JViewedNode(JNode parent) {
         super(parent);
     }
@@ -40,6 +50,11 @@ public class JViewedNode extends JNode {
         }
     }
 
+    /**
+     * Cette methode permet de dessiner le label associe a un noeud.
+     * En l'occurence, le label n'est pas dessine pour un simple noeud.
+     * @param g Le graphics sur lequel le label devrait etre dessine.
+     */
     public void paintLabel(Graphics g) {
     }
 }

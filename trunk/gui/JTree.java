@@ -6,8 +6,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
- * Cette classe permet la création d'un arbre graphique à partir d'un arbre
- * constitué de TreeNode.
+ * Cette classe permet la creation d'un arbre graphique a partir d'un arbre
+ * constitue de TreeNode.
  * @author Sebastien Drobisz.
  */
 public class JTree{
@@ -20,12 +20,12 @@ public class JTree{
     private JNode root;
 
     /**
-     * Ce constructeur permet d'initialiser les constantes caractérisant l'arbre
+     * Ce constructeur permet d'initialiser les constantes caracterisant l'arbre
      * et ses noeuds.
      * @param leftMargin La marge gauche où commence l'arbre.
-     * @param topMargin La marge du dessus où est placé la racine.
-     * @param heightOfNode La différence de hauteur entre deux noeuds.
-     * @param gap La distance minimum en largeur entre deux noeuds de même père.
+     * @param topMargin La marge du dessus où est place la racine.
+     * @param heightOfNode La difference de hauteur entre deux noeuds.
+     * @param gap La distance minimum en largeur entre deux noeuds de meme pere.
      */
     public JTree(int leftMargin, int topMargin, int heightOfNode, int gap) {
         maxDepth = 100;
@@ -37,9 +37,9 @@ public class JTree{
     }
 
     /**
-     * Permet d'initialiser l'arbre graphique à partir d'un arbre défini par
+     * Permet d'initialiser l'arbre graphique a partir d'un arbre defini par
      * des TreeNode.
-     * @param node La racine de l'arbre constitué de TreeNode.
+     * @param node La racine de l'arbre constitue de TreeNode.
      */
     public void initTree(TreeNode node) {
         tmpLeftMargin = leftMargin;
@@ -47,13 +47,13 @@ public class JTree{
     }
 
     /*
-     * Méthode permettant vraiment de lancer la création de l'arbre.
+     * Methode permettant vraiment de lancer la creation de l'arbre.
      */
     private void createTree(TreeNode node, JNode parentNode, int depth) {
 
         JNode currentNode = createNode(node, parentNode);
         currentNode.setY(depth);
-        if(parentNode == null) { // si pas de père
+        if(parentNode == null) { // si pas de pere
             root = currentNode;  // alors noeud courant = racine de l'arbre.
         }
         else {
@@ -66,8 +66,8 @@ public class JTree{
                             depth + heightOfNode);
             }
 
-            // position en x est calculé par rapport à la position de son fils
-            // le plus à gauche (g) avec celui le plus à droite (d).
+            // position en x est calcule par rapport a la position de son fils
+            // le plus a gauche (g) avec celui le plus a droite (d).
             // (d - g) / 2 + g
             int nbChild = currentNode.getNbChild();
             int g = ((JNode) currentNode.getChild(0)).getX();
@@ -86,13 +86,13 @@ public class JTree{
     }
 
     /**
-     * Cette méthode retourne le chemin menant au noeud possédant les
-     * coordonnées passées en paramètre. Si aucun noeud ne corresponde, une
-     * Exception est lancée.
-     * @param x L'abscisse du noeud potentiel à chercher.à rechercher.
-     * @param y L'ordonnée du noeud potentiel 
-     * @return Le chemin correspondant au noeud ayant pour les coordonnées
-     * passée en paramètre.
+     * Cette methode retourne le chemin menant au noeud possedant les
+     * coordonnees passees en parametre. Si aucun noeud ne corresponde, une
+     * Exception est lancee.
+     * @param x L'abscisse du noeud potentiel a chercher.a rechercher.
+     * @param y L'ordonnee du noeud potentiel 
+     * @return Le chemin correspondant au noeud ayant pour les coordonnees
+     * passee en parametre.
      */
     public int[] getPathToCoordinate(int x, int y)
                                             throws NodeNotFoundException {
@@ -141,20 +141,25 @@ public class JTree{
     }
 
     /**
-     * Cette méthode permet de connaitre la position du point le plus à droite
+     * Cette methode permet de connaitre la position du point le plus a droite
      * de l'arbre.
-     * @return l'abscisse du point le plus à droite de l'arbre.
+     * @return l'abscisse du point le plus a droite de l'arbre.
      */
     public int getRightMargin() {
         return tmpLeftMargin;
     }
 
+    /**
+     * Cette methode permet de retourner l'ordonnee du point le plus profond
+     * profond dans l'arbre.
+     * @return L'ordonne du point le plus bas dans l'arbre.
+     */
     public int getBottomMargin() {
         return maxDepth + 50;
     }
 
     /*
-     * Méthode permettant la création d'un noeud graphique.
+     * Methode permettant la creation d'un noeud graphique.
      */
     private JNode createNode(TreeNode node, JNode parentNode) {
         JNode newNode = null;
@@ -188,7 +193,7 @@ public class JTree{
     }
 
     /**
-     * Cette méthode dessine un arbre initialisé sur un Graphics donné.
+     * Cette methode dessine un arbre initialise sur un Graphics donne.
      * @param g Le Graphics sur lequel dessiner l'arbre.
      */
     public void paintComponent(Graphics g) throws Exception {

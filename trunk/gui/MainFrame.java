@@ -47,6 +47,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * Cette classe permet de construire la frame principale de l'outil contenant
+ * les differents composants
+ * @author Sebastien Drobisz
+ */
 public class MainFrame extends JFrame implements TreePanelListener {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1024;
@@ -74,6 +79,14 @@ public class MainFrame extends JFrame implements TreePanelListener {
     private JCheckBox checkBox;
     private AlgoPanel algoPanel;
 
+    /**
+     * Ce constructeur permet de creer une frame principale de l'outil en
+     * lui fournissant les 3 composants principaux.
+     * @param gPanel Le panel du jeu.
+     * @param treePanel Le panel de l'arbre d'exploration
+     * @param algoPanel Le panel fournissant des informations supplementaire
+     * sur le fonctionnement de l'algorithme.
+     */
     public MainFrame(GamePanel gPanel, TreePanel treePanel,
                                                         AlgoPanel algoPanel) {
         super("Exploration algorithm");
@@ -99,7 +112,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         //repaint();
     }
 
-    public void initMenu() {
+    private void initMenu() {
         configETWindow = new ConfigETWindow(this);
         JMenuBar menuBar = new JMenuBar();
 
@@ -135,7 +148,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         configETWindow.setVisible(true);
     }
 
-    public void initComponent() {
+    private void initComponent() {
         gbc = new GridBagConstraints();
 
         JLabel explorerLabel = new JLabel("Exploration mode");
@@ -352,10 +365,20 @@ public class MainFrame extends JFrame implements TreePanelListener {
         add(speedSlider, gbc);
     }
 
+    /**
+     * Cette methode permet de fournir le factory des fonctions d'evaluation
+     * @param factory Le factory des fonctions d'evaluation.
+     */
     public void setEvalFctFactory(AbstractGameEvalFctFactory factory) {
         configETWindow.setEvalFctFactory(factory);
     }
 
+    /**
+     * Cette methode permet de prevenir les listeners que la fenetre de
+     * recherche de l'algorithme a ete modifiee.
+     * @param minValue La borne inferieure de la fenetre de recherche.
+     * @param maxValue La borne superieure de la fenetre de recherche.
+     */
     public void windowValuesHaveChanged(int minValue, int maxValue) {
         makePause();
         for(int i = 0; i < listeners.size(); i++) {
@@ -363,6 +386,10 @@ public class MainFrame extends JFrame implements TreePanelListener {
         }
     }
 
+    /**
+     * Permet de prevenir les listeners que l'algorithme doit etre modifie
+     * @param algoName Le nom l'algorithme qui doit etre change.
+     */
     public void algoHaveChanged(String algoName) {
         int depth = getIntValueOfSpinner(treeDepthSpinner);
         makePause();
@@ -371,6 +398,11 @@ public class MainFrame extends JFrame implements TreePanelListener {
         }
     }
 
+    /**
+     * Cette methode permet de prevenir les listeners qu'une demande de
+     * changement de fonction d'evaluation a ete faite.
+     * @param fctName Le nom de la fonction qui doit etre modifiee.
+     */
     public void fctHaveChanged(String fctName) {
         int depth = getIntValueOfSpinner(treeDepthSpinner);//pas sur utile
         makePause();
@@ -408,7 +440,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         }
     }
 
-    public class ExplorerListener implements ActionListener {
+    private class ExplorerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(checkBox.isSelected()) {
                 makePause();
@@ -450,7 +482,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         return model.getNumber().intValue();
     }
 
-    public class NextListener implements ActionListener {
+    private class NextListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             for(MinMaxEducativeToolsListener listener : listeners) {
@@ -459,7 +491,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         }
     }
 
-    public class PreviousListener implements ActionListener {
+    private class PreviousListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             for(MinMaxEducativeToolsListener listener : listeners) {

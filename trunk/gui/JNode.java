@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 /**
- * Cette classe représente le nœud normal d'un arbre graphique.
+ * Cette classe represente le nœud normal d'un arbre graphique.
  * @author Sebastien Drobisz
  */
 public class JNode extends TreeNode{
@@ -15,18 +15,18 @@ public class JNode extends TreeNode{
     private boolean isLeaf;
 
     /**
-     * Le constructeur d'un JNode permet de définir le père du noeud créé.
-     * null si pas de père.
-     * @param parent Le noeud père du noeud à créer.
+     * Le constructeur d'un JNode permet de definir le pere du noeud cree.
+     * null si pas de pere.
+     * @param parent Le noeud pere du noeud a creer.
      */
     public JNode(JNode parent) {
         super(parent);
     }
 
     /**
-     * Cette méthode permet de copier le contenu d'un TreeNode, i.e., son type
+     * Cette methode permet de copier le contenu d'un TreeNode, i.e., son type
      * et son label dans le noeud graphique.
-     * @param node Le TreeNode dont les données doivent être copiée.
+     * @param node Le TreeNode dont les donnees doivent etre copiee.
      */
     public void copyState(TreeNode node) {
         setType(node.getType());
@@ -35,7 +35,7 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de donner la position en abscisse du noeud.
+     * Cette methode permet de donner la position en abscisse du noeud.
      * @param x La position en abscisse du noeud.
      */
     public void setX(int x) {
@@ -43,15 +43,15 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de donner la position en ordonnée du noeud.
-     * @param y La position en ordonnée du noeud.
+     * Cette methode permet de donner la position en ordonnee du noeud.
+     * @param y La position en ordonnee du noeud.
      */
     public void setY(int y) {
         this.y = y;
     }
 
     /**
-     * Cette méthode permet de retourner la position en abscisse du noeud.
+     * Cette methode permet de retourner la position en abscisse du noeud.
      * @return L'abscisse du noeud.
      */
     public int getX() {
@@ -59,15 +59,15 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de retourner la position en ordonnée du noeud.
-     * @return L'ordonnée du noeud.
+     * Cette methode permet de retourner la position en ordonnee du noeud.
+     * @return L'ordonnee du noeud.
      */
     public int getY() {
         return y;
     }
 
     /**
-     * Cette méthode permet de savoir si le noeud est une feuille.
+     * Cette methode permet de savoir si le noeud est une feuille.
      * @return true si le noeud est une feuille, false sinon.
      */
     public boolean isLeaf() {
@@ -75,7 +75,7 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de dessiner le noeud sur un Graphics.
+     * Cette methode permet de dessiner le noeud sur un Graphics.
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
@@ -93,9 +93,9 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de dessiner l'arête du noeud vers son père (s'il
+     * Cette methode permet de dessiner l'arete du noeud vers son pere (s'il
      * existe) sur un Graphics.
-     * @param g Le graphics où dessiner l'arête.
+     * @param g Le graphics où dessiner l'arete.
      */
     public void printEdgeToParent(Graphics g) {
         if(getParent() != null) {
@@ -108,8 +108,8 @@ public class JNode extends TreeNode{
     }
 
     /**
-     * Cette méthode permet de dessiner le label associé à un noeud sur un
-     * Graphics.
+     * Cette methode permet de dessiner le label associe a un noeud sur un
+     * graphics.
      * @param g Le Graphics où dessiner le label.
      */
     public void paintLabel(Graphics g) {
