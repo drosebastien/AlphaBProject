@@ -3,6 +3,11 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Color;
 
+/**
+ * Cette classe permet de dessiner des labels pour les noeuds qui sont des
+ * feuilles.
+ * @param Sebastien Drobisz.
+ */
 public class JLeafLabel extends JLabel{
     /**
      * Ce constructeur permet d'initialiser la valeur du label ainsi que
@@ -15,6 +20,10 @@ public class JLeafLabel extends JLabel{
         super(label, x, y);
     }
 
+    /**
+     * Cette methode permet de dessiner le label sur un graphics donne.
+     * @param g Le graphics sur lequel dessiner le label.
+     */
     public void paintLabel(Graphics g) {
         int width = getWidth(g, getLabel());
 

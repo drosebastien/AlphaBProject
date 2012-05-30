@@ -25,12 +25,20 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Cette classe permet de creer un panel qui permet de selectionner le jeu
+ * utlisé par l'outil.
+ * @author Sebastien Drobisz.
+ */
 public class StartPanel extends JPanel {
     private GridBagConstraints gbc;
     private JButton okButton;
     private JComboBox gameComboBox;
     private JComboBox modeComboBox;
 
+    /**
+     * Ce constructeur permet de creer le panel de demarrage.
+     */
     public StartPanel() {
         setBackground(new Color(220, 220, 220));
 
@@ -70,11 +78,9 @@ public class StartPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.BOTH;
         add(okButton, gbc);
-
-        
     }
 
-    public void initGameComboBox() {
+    private void initGameComboBox() {
         String[] games = GameFactory.getInstance().getBuildableGameName();
         gameComboBox = new JComboBox();
         gameComboBox.setMinimumSize(new Dimension(150, 25));
@@ -84,14 +90,14 @@ public class StartPanel extends JPanel {
         }
     }
 
-    public void initModeComboBox() {
+    private void initModeComboBox() {
         modeComboBox = new JComboBox();
         modeComboBox.setMinimumSize(new Dimension(150, 25));
         modeComboBox.setPreferredSize(new Dimension(150, 25));
         modeComboBox.addItem("Pedagogical");
     }
 
-    public void okButtonClicked(ActionEvent evt) {
+    private void okButtonClicked(ActionEvent evt) {
         Processor processor = new Processor();
         String selectedGame = gameComboBox.getSelectedItem().toString();
         processor.launchPedMode(selectedGame);

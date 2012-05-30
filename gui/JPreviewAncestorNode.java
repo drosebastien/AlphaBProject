@@ -3,7 +3,19 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Cette classe permet de representer des noeuds qui peuvent etre dessine sur
+ * un panel. Ce noeud est un noeud ancetre au noeud qui est selectionne
+ * pour l'aperçu.
+ * @author Sebastien Drobisz.
+ */
 public class JPreviewAncestorNode extends JNode {
+
+    /**
+     * Ce constructeur permet de creer un noeud en lui fournissant son noeud
+     * pere.
+     * @param parent Le noeud pere.
+     */
     public JPreviewAncestorNode(JNode parent) {
         super(parent);
     }
@@ -40,6 +52,11 @@ public class JPreviewAncestorNode extends JNode {
         }
     }
 
+    /**
+     * Cette methode permet de dessiner le label associe a un noeud sur un
+     * graphic.
+     * @param g Le Graphics où dessiner le label.
+     */
     public void paintLabel(Graphics g) {
         if(getLabel() != null) {
             JLabel label = new JLabel(getLabel(), x, y);

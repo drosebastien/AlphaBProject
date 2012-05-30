@@ -25,6 +25,11 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Cette classe permet de creer un panel de configuration pour regler different
+ * parametre de l'outil d'exploration.
+ * @author Sebastien Drobisz.
+ */
 public class ConfigETPanel extends JPanel {
     private AbstractGameEvalFctFactory gameEvalFctFactory;
     private ConfigETWindow listener;
@@ -42,6 +47,10 @@ public class ConfigETPanel extends JPanel {
     private JTextArea textArea;
     private JScrollPane scroll;
 
+    /**
+     * Cette methode permet de dessiner le panel de configuration
+     * @param parentFrame La frame parent a ce panel.
+     */
     public ConfigETPanel(ConfigETWindow parentFrame) {
         listener = parentFrame;
         setBackground(new Color(220, 220, 220));
@@ -162,6 +171,12 @@ public class ConfigETPanel extends JPanel {
         addAlgo();
     }
 
+    /**
+     * Cette methode permet de fournir un factory de fonctions d'evaluation
+     * pour lui permettre de connaitre toutes les fonctions d'evaluation
+     * qu'il est possible d'instancier.
+     * @param factory Le factory des fonctions d'evaluation utilisables.
+     */
     public void setEvalFctFactory(AbstractGameEvalFctFactory factory) {
         this.gameEvalFctFactory = factory;
         addEvalFct(factory.getBuildableEvalFct());

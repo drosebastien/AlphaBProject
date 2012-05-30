@@ -18,6 +18,10 @@ import javax.swing.Timer;
 
 import java.util.ArrayList;
 
+/**
+ * Cette classe permet de creer un panel pour l'arbre d'exploration.
+ * @author Sebastien Drobisz.
+ */
 public class NormalTreePanel extends TreePanel {
     private static final int RADIUSNODE = 4;
 
@@ -55,6 +59,10 @@ public class NormalTreePanel extends TreePanel {
         setPreferredSize(new Dimension(700, 800));
     }
 
+    /**
+     * Cette methode permet de dessiner les differents composants.
+     * @param g Le graphics sur lequel dessiner l'arbre d'exploration.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

@@ -3,7 +3,18 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Cette classe permet de representer sur un panel un noeud ancetre au noeud
+ * en cours d'exploration.
+ * @author Sebastien Drobisz
+ */
 public class JAncestorNode extends JNode {
+
+    /**
+     * Ce constructeur permet de creer un noeud ancetre au noeud courant en
+     * lui fournissant sont noeud pere.
+     * @param parent Le noeud pere.
+     */
     public JAncestorNode(JNode parent) {
         super(parent);
     }
@@ -28,7 +39,7 @@ public class JAncestorNode extends JNode {
     /**
      * Cette méthode permet de dessiner l'arête du noeud vers son père (s'il
      * existe) sur un Graphics.
-     * @param g Le graphics où dessiner l'arête.
+     * @param g Le graphics sur lequel dessiner l'arête.
      */
     public void printEdgeToParent(Graphics g) {
         if(getParent() != null) {
@@ -40,6 +51,11 @@ public class JAncestorNode extends JNode {
         }
     }
 
+    /**
+     * Cette methode permet de dessiner le label associe a un noeud sur un
+     * graphics.
+     * @param g Le graphics sur lequel dessiner le label.
+     */
     public void paintLabel(Graphics g) {
         if(getLabel() == null) {
             System.out.println("No label");
