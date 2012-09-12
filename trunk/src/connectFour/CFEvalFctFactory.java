@@ -26,7 +26,7 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
         buildableCFEvalFct = new String[] {CFEvalFunction.getName(),
                                           CFRemainingEvalFunction.getName(),
                                           CFRemainingDiffEvalFunction.getName(),
-                                          CFExpEvalFunction.getName()};
+                                          };
     }
 
     public String[] getBuildableEvalFct() {
@@ -40,8 +40,6 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
             return new CFRemainingEvalFunction();
         else if(name.equals(buildableCFEvalFct[2]))
             return new CFRemainingDiffEvalFunction();
-        else if(name.equals(buildableCFEvalFct[3]))
-            return new CFExpEvalFunction();
 
         return new RandomEvalFunction();
     }
@@ -53,8 +51,6 @@ public class CFEvalFctFactory extends AbstractGameEvalFctFactory {
             return CFRemainingEvalFunction.getDescription();
         else if(name.equals(buildableCFEvalFct[2]))
             return CFRemainingDiffEvalFunction.getDescription();
-        else if(name.equals(buildableCFEvalFct[3]))
-            return CFExpEvalFunction.getDescription();
 
         return RandomEvalFunction.getDescription();
     }
