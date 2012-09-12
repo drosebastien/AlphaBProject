@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="MinMaxExplo" basedir="." default="all">
+    <description>
+        Permet l'execution du logiciel pédagique pour les algorithmes de type
+        MinMax.
+    </description>
+  
+    <property file="build.properties"/>
+    <property name="dir.src" value="${basedir}/src"/>
+    <property name="dir.build" value="${basedir}/build"/>
+    <property name="dir.doc" value="${basedir}/doc"/>
+    <property name="dir.javadoc" value="${dir.doc}/api"/>
+    <property name="dir.test" location="${basedir}/test"/>
+    <property name="archive.file" value="${basedir}/${dist.file}.tar.gz"/>
+    <path id="classpath.build">
+        <pathelement location="${dir.build}"/>
+        <pathelement location="${jar.jplot}"/>
+        <pathelement location="${jar.junit}"/>
+    </path>
+    <path id="classpath.run">
+        <pathelement path="${basedir}"/>
+        <path refid="classpath.build"/>
+    </path>
+  
+    <target name="all" depends="clean,build,doc"
+        description="Rebuild the entire project."/>
+
+    <target name="doc" depends="javadoc"
+        description="Compile the documentation."/>
+  
+    <target name="build" description="Compile the sources.">
+        <mkdir dir="${dir.build}"/>
+            <javac srcdir="${dir.src}" destdir="${dir.build}" encoding="utf8">
+            <classpath refid="classpath.build"/>
+        </javac>
+    </target>
+
+    <target name="xlint"
+        description="Build adding -xlint flag.">
+        <mkdir dir="${dir.build}"/>
+        <javac srcdir="${dir.src}" destdir="${dir.build}" encoding="utf8">
+            <classpath refid="classpath.build"/>
+            <compilerarg value="-Xlint"/> 
+        </javac>
+    </target>
+  
+    <target name="clean" description="Remove compilation files.">
+        <delete dir="${dir.build}"/>
+        <delete dir="${dir.javadoc}" failonerror="false"/>
+        <delete>
+            <fileset dir="." defaultexcludes="no">
+                <include name="**/*.aux"/>
+                <include name="**/*.log"/>
+                <include name="**/*.out"/>
+                <include name="**/*.dvi"/>
+                <include name="**/*.toc"/>
+                <include name="**/*.nav"/>
+                <include name="**/*.snm"/>
+                <include name="**/*.dvi"/>
+            </fileset>
+        </delete>
+        <delete file="${archive.file}"/>
+    </target>
+    
+    <target name="javadoc">
+        <mkdir dir="${dir.javadoc}"/>
+        <javadoc classpathref="classpath.run"
+            destdir="${dir.javadoc}"
+            author="true"
+            use="true"
+            package="true"
+            version="true"
+            private="false"
+            protected="false"
+            windowtitle="${ant.project.name}"
+            doctitle="${ant.project.name}"
+            encoding="utf8">
+            <fileset dir = "${dir.src}" />
+        </javadoc>
+    </target>
+    
+    <target name="dist" depends="clean"
+	    description="Make a tarball of the project sources.">
+        <tar destfile="${archive.file}"  compression="gzip">
+            <tarfileset dir="${basedir}" prefix="${dist.file}"/>
+        </tar>
+    </target>
+
+    <target name="jdoc" depends="javadoc"
+        description="Compile the javadoc."/>
+
+    <target name="tests"
+        description="Tests l'ecriture de fichiers et les solutions du projet">
+        <java classname="anum" fork="true" taskname="TP" failonerror="true">
+        </java>
+    </target>
+
+    <target name="jar"
+        description="Create an executable jar file."
+        depends="clean, build">
+        <jar destfile="${ant.project.name}.jar" basedir="${dir.build}">
+            <manifest>
+                <attribute name="Main-Class" value="framework.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" description="Execute the jar.">
+        <java jar="${ant.project.name}.jar" fork="true"/>
+    </target> 
+<!-- -->
+    <target name="build-test" depends="build"
+        description="Compile all unit tests sources">
+        <mkdir dir="${dir.build}"/>
+        <javac srcdir="${dir.test}" destdir="${dir.build}" encoding="utf8">
+            <classpath refid="classpath.build"/>
+        </javac>
+    </target>
+
+    <target name="run-tests" depends="build, build-test"
+        description="run your test suite" >
+        <mkdir dir="${dir.reports}"/>
+        <mkdir dir="${dir.reports}/raw/"/>
+        <mkdir dir="${dir.reports}/html/"/>
+		<junit printsummary="on" haltonfailure="false" showoutput="yes" >
+			<classpath>
+				<pathelement path="${dir.build}"/>
+                <pathelement location="${jar.junit}"/>
+                <pathelement location="${jar.sqlitejdbc}"/>
+			</classpath>
+		
+ 		  <batchtest fork="yes" todir="${dir.reports}/raw/">
+		  	<formatter type="xml"/>
+		    <fileset dir="${dir.test}">
+		      <include name="**/*Test*.java"/>
+		    </fileset>
+		  </batchtest>
+		</junit>
+	</target>
+
+    <target name ="test" depends="run-tests">
+        <junitreport todir="${dir.reports}">
+            <fileset dir="${dir.reports}/raw/">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${dir.reports}\html\"/>
+        </junitreport>
+    </target>
+<!-- -->
+    <!-- Set the targets for your libraries/programs here -->
+
+    <target name="go"
+        description="Lance le programme de gestion d'images."
+        depends="build">
+        <java classname="framework.Main"
+            fork="true" taskname="Treeet" failonerror="true">
+            <classpath refid="classpath.run"/>
+        </java>
+    </target>
+
+</project>
