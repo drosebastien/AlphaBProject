@@ -23,15 +23,12 @@ public class JPreviewNode extends JPreviewAncestorNode {
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
-        int circonf = 10;
+        int size = 5;
+        Color[] colors = new Color[]{new Color(255, 0, 0),
+                                   new Color(0, 0, 0)};
 
         Color tmp = g.getColor();
-
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(new Color(255, 0, 0));
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(new Color(0, 0, 0));
-        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
+        drawTriangle(colors, size, g);
         g.setColor(tmp);
     }
 
