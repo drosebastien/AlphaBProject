@@ -118,19 +118,27 @@ public class Explorer {
         MoveIterator iterator = game.getPossibleMoves();
         if(iterator.hasNext()) {
             TreeNode root = new TreeNode(null);
-            makeTree(height - 1, root);
+            makeTree(height - 1, root, true);
             return root.getChild(0);
         }
         return new LeafNode(null, 100);
     }
 
-    private void makeTree(int height, TreeNode parent) {
+    private void makeTree(int height, TreeNode parent, boolean minOrMax) {
         if(height == 0 || game.isFinish()) {
             LeafNode child = new LeafNode(parent, 100);
+            if(minOrMax)
+                child.setMinMaxType(MinMaxNodeType.MAX);
+            else
+                child.setMinMaxType(MinMaxNodeType.MIN);
             parent.addChildNode(child);
         }
         else {
             TreeNode child = new TreeNode(parent);
+            if(minOrMax)
+                child.setMinMaxType(MinMaxNodeType.MAX);
+            else
+                child.setMinMaxType(MinMaxNodeType.MIN);
             parent.addChildNode(child);
             MoveIterator iterator = game.getPossibleMoves();
             while(iterator.hasNext()) {
@@ -141,7 +149,7 @@ public class Explorer {
                 catch(MoveException e) {
                     e.printStackTrace();
                 }
-                makeTree(height - 1, child);
+                makeTree(height - 1, child, !minOrMax);
                 game.removeMove(move);
             }
         }

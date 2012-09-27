@@ -11,6 +11,7 @@ public class TreeNode {
     private ArrayList<TreeNode> childNodes;
     private String label;
     private NodeType type;
+    private MinMaxNodeType minMaxType;
 
     /**
      * Ce constructeur permet de creer le noeud d'un arbre en lui passant
@@ -21,6 +22,7 @@ public class TreeNode {
         childNodes = new ArrayList<TreeNode>();
         this.parentNode = parentNode;
         type = NodeType.NEITHER;
+        minMaxType = MinMaxNodeType.MAX;
     }
 
     /**
@@ -37,6 +39,22 @@ public class TreeNode {
      */
     public NodeType getType() {
         return type;
+    }
+
+    /**
+     * Cette methode permet de changer le type Min ou Max du noeud.
+     * @param type Le type Min ou Max du noeud.
+     */
+    public void setMinMaxType(MinMaxNodeType type) {
+        minMaxType = type;
+    }
+
+    /**
+     * Cette methode permet de retourner le type Min ou Max du noeud.
+     * @return Le type Min ou Max du noeud.
+     */
+    public MinMaxNodeType getMinMaxType() {
+        return minMaxType;
     }
 
     /**

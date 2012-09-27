@@ -32,6 +32,7 @@ public class JNode extends TreeNode{
         setType(node.getType());
         setLabel(node.getLabel());
         isLeaf = node instanceof LeafNode;
+        setMinMaxType(node.getMinMaxType());
     }
 
     /**
@@ -79,17 +80,54 @@ public class JNode extends TreeNode{
      * @param g Le Graphics où dessiner le noeud.
      */
     public void paintNode(Graphics g) {
-        int circonf = 8;
+        int size = 4;
+        Color[] colors = new Color[]{new Color(255, 255, 255, 70),
+                                     new Color(0, 0, 0, 70)};
 
         Color tmp = g.getColor();
         int grayLvl = 150;
+
         g.setColor(new Color(grayLvl, grayLvl, grayLvl + 10));
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(new Color(255, 255, 255, 70));
-        g.fillOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
-        g.setColor(new Color(0, 0, 0, 70));
-        g.drawOval(x - circonf / 2, y - circonf / 2, circonf, circonf);
+        drawTriangle(colors, size, g);
         g.setColor(tmp);
+    }
+
+    /**
+     * Cette methode permet de dessiner des triangles pour les noeuds.
+     * @param colors La couleurs des noeuds. La première couleurs est pour
+     * le fond, la seconde pour les bords.
+     * @param size Permet de changer la taille des triangles.
+     * @param g Le graphics sur lequel dessiner
+     */
+    protected void drawTriangle(Color[] colors, int size, Graphics g) {
+        switch(getMinMaxType()) {
+            case MIN:
+                g.fillPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y - size, y - size, y + size},
+                              3);
+                g.setColor(colors[0]);
+                g.fillPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y - size, y - size, y + size},
+                              3);
+                g.setColor(colors[1]);
+                g.drawPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y - size, y - size, y + size},
+                              3);
+                break;
+            case MAX:
+                g.fillPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y + size, y + size, y - size},
+                              3);
+                g.setColor(colors[0]);
+                g.fillPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y + size, y + size, y - size},
+                              3);
+                g.setColor(colors[1]);
+                g.drawPolygon(new int[]{x - size, x + size, x},
+                              new int[]{y + size, y + size, y - size},
+                              3);
+                break;
+        }
     }
 
     /**
