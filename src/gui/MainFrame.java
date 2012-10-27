@@ -140,7 +140,7 @@ public class MainFrame extends JFrame implements TreePanelListener {
         helpMenu.add(helpItem);
 
         menuBar.add(toolsMenu);
-        menuBar.add(helpMenu);
+        //menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
     }
 

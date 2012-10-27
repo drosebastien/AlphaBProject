@@ -23,7 +23,7 @@ public class MorpionEvalFctFactory extends AbstractGameEvalFctFactory {
 
     private static void initBuildabelEvalFct() {
         buildableMorpionEvalFct = new String[] {
-                                            MorpionEvalFunction.getName(),
+                                            RandomEvalFunction.getName(),
                                             MorpionEvalFunctionCST.getName()};
     }
 
@@ -33,7 +33,7 @@ public class MorpionEvalFctFactory extends AbstractGameEvalFctFactory {
 
     public EvalFunction getEvalFct(String name) {
         if(name.equals(buildableMorpionEvalFct[0]))
-            return new MorpionEvalFunction();
+            return new RandomEvalFunction();
         else if(name.equals(buildableMorpionEvalFct[1]))
             return new MorpionEvalFunctionCST();
         return new RandomEvalFunction();
@@ -41,7 +41,7 @@ public class MorpionEvalFctFactory extends AbstractGameEvalFctFactory {
 
     public String getDescription(String name) {
         if(name.equals(buildableMorpionEvalFct[0]))
-            return MorpionEvalFunction.getDescription();
+            return RandomEvalFunction.getDescription();
         else if(name.equals(buildableMorpionEvalFct[1]))
             return MorpionEvalFunctionCST.getDescription();
 

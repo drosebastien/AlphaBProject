@@ -9,6 +9,14 @@ public class MorpionEvalFunctionCST extends RandomEvalFunction {
 
     public int evalFunction() {
         //MorpionPiece piece = (Piece) player.getPiece();
+        if(getGame().isFinish() && getGame().isVictory() &&
+           getGame().getWinner().equals(getPlayer())) {
+            return MAXVALUE;
+        }
+        else if(getGame().isFinish() && getGame().isVictory()) {
+            return MINVALUE;
+        }
+
         return 10;
     }
 

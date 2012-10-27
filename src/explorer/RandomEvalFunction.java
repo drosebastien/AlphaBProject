@@ -88,7 +88,7 @@ public class RandomEvalFunction implements EvalFunction {
      * @return La descritpion de ce que fait la fonction d'evaluation.
      */
     public static String getDescription() {
-        return "* -50 for oppenent victory\n" +
+        return "* -50 for opponent victory\n" +
                "* 50 for root player victory\n" +
                "* otherwise random value in ]-50, 50[";
     }

@@ -55,7 +55,7 @@ public class StartPanel extends JPanel {
             }
         });
 
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(5, 5, 25, 5);
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -67,10 +67,10 @@ public class StartPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        add(new JLabel("Mode"), gbc);
+        //add(new JLabel("Mode"), gbc);
         gbc.gridx = 1;
         gbc.gridy = 1;
-        add(modeComboBox, gbc);
+        //add(modeComboBox, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;

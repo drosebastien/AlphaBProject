@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  * @author Sebastien Drobisz.
  */
 public class StartWindow extends JFrame{
-    private static final int HEIGHT = 150;
+    private static final int HEIGHT = 120;
     private static final int WIDTH = 250;
 
     private StartPanel pan;

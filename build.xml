@@ -88,7 +88,7 @@
     </target>
 
     <target name="jdoc" depends="javadoc"
-        description="Compile the javadoc."/>
+        description="Compile la javadoc."/>
 
     <target name="tests"
         description="Tests l'ecriture de fichiers et les solutions du projet">
@@ -97,7 +97,7 @@
     </target>
 
     <target name="jar"
-        description="Create an executable jar file."
+        description="Créé un jar exécutable."
         depends="clean, build">
         <jar destfile="${ant.project.name}.jar" basedir="${dir.build}">
             <manifest>
@@ -106,7 +106,7 @@
         </jar>
     </target>
 
-    <target name="run" description="Execute the jar.">
+    <target name="runJar" description="Execute le Jar.">
         <java jar="${ant.project.name}.jar" fork="true"/>
     </target> 
 <!-- -->
@@ -139,7 +139,9 @@
 		</junit>
 	</target>
 
-    <target name ="test" depends="run-tests">
+    <target name ="test"
+        description = "réalise les tests unitaires"
+        depends="run-tests">
         <junitreport todir="${dir.reports}">
             <fileset dir="${dir.reports}/raw/">
                 <include name="TEST-*.xml"/>
@@ -150,8 +152,8 @@
 <!-- -->
     <!-- Set the targets for your libraries/programs here -->
 
-    <target name="go"
-        description="Lance le programme de gestion d'images."
+    <target name="run"
+        description="Lance le programme sans créer le Jar."
         depends="build">
         <java classname="framework.Main"
             fork="true" taskname="Treeet" failonerror="true">
